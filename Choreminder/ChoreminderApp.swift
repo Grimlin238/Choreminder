@@ -31,7 +31,9 @@ struct ChoreminderApp: App {
     
         .onChange(of: scenePhase) {
             if scenePhase == .background {
+                
                 handleBackgroundTransition()
+                scheduleAppRefreshTask(time: reminderHour)
             }
         }
 }
@@ -45,7 +47,7 @@ struct ChoreminderApp: App {
         }
 
     func scheduleAppRefreshTask(time: Int) {
-        
+        cancelBackgroundTask()
         let request = BGAppRefreshTaskRequest(identifier: "com.teelashley.chore.apprefresh")
         
         let calendar = Calendar.current
@@ -56,15 +58,15 @@ struct ChoreminderApp: App {
 
         var nextRunDate = calendar.date(from: components)!
  
-        if nextRunDate < Date() {
+        if nextRunDate <= Date() {
             nextRunDate = calendar.date(byAdding: .day, value: 1, to: nextRunDate)!
         }
 
         request.earliestBeginDate = nextRunDate
-
+        
         do {
             try BGTaskScheduler.shared.submit(request)
-            print("Scheduled app refresh task.")
+            print("Scheduled app refresh task for \(nextRunDate).")
         } catch {
             print("Failed to schedule app refresh task: \(error)")
         }
@@ -74,35 +76,47 @@ struct ChoreminderApp: App {
         
         let operation = Task {
             print("Starting background task")
-            let sendMonthlyReminder = UserDefaults.standard.bool(forKey: "userSendMonthly")
-            choreStore.removePastChores()
+            
             let numBadges = choreStore.numChoresDueToday()
             notificationManager.updateBadgeCount(count: numBadges)
             
-            if choreStore.choreList.count == 1 || choreStore.choreList.count > 1 {
+            if numBadges == 0 && !sendMonthly {
                 
-                var notificationBody: String = ""
-                if numBadges == 1 {
-                    notificationBody = "You have 1 chore due today. Tap here to view it."
-                } else if numBadges > 1 {
-                    notificationBody = "You have \(numBadges) chores due today. Tap here to view them."
+                print("No operations needed. Exiting task")
+                scheduleAppRefreshTask(time: reminderHour)
+                task.setTaskCompleted(success: true)
+                
+            } else {
+                
+                choreStore.removePastChores()
+                
+                if choreStore.choreList.count == 1 || choreStore.choreList.count > 1 {
+                    
+                    var notificationBody: String = ""
+                    if numBadges == 1 {
+                        notificationBody = "You have 1 chore due today. Tap here to view it."
+                    } else if numBadges > 1 {
+                        notificationBody = "You have \(numBadges) chores due today. Tap here to view them."
+                    }
+                    
+                    notificationManager.scheduleBackgroundNotification(
+                        title: "Chore Reminder",
+                        body: notificationBody
+                    )
                 }
                 
-                notificationManager.scheduleBackgroundNotification(
-                    title: "Chore Reminder",
-                    body: notificationBody
-                )
-            }
-            
-            if sendMonthlyReminder == true {
-                
-                if choreStore.isBeginningOfMonth() && choreStore.isOccupiedMonth() {
+                if sendMonthly == true {
                     
-                    notificationManager.scheduleBackgroundNotification(title: "It's the beginning of the month", body: "You have chores due this month. Tap to view them.")
-                    
+                    if choreStore.isBeginningOfMonth() && choreStore.isOccupiedMonth() {
+                        
+                        notificationManager.scheduleBackgroundNotification(title: "It's the beginning of the month", body: "You have chores due this month. Tap to view them.")
+                        
+                    }
                 }
+                scheduleAppRefreshTask(time: reminderHour)
+                
+                print("Background task finished")
             }
-            print("Background task finished")
         }
         
         task.expirationHandler = {

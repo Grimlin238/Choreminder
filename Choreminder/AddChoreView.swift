@@ -48,7 +48,6 @@ struct AddChoreView: View {
             
             DatePicker("Choose a time",
                        selection: $selectedTime,
-                       in: Date()...,
                        displayedComponents: .hourAndMinute)
             
         }
