@@ -1,10 +1,9 @@
-//
-//  ContentView.swift
-//  Choreminder
-//
-//  Created by Tee Lashley on 1/2/25.
-//
-
+/*
+ ContentView.swift
+ Copyright 2024 Tyin R. Lashley
+ All rights reserved.
+ */
+ 
 import SwiftUI
 
 struct ContentView: View {

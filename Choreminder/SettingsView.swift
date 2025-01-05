@@ -1,10 +1,10 @@
-//
-//  SettingsView.swift
-//  Choreminder
-//
-//  Created by Tee Lashley on 1/2/25.
-//
-
+/*
+ SettingsView.swift
+ Part of Chore
+ Copyright 2024 Tyian R. Lashley.
+ All rights reserved.
+ */
+ 
 
 import SwiftUI
 

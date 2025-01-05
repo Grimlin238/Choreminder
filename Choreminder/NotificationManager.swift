@@ -1,10 +1,9 @@
-//
-//  NotificationManager.swift
-//  Choreminder
-//
-//  Created by Tee Lashley on 1/2/25.
-//
-
+/*
+ NotificationManager.swift
+ Part of Chore
+ Copyright 2024 Tyian R. Lashley.
+ All rights reserved.
+ */
 
 import Foundation
 import UserNotifications

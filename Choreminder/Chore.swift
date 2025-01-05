@@ -1,10 +1,10 @@
-//
-//  Chore.swift
-//  Choreminder
-//
-//  Created by Tee Lashley on 1/2/25.
-//
-
+/*
+ Chore.swift
+ Part of Chore
+ Copyright 2024 Tyian R. Lashley.
+ All rights reserved.
+ */
+ 
 import Foundation
 
 struct Chore: Identifiable, Equatable, Codable {
