@@ -46,6 +46,8 @@ struct SettingsView: View {
         }
         
         .toolbar(.hidden, for: .tabBar)
+        .navigationTitle("Settings")
+        
     }
 }
 

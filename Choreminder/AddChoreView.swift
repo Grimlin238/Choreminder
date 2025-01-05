@@ -74,7 +74,7 @@ struct AddChoreView: View {
     }
     
     private var addButtonView: some View {
-        VStack {
+        HStack {
             
             Button("Add to Chores") {
                 
@@ -115,20 +115,26 @@ struct AddChoreView: View {
     }
     
     var body: some View {
-        
-        VStack {
-            
-            textFieldView
-            
-            dateSelectionView
-            
-            timeSelectionView
-            
-            recurssionView
-            
-            addButtonView
-            
-        }
+         
+            VStack {
+                Text("Create a Chore")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .accessibilityAddTraits(.isHeader)
+                    Spacer()
+                
+                
+                textFieldView
+                
+                dateSelectionView
+                
+                timeSelectionView
+                
+                recurssionView
+                
+                addButtonView
+                    
+            }
         
     }
     

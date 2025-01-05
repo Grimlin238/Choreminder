@@ -12,6 +12,7 @@ struct ContentView: View {
     @EnvironmentObject var notificationManager: NotificationManager
     
     var body: some View {
+     
         TabView {
             MyChoreView()
                 .tabItem {
@@ -35,8 +36,8 @@ struct ContentView: View {
                 }
         }
     }
-}
- 
+    }
+
 struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {

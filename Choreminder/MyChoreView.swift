@@ -226,6 +226,11 @@ struct MyChoreView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                Text("My Chores")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .accessibilityAddTraits(.isHeader)
+                Spacer()
                 
                 dueTodayView
                 

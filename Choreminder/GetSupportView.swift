@@ -30,6 +30,7 @@ struct GetSupportView: View {
         }
         
         .toolbar(.hidden, for: .tabBar)
+        .navigationTitle("Get Support")
         
     }
 }

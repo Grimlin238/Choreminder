@@ -50,6 +50,7 @@ struct HelpView: View {
         }
         
         .toolbar(.hidden, for: .tabBar)
+        .navigationTitle("Help")
         
     }
 }

@@ -184,6 +184,7 @@ struct EditChoreView: View {
         }
         
         .toolbar(.hidden, for: .tabBar)
+        .navigationTitle("Edit Chore")
         
         .onAppear {
             

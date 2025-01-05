@@ -15,6 +15,12 @@ struct MoreOptionsView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                Text("More")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .accessibilityAddTraits(.isHeader)
+                    Spacer()
+                
                 
                 List {
                     
@@ -31,6 +37,7 @@ struct MoreOptionsView: View {
                     }
                 }
                 
+                Spacer()
                     Text("Version 1.0")
                     
                 }
