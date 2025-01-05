@@ -34,7 +34,7 @@ struct MoreOptionsView: View {
                         }
                         
                         .buttonStyle(PlainButtonStyle())
-                        .listRowBackground(Color.purple)
+                        .listRowBackground(Color.indigo)
                         
                     }
                 }
@@ -44,7 +44,7 @@ struct MoreOptionsView: View {
                     Text("Version 1.0")
                     
                 }
-            .background(Color.purple)
+            .background(Color.indigo)
             .foregroundColor(.white)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             }

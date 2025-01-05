@@ -182,7 +182,7 @@ Spacer()
             deleteAndEditButtonView
             
         }
-        .background(Color.purple)
+        .background(Color.indigo)
         .foregroundColor(.white)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar(.hidden, for: .tabBar)

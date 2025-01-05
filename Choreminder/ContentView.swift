@@ -35,7 +35,7 @@ struct ContentView: View {
                     
                 }
         }
-        .toolbarBackground(Color.purple.opacity(0.8))
+        .toolbarBackground(Color.indigo.opacity(0.8))
     }
     }
 

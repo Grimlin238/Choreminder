@@ -135,7 +135,7 @@ struct AddChoreView: View {
                 addButtonView
                     
             }
-            .background(Color.purple)
+            .background(Color.indigo)
             .foregroundColor(.white)
         
     }

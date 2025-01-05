@@ -31,7 +31,7 @@ struct MyChoreView: View {
                 .foregroundColor(.white)
                             }
         .buttonStyle(PlainButtonStyle())
-        .listRowBackground(Color.purple)
+        .listRowBackground(Color.indigo)
                         
                         
                         
@@ -76,7 +76,7 @@ struct MyChoreView: View {
                         }
                         
                         .buttonStyle(PlainButtonStyle())
-                        .listRowBackground(Color.purple)
+                        .listRowBackground(Color.indigo)
                         
                     
                     }
@@ -119,7 +119,7 @@ struct MyChoreView: View {
                         }
                         
                         .buttonStyle(PlainButtonStyle())
-                        .listRowBackground(Color.purple)
+                        .listRowBackground(Color.indigo)
                         
                     }
                     
@@ -163,7 +163,7 @@ struct MyChoreView: View {
                         }
                         
                         .buttonStyle(PlainButtonStyle())
-                        .listRowBackground(Color.purple)
+                        .listRowBackground(Color.indigo)
                         
                         
                     }
@@ -206,7 +206,7 @@ struct MyChoreView: View {
                         }
                         
                         .buttonStyle(PlainButtonStyle())
-                        .listRowBackground(Color.purple)
+                        .listRowBackground(Color.indigo)
                         
                         
                     }
@@ -251,7 +251,7 @@ struct MyChoreView: View {
                 monthlyChoreView
                 
             }
-            .background(Color.purple)
+            .background(Color.indigo)
             .foregroundColor(.white)
             
             .onAppear {
