@@ -118,7 +118,7 @@ struct AddChoreView: View {
          
             VStack {
                 Text("Create a Chore")
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
                     Spacer()
@@ -135,6 +135,8 @@ struct AddChoreView: View {
                 addButtonView
                     
             }
+            .background(Color.purple)
+            .foregroundColor(.white)
         
     }
     

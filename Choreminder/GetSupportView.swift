@@ -17,7 +17,7 @@ struct GetSupportView: View {
             Text("Need Help? Have a suggestion, or feedback")
             
             Text("Sometimes, apps don't work they way we'd like them too. Or maybe you have a suggestion or feedback.\nNo worries. Tap Get Support to send an email.")
-            
+            Spacer()
             Button("Get Support") {
                 
                 
@@ -28,7 +28,9 @@ struct GetSupportView: View {
                 }
             }
         }
-        
+        .background(Color.purple)
+        .foregroundColor(.white)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Get Support")
         

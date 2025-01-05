@@ -16,7 +16,7 @@ struct MoreOptionsView: View {
         NavigationStack {
             VStack {
                 Text("More")
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
                     Spacer()
@@ -29,19 +29,26 @@ struct MoreOptionsView: View {
                         NavigationLink(destination: destinationView(destination: option)) {
                             
                             Text(option)
+                                .foregroundColor(.white)
                             
                         }
                         
                         .buttonStyle(PlainButtonStyle())
+                        .listRowBackground(Color.purple)
                         
                     }
                 }
+                .scrollContentBackground(.hidden)
                 
                 Spacer()
                     Text("Version 1.0")
                     
                 }
+            .background(Color.purple)
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+        
     }
     
     private func destinationView(destination: String) -> some View {

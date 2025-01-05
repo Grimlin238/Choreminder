@@ -45,10 +45,13 @@ struct HelpView: View {
         VStack {
             
             helpTextView
+            Spacer()
             helpNavButtonsView
             
         }
-        
+        .background(Color.purple)
+        .foregroundColor(.white)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Help")
         

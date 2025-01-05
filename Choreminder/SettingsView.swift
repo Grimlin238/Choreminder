@@ -39,12 +39,14 @@ struct SettingsView: View {
     var body: some View {
         
         VStack {
-            
+            Spacer()
             reminderHourView
             sendMonthlyView
             
         }
-        
+        .background(Color.purple)
+        .foregroundColor(.white)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Settings")
         

@@ -28,9 +28,10 @@ struct MyChoreView: View {
         NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
                         
             Text("\(chore.chore). Due today at \(choreStore.toString_Time(date: chore.at))")
-            
+                .foregroundColor(.white)
                             }
         .buttonStyle(PlainButtonStyle())
+        .listRowBackground(Color.purple)
                         
                         
                         
@@ -48,6 +49,7 @@ struct MyChoreView: View {
                     }
                     
                 }
+                .scrollContentBackground(.hidden)
             } else {
                 
                 Text("Nothing due today")
@@ -70,10 +72,11 @@ struct MyChoreView: View {
                         NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
                             
                             Text("\(chore.chore). Due \(choreStore.toString_Date(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
-                            
+                                .foregroundColor(.white)
                         }
                         
                         .buttonStyle(PlainButtonStyle())
+                        .listRowBackground(Color.purple)
                         
                     
                     }
@@ -88,6 +91,7 @@ struct MyChoreView: View {
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
             } else {
                 
                 Text("Nothing upcoming")
@@ -111,10 +115,11 @@ struct MyChoreView: View {
                         NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
                             
                             Text("\(chore.chore) -- Repeating daily at \(choreStore.toString_Time(date: chore.at))")
-                            
+                                .foregroundColor(.white)
                         }
                         
                         .buttonStyle(PlainButtonStyle())
+                        .listRowBackground(Color.purple)
                         
                     }
                     
@@ -125,13 +130,13 @@ struct MyChoreView: View {
                             let chore = choreStore.choreList[index]
                             
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
-                            
+                                
                         }
                         
                     }
                     
                 }
-                
+                .scrollContentBackground(.hidden)
             }else {
                 
                 Text("No daily Chores")
@@ -154,10 +159,11 @@ struct MyChoreView: View {
                         NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
                             
                             Text("\(chore.chore) - repeating every \(choreStore.getWeekDayFor(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
-                            
+                                .foregroundColor(.white)
                         }
                         
                         .buttonStyle(PlainButtonStyle())
+                        .listRowBackground(Color.purple)
                         
                         
                     }
@@ -171,9 +177,8 @@ struct MyChoreView: View {
                         }
                     }
                 }
-            }
-            
-            else {
+                .scrollContentBackground(.hidden)
+            } else {
                 
                 Text("No weekly chores")
                 
@@ -196,10 +201,12 @@ struct MyChoreView: View {
                         NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
                             
                             Text("\(chore.chore) - repeating every month on the \(choreStore.getMonthSuffix(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+                                .foregroundColor(.white)
                             
                         }
                         
                         .buttonStyle(PlainButtonStyle())
+                        .listRowBackground(Color.purple)
                         
                         
                     }
@@ -215,6 +222,7 @@ struct MyChoreView: View {
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
             } else {
                 
                 Text("No monthly chores")
@@ -227,7 +235,7 @@ struct MyChoreView: View {
         NavigationStack {
             VStack {
                 Text("My Chores")
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
                 Spacer()
@@ -243,6 +251,8 @@ struct MyChoreView: View {
                 monthlyChoreView
                 
             }
+            .background(Color.purple)
+            .foregroundColor(.white)
             
             .onAppear {
                 

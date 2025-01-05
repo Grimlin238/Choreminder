@@ -178,11 +178,13 @@ struct EditChoreView: View {
             timeSelectionView
             
             recurssionView
-            
+Spacer()
             deleteAndEditButtonView
             
         }
-        
+        .background(Color.purple)
+        .foregroundColor(.white)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Edit Chore")
         
