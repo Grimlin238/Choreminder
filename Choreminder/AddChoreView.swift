@@ -82,7 +82,14 @@ struct AddChoreView: View {
             }
             
             .disabled(userInput.isEmpty || userInput == " " || choreStore.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: recurrsive))
-            
+            .buttonStyle(PlainButtonStyle())
+        
+            .background(Color.white)
+            .foregroundColor(.black)
+            .frame(maxWidth: .infinity, maxHeight: 44)
+            .cornerRadius(10)
+            .padding()
+                
             .alert(isPresented: $showSuccessConformation) {
                 
                 if isChoreExisting {
@@ -108,8 +115,11 @@ struct AddChoreView: View {
                 }
                 
             }
-            
+        
         }
+        .padding(.horizontal)
+        
+        .frame(maxWidth: .infinity, maxHeight: 44)
         
     }
     
@@ -130,7 +140,8 @@ struct AddChoreView: View {
                 timeSelectionView
                 
                 recurssionView
-                
+        
+                Spacer()
                 addButtonView
                     
             }

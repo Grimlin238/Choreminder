@@ -10,16 +10,15 @@ import SwiftUI
 
 struct MoreOptionsView: View {
         
-    let optionList = ["Settings", "Help", "Get Support"]
+    let optionList = ["Settings", "Tutorial", "Get Support"]
     
-    var body: some View {
-        NavigationStack {
-            VStack {
+    private var moreOptionsViewList: some View {
+            VStack(spacing: 20) {
                 Text("More")
                     .font(.title)
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
-                    Spacer()
+                Spacer()
                 
                 
                 List {
@@ -32,6 +31,7 @@ struct MoreOptionsView: View {
                                 .foregroundColor(.white)
                             
                         }
+                        .padding()
                         
                         .buttonStyle(PlainButtonStyle())
                         .listRowBackground(Color.indigo)
@@ -40,15 +40,27 @@ struct MoreOptionsView: View {
                 }
                 .scrollContentBackground(.hidden)
                 
+            }
+            // .background(Color.purple)
+            // .foregroundColor(.white)
+        }
+    
+    var body: some View {
+        NavigationStack {
+            VStack() {
+                Text("More")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .accessibilityAddTraits(.isHeader)
                 Spacer()
-                    Text("Version 1.0")
-                    
-                }
+                
+                moreOptionsViewList
+                Spacer()
+                
+            }
             .background(Color.indigo)
             .foregroundColor(.white)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-        
+        }
     }
     
     private func destinationView(destination: String) -> some View {
@@ -58,7 +70,7 @@ struct MoreOptionsView: View {
         case "Settings":
             return AnyView(SettingsView())
             
-        case "Help":
+        case "Tutorial":
             return AnyView(HelpView())
             
         case "Get Support":

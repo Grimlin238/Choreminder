@@ -46,7 +46,8 @@ struct SettingsView: View {
         }
         .background(Color.indigo)
         .foregroundColor(.white)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity)
+        .frame(maxHeight: .infinity)
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Settings")
         

@@ -10,14 +10,10 @@ import SwiftUI
 
 struct GetSupportView: View {
     
-    var body: some View {
+    private var getSupportButtonView: some View {
         
-        VStack {
+        HStack {
             
-            Text("Need Help? Have a suggestion, or feedback")
-            
-            Text("Sometimes, apps don't work they way we'd like them too. Or maybe you have a suggestion or feedback.\nNo worries. Tap Get Support to send an email.")
-            Spacer()
             Button("Get Support") {
                 
                 
@@ -27,10 +23,32 @@ struct GetSupportView: View {
                     
                 }
             }
+            .buttonStyle(PlainButtonStyle())
+            .background(Color.white)
+            .foregroundColor(.black)
+            .frame(maxWidth: .infinity, maxHeight: 44)
+            .cornerRadius(10)
+            .padding()
+            
+        }
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity, maxHeight: 44)
+    }
+    
+    var body: some View {
+        
+        VStack {
+            
+            Text("Need Help? Have a suggestion, or feedback")
+            
+            Text("Sometimes, apps don't work the way we'd like them too. Or maybe you have a suggestion or feedback.\nNo worries. Tap Get Support to send an email.")
+            
+            Spacer()
+            getSupportButtonView
         }
         .background(Color.indigo)
         .foregroundColor(.white)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+         
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Get Support")
         

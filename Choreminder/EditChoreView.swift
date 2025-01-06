@@ -95,15 +95,20 @@ struct EditChoreView: View {
     
     private var deleteAndEditButtonView: some View {
         
-        HStack {
+        HStack(spacing: 16) {
             
             Button("Save Edit") {
                 
                 updateChore()
                 
             }
-            
             .disabled(enjectedChore.isEmpty || enjectedChore == " " || choreStore.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: enjectedRecursiveValue))
+            .buttonStyle(PlainButtonStyle())
+            .background(Color.white)
+            .foregroundColor(.black)
+            .cornerRadius(10)
+            .frame(maxWidth: .infinity, maxHeight: 44)
+            .padding()
             
             .alert(isPresented: $showEditAlert) {
                 
@@ -142,6 +147,12 @@ struct EditChoreView: View {
                 showDeleteAlert = true
                 
             }
+            .buttonStyle(PlainButtonStyle())
+            .background(Color.white)
+            .foregroundColor(.black)
+            .cornerRadius(10)
+            .frame(maxWidth: .infinity, maxHeight: 44)
+            .padding()
             
             .alert("Are you sure?", isPresented: $showDeleteAlert) {
                 
@@ -162,11 +173,13 @@ struct EditChoreView: View {
                     Text("Deleting this chore will remove it from your chore list. This action can't be undone.")
                     
                 }
-                
+            
         }
+        .padding(.horizontal)
+        
+        .frame(maxWidth: .infinity, maxHeight: 44)
     }
  
-
     var body: some View {
         
         VStack {
@@ -178,6 +191,7 @@ struct EditChoreView: View {
             timeSelectionView
             
             recurssionView
+            
 Spacer()
             deleteAndEditButtonView
             
