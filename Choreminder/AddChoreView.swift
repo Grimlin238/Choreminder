@@ -37,8 +37,14 @@ struct AddChoreView: View {
                        selection: $selectedDate,
                        in: Date()...,
                        displayedComponents: .date)
+            .datePickerStyle(.compact)
+            .background(Color.white)
+            .foregroundColor(.black)
+            Spacer()
             
         }
+        .cornerRadius(10)
+        .padding()
     }
     
     private var timeSelectionView: some View {
@@ -48,8 +54,14 @@ struct AddChoreView: View {
             DatePicker("Choose a time",
                        selection: $selectedTime,
                        displayedComponents: .hourAndMinute)
+            .datePickerStyle(.compact)
+            .background(Color.white)
+            .foregroundColor(.black)
+            Spacer()
             
         }
+        .cornerRadius(10)
+        .padding()
         
     }
     
@@ -57,8 +69,6 @@ struct AddChoreView: View {
         
         VStack {
             
-            Text("Recurring?")
-                .accessibilityAddTraits(.isHeader)
             Picker("Repeating?", selection:  $recurrsive) {
                 
                 ForEach(Repeating.allCases, id: \.self) { recurrance in
@@ -68,8 +78,13 @@ struct AddChoreView: View {
                 }
             }
             
-            .pickerStyle(SegmentedPickerStyle())
+            .pickerStyle(.menu)
+            .background(Color.white)
+            .foregroundColor(.black)
+            Spacer()
         }
+        .cornerRadius(10)
+        .padding()
     }
     
     private var addButtonView: some View {
@@ -125,21 +140,24 @@ struct AddChoreView: View {
     
     var body: some View {
          
-            VStack {
+        VStack(spacing: 16) {
                 Text("Create a Chore")
                     .font(.title)
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
                     Spacer()
                 
-                
                 textFieldView
+                .padding(.horizontal, 16)
                 
                 dateSelectionView
+                .padding(.horizontal, 16)
                 
                 timeSelectionView
+                .padding(.horizontal, 16)
                 
                 recurssionView
+                .padding(.horizontal, 16)
         
                 Spacer()
                 addButtonView

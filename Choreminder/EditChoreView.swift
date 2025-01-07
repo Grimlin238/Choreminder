@@ -58,8 +58,13 @@ struct EditChoreView: View {
                        selection: $selectedDate,
                        in: Date()...,
                        displayedComponents: .date)
-            
+            .datePickerStyle(.compact)
+            .background(Color.white)
+            .foregroundColor(.black)
+            Spacer()
         }
+        .cornerRadius(10)
+        .padding()
     }
     
     private var timeSelectionView: some View {
@@ -69,8 +74,12 @@ struct EditChoreView: View {
             DatePicker("Choose a time",
                        selection: $selectedTime,
                        displayedComponents: .hourAndMinute)
-            
+            .datePickerStyle(.compact)
+            .background(Color.white)
+            Spacer()
         }
+        .cornerRadius(10)
+        .padding()
         
     }
     
@@ -78,8 +87,6 @@ struct EditChoreView: View {
         
         VStack {
             
-            Text("Recurring?")
-                .accessibilityAddTraits(.isHeader)
             Picker("Repeating?", selection:  $enjectedRecursiveValue) {
                 
                 ForEach(Repeating.allCases, id: \.self) { recurrance in
@@ -89,8 +96,13 @@ struct EditChoreView: View {
                 }
             }
             
-            .pickerStyle(SegmentedPickerStyle())
+            .pickerStyle(.menu)
+            .background(Color.white)
+            .foregroundColor(.black)
+            Spacer()
         }
+        .cornerRadius(10)
+        .padding()
     }
     
     private var deleteAndEditButtonView: some View {
@@ -182,15 +194,19 @@ struct EditChoreView: View {
  
     var body: some View {
         
-        VStack {
+        VStack(spacing: 16) {
             
             textFieldView
+                .padding(.horizontal, 16)
             
             dateSelectionView
+                .padding(.horizontal, 16)
             
             timeSelectionView
+                .padding(.horizontal, 16)
             
             recurssionView
+                .padding(.horizontal, 16)
             
 Spacer()
             deleteAndEditButtonView
