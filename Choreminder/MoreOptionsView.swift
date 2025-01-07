@@ -13,13 +13,12 @@ struct MoreOptionsView: View {
     let optionList = ["Settings", "Tutorial", "Get Support"]
     
     private var moreOptionsViewList: some View {
-            VStack(spacing: 20) {
+            VStack(spacing: 16) {
                 Text("More")
                     .font(.title)
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
                 Spacer()
-                
                 
                 List {
                     
@@ -31,32 +30,23 @@ struct MoreOptionsView: View {
                                 .foregroundColor(.white)
                             
                         }
-                        .padding()
-                        
                         .buttonStyle(PlainButtonStyle())
                         .listRowBackground(Color.indigo)
-                        
+                        .padding()
                     }
                 }
                 .scrollContentBackground(.hidden)
                 
             }
-            // .background(Color.purple)
-            // .foregroundColor(.white)
+            
         }
     
     var body: some View {
         NavigationStack {
-            VStack() {
-                Text("More")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .accessibilityAddTraits(.isHeader)
-                Spacer()
-                
+            VStack {
                 moreOptionsViewList
-                Spacer()
-                
+                    .padding(.horizontal, 16)
+                        
             }
             .background(Color.indigo)
             .foregroundColor(.white)
