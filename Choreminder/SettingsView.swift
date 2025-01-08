@@ -18,11 +18,20 @@ struct SettingsView: View {
         
         VStack {
             
-            Text("Remind me everyday at \(reminderHour):00A.M. of chores I have upcoming.")
+            Text("Remind me everyday at \(reminderHour):00A.M. of chores I have upcoming foer the day.")
+                .font(.title2)
+                .padding()
             
             Stepper("Hour", value: $reminderHour, in: 5...11)
+                .padding()
+                .padding()
             
+            Text("Note: Do to iOS system limitations, Chore might remind you later than expected.")
+                .font(.subheadline)
+            Spacer()
+                
         }
+        .padding()
         
     }
     
@@ -31,18 +40,25 @@ struct SettingsView: View {
         VStack {
             
             Toggle("Remind me at the beginning of every month of upcoming chores for that month.", isOn: $monthlyUpcoming)
+            Spacer()
             
         }
+        .padding()
         
     }
     
     var body: some View {
         
-        VStack {
-            Spacer()
-            reminderHourView
-            sendMonthlyView
+        VStack(spacing: 16) {
             
+            reminderHourView
+                .padding(.horizontal, 16)
+            
+            sendMonthlyView
+                .padding(.horizontal, 16)
+            
+            Spacer()
+            Text("App Version: 1.0")
         }
         .background(Color.indigo)
         .foregroundColor(.white)

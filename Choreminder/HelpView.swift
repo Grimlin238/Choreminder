@@ -18,9 +18,15 @@ struct HelpView: View {
         VStack {
             
             Text(choreStore.helpItems[index].header)
+                .font(.title2)
+                .padding()
+                .accessibilityAddTraits(.isHeader)
             
             Text(choreStore.helpItems[index].body)
+                .font(.body)
+                
         }
+        .padding()
     }
     
     private var helpNavButtonsView: some View {
@@ -61,9 +67,11 @@ struct HelpView: View {
     
     var body: some View {
         
-        VStack {
+        VStack(spacing: 16) {
             
+            Spacer()
             helpTextView
+                
             Spacer()
             helpNavButtonsView
             

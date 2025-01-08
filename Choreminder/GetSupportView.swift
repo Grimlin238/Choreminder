@@ -38,10 +38,14 @@ struct GetSupportView: View {
     var body: some View {
         
         VStack {
-            
-            Text("Need Help? Have a suggestion, or feedback")
+            Spacer()
+            Text("Need Help? Have a suggestion, or feedback?")
+                .font(.title2)
+                .padding()
+                .accessibilityAddTraits(.isHeader)
             
             Text("Sometimes, apps don't work the way we'd like them too. Or maybe you have a suggestion or feedback.\nNo worries. Tap Get Support to send an email.")
+                .font(.body)
             
             Spacer()
             getSupportButtonView

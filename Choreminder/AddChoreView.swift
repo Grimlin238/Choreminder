@@ -20,6 +20,7 @@ struct AddChoreView: View {
     
     @State private var isChoreExisting = false
     
+    
     private var textFieldView: some View {
         
         VStack {
