@@ -20,14 +20,34 @@ struct AddChoreView: View {
     
     @State private var isChoreExisting = false
     
+    @FocusState private var isFocused: Bool
     
     private var textFieldView: some View {
         
         VStack {
             
+            Spacer()
+            
             TextField("Enter Chore", text: $userInput)
             
+                .focused($isFocused)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .toolbar {
+                    
+                    ToolbarItemGroup(placement: .keyboard) {
+                        
+                        Spacer()
+                        
+                        Button("Done") {
+                            
+                            isFocused = false
+                            
+                        }
+                    }
+                }
+            
         }
+        .padding()
     }
     
     private var dateSelectionView: some View {

@@ -33,6 +33,8 @@ struct EditChoreView: View {
     
     @State private var isChoreExisting = false
     
+    @FocusState private var isFocused: Bool
+    
     init(enjectedChore: String = "Default", enjectedDate: Date = Date(), enjectedTime: Date = Date(), enjectedRecursiveValue: Repeating = .none) {
         
         _enjectedChore = State(initialValue: enjectedChore)
@@ -45,9 +47,29 @@ struct EditChoreView: View {
         
         VStack {
             
+            Spacer()
+            
             TextField("Enter Updated Chore", text: $enjectedChore)
             
+                .focused($isFocused)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+                .toolbar {
+                    
+                    ToolbarItemGroup(placement: .keyboard) {
+                        
+                        Spacer()
+                        
+                        Button("Done") {
+                            
+                            isFocused = false
+                            
+                        }
+                    }
+                }
+            
         }
+        .padding()
     }
     
     private var dateSelectionView: some View {
