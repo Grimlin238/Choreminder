@@ -1,235 +1,251 @@
-/*
- MyChoreView.swift
- Part of Chore
- Copyright 2024 Tyian R. Lashley.
- All rights reserved.
-*/
-
 import SwiftUI
 
 struct MyChoreView: View {
-    
     @EnvironmentObject var choreStore: ChoreStore
     @EnvironmentObject var notificationManager: NotificationManager
-    
-    private var dueTodayView: some View {
-        
-        VStack {
-            
-            Text("Due Today")
-            
-            if choreStore.hasChoresDueToday() && choreStore.hasChoresWithNone() {
-                
-                List{
-                    
-                    ForEach(choreStore.choreList.filter { choreStore.isToday(day: $0.due) && $0.recurring == .none}) { chore in
-                                
-        NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
-                        
-            Text("\(chore.chore). Due today at \(choreStore.toString_Time(date: chore.at))")
-                .foregroundColor(.white)
-                            }
-        .buttonStyle(PlainButtonStyle())
-        .listRowBackground(Color.indigo)
-                        
-                        
-                        
-                    }
-                    
-                    .onDelete {
-                        indexSet in
-                        indexSet.forEach { index in
-                            
-                            let chore = choreStore.choreList[index]
-                            
-                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
-                            
-                        }
-                    }
-                    
-                }
-                .scrollContentBackground(.hidden)
-            } else {
-                
-                Text("Nothing due today")
-                
-            }
-        }
-    }
-    
-    private var upComingChoresView: some View {
-        
-        VStack {
-            
-            Text("Upcoming this Month")
-            
-            if choreStore.isOccupiedMonth() && choreStore.hasChoresWithNone() {
-                
-                List {
-                    
-                    ForEach(choreStore.choreList.filter { !choreStore.isToday(day: $0.due) && choreStore.getMonthForStoredChore(date: $0.due) == choreStore.getCurrentMonth() && $0.recurring == .none } .prefix(10) ) { chore in
-                        NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
-                            
-                            Text("\(chore.chore). Due \(choreStore.toString_Date(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+
+    @State private var isTodayViewExpanded = true
+    @State private var isUpcomingViewExpanded = false
+    @State private var isDailyViewExpanded = false
+    @State private var isWeeklyViewExpanded = false
+    @State private var isMonthlyViewExpanded = false
+
+    private var todayView: some View {
+        DisclosureGroup(
+            isExpanded: $isTodayViewExpanded,
+            content: {
+                if choreStore.hasChoresDueToday() {
+                    ForEach(choreStore.choreList.filter { choreStore.isToday(day: $0.due) && $0.recurring == .none }) { chore in
+                        NavigationLink(
+                            destination: EditChoreView(
+                                enjectedChore: chore.chore,
+                                enjectedDate: chore.due,
+                                enjectedTime: chore.at,
+                                enjectedRecursiveValue: chore.recurring
+                            )
+                        ) {
+                            Text("\(chore.chore) - Due today at \(choreStore.toString_Time(date: chore.at))")
+                                .padding()
                                 .foregroundColor(.white)
                         }
-                        
-                        .buttonStyle(PlainButtonStyle())
                         .listRowBackground(Color.indigo)
-                        
-                    
                     }
-                    
                     .onDelete { indexSet in
                         indexSet.forEach { index in
-                            
                             let chore = choreStore.choreList[index]
-                            
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
-                            
                         }
                     }
+                } else {
+                    Text("Nothing due today")
+                        .foregroundColor(.white)
+                        .background(Color.indigo)
+                        .italic()
                 }
-                .scrollContentBackground(.hidden)
-            } else {
-                
-                Text("Nothing upcoming")
-                
+            },
+            label: {
+                Text("Due Today")
+                    .foregroundColor(.white)
+                    .background(Color.indigo)
+                    .padding()
             }
-        }
+        )
     }
-    
-    private var dailyChoreView: some View {
-        
-        VStack {
-            
-            Text("Daily Chores")
-            
-            if !choreStore.choreList.isEmpty && choreStore.hasDailyChores() {
-                
-                List {
-                    
-                    ForEach(choreStore.choreList.filter { $0.recurring == .daily}) { chore in
-                        
-                        NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
-                            
-                            Text("\(chore.chore) -- Repeating daily at \(choreStore.toString_Time(date: chore.at))")
+
+    private var upcomingView: some View {
+        DisclosureGroup(
+            isExpanded: $isUpcomingViewExpanded,
+            content: {
+                if choreStore.isOccupiedMonth() {
+                    ForEach(choreStore.choreList.filter {
+                        !choreStore.isToday(day: $0.due) &&
+                        choreStore.getMonthForStoredChore(date: $0.due) == choreStore.getCurrentMonth()
+                    }) { chore in
+                        NavigationLink(
+                            destination: EditChoreView(
+                                enjectedChore: chore.chore,
+                                enjectedDate: chore.due,
+                                enjectedTime: chore.at,
+                                enjectedRecursiveValue: chore.recurring
+                            )
+                        ) {
+                            Text("\(chore.chore) - Due \(choreStore.toString_Date(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+                                .padding()
                                 .foregroundColor(.white)
                         }
-                        
-                        .buttonStyle(PlainButtonStyle())
                         .listRowBackground(Color.indigo)
-                        
                     }
-                    
                     .onDelete { indexSet in
-                        
                         indexSet.forEach { index in
-                            
                             let chore = choreStore.choreList[index]
-                            
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
-                                
                         }
-                        
                     }
-                    
+                } else {
+                    Text("Nothing upcoming this month")
+                        .foregroundColor(.white)
+                        .background(Color.indigo)
+                        .italic()
                 }
-                .scrollContentBackground(.hidden)
-            }else {
-                
-                Text("No daily Chores")
-                
+            },
+            label: {
+                Text("Upcoming This Month")
+                    .foregroundColor(.white)
+                    .background(Color.indigo)
+                    .padding()
             }
-        }
+        )
     }
-    
-    private var weeklyChoreView: some View {
-        
-        VStack {
-            
-            Text("Weekly chores")
-            
-            if choreStore.hasWeeklyChores() {
-                
-                List {
-                    
-                    ForEach(choreStore.choreList.filter { $0.recurring == .weekly }) { chore in
-                        NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
-                            
-                            Text("\(chore.chore) - repeating every \(choreStore.getWeekDayFor(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+
+    private var dailyView: some View {
+        DisclosureGroup(
+            isExpanded: $isDailyViewExpanded,
+            content: {
+                let dailyChores = choreStore.choreList.filter { $0.recurring == .daily }
+                if dailyChores.isEmpty {
+                    Text("No daily chores")
+                        .foregroundColor(.white)
+                        .background(Color.indigo)
+                        .italic()
+                } else {
+                    ForEach(dailyChores) { chore in
+                        NavigationLink(
+                            destination: EditChoreView(
+                                enjectedChore: chore.chore,
+                                enjectedDate: chore.due,
+                                enjectedTime: chore.at,
+                                enjectedRecursiveValue: chore.recurring
+                            )
+                        ) {
+                            Text("\(chore.chore) - Repeats daily at \(choreStore.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
+                                .padding()
                         }
-                        
-                        .buttonStyle(PlainButtonStyle())
                         .listRowBackground(Color.indigo)
-                        
-                        
                     }
-                    
                     .onDelete { indexSet in
                         indexSet.forEach { index in
-                            
-                            let chore = choreStore.choreList[index]
-                            
+                            let chore = dailyChores[index]
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
                         }
                     }
                 }
-                .scrollContentBackground(.hidden)
-            } else {
-                
-                Text("No weekly chores")
-                
+            },
+            label: {
+                Text("Daily Chores")
+                    .foregroundColor(.white)
+                    .background(Color.indigo)
+                    .padding()
             }
-        }
+        )
     }
-    
-    private var monthlyChoreView: some View {
-        
-        VStack {
-            
-            Text("Monthly Chores")
-            
-            if choreStore.hasMonthlyChores() {
-                
-                List {
-                    
-                    ForEach(choreStore.choreList.filter { $0.recurring == .monthly }){ chore in
-                        
-                        NavigationLink(destination: EditChoreView(enjectedChore: chore.chore, enjectedDate: chore.due, enjectedTime: chore.at, enjectedRecursiveValue: chore.recurring)) {
-                            
-                            Text("\(chore.chore) - repeating every month on the \(choreStore.getMonthSuffix(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+
+    private var weeklyView: some View {
+        DisclosureGroup(
+            isExpanded: $isWeeklyViewExpanded,
+            content: {
+                let weeklyChores = choreStore.choreList.filter { $0.recurring == .weekly }
+                if weeklyChores.isEmpty {
+                    Text("No weekly chores")
+                        .foregroundColor(.white)
+                        .background(Color.indigo)
+                        .italic()
+                } else {
+                    ForEach(weeklyChores) { chore in
+                        NavigationLink(
+                            destination: EditChoreView(
+                                enjectedChore: chore.chore,
+                                enjectedDate: chore.due,
+                                enjectedTime: chore.at,
+                                enjectedRecursiveValue: chore.recurring
+                            )
+                        ) {
+                            Text("\(chore.chore) - Repeats weekly on \(choreStore.getWeekDayFor(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
-                            
+                                .padding()
                         }
-                        
-                        .buttonStyle(PlainButtonStyle())
                         .listRowBackground(Color.indigo)
-                        
-                        
                     }
-                    
                     .onDelete { indexSet in
-                        
                         indexSet.forEach { index in
-                            
-                            let chore = choreStore.choreList[index]
-                            
+                            let chore = weeklyChores[index]
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
-                            
                         }
                     }
                 }
-                .scrollContentBackground(.hidden)
-            } else {
-                
-                Text("No monthly chores")
-                
+            },
+            label: {
+                Text("Weekly Chores")
+                    .foregroundColor(.white)
+                    .background(Color.indigo)
+                    .padding()
             }
-        }
+        )
     }
-    
+
+    private var monthlyView: some View {
+        DisclosureGroup(
+            isExpanded: $isMonthlyViewExpanded,
+            content: {
+                let monthlyChores = choreStore.choreList.filter { $0.recurring == .monthly }
+                if monthlyChores.isEmpty {
+                    Text("No monthly chores")
+                        .foregroundColor(.white)
+                        .background(Color.indigo)
+                        .italic()
+                } else {
+                    ForEach(monthlyChores) { chore in
+                        NavigationLink(
+                            destination: EditChoreView(
+                                enjectedChore: chore.chore,
+                                enjectedDate: chore.due,
+                                enjectedTime: chore.at,
+                                enjectedRecursiveValue: chore.recurring
+                            )
+                        ) {
+                            Text("\(chore.chore) - Repeats monthly on the \(choreStore.getMonthSuffix(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+                                .foregroundColor(.white)
+                                .padding()
+                        }
+                        .listRowBackground(Color.indigo)
+                    }
+                    .onDelete { indexSet in
+                        indexSet.forEach { index in
+                            let chore = monthlyChores[index]
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                        }
+                    }
+                }
+            },
+            label: {
+                Text("Monthly Chores")
+                    .foregroundColor(.white)
+                    .background(Color.indigo)
+                    .padding()
+            }
+        )
+    }
+
+    private var choreListView: some View {
+        List {
+            todayView
+                .listRowBackground(Color.indigo)
+            
+            upcomingView
+                .listRowBackground(Color.indigo)
+            
+            dailyView
+                .listRowBackground(Color.indigo)
+            
+            weeklyView
+                .listRowBackground(Color.indigo)
+            
+            monthlyView
+                .listRowBackground(Color.indigo)
+        }
+        .scrollContentBackground(.hidden)
+    }
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -238,40 +254,23 @@ struct MyChoreView: View {
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
                 Spacer()
-                
-                dueTodayView
-                
-                upComingChoresView
-                
-                dailyChoreView
-                
-                weeklyChoreView
-                
-                monthlyChoreView
-                
+                choreListView
             }
             .background(Color.indigo)
             .foregroundColor(.white)
-            
             .onAppear {
-                
                 choreStore.removePastChores()
                 choreStore.sortChoreList()
                 notificationManager.updateBadgeCount(count: 0)
-                
             }
         }
     }
 }
 
-struct MyChoreView_preview: PreviewProvider {
-    
+struct MyChoreView_Preview: PreviewProvider {
     static var previews: some View {
-        
         MyChoreView()
-        
             .environmentObject(ChoreStore())
             .environmentObject(NotificationManager())
-        
     }
 }
