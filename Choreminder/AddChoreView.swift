@@ -270,8 +270,8 @@ struct AddChoreView: View {
             }
         }
         
+        userInput = ""
         isChoreExisting = hasChore
-        
         showSuccessConformation = true
         
     }

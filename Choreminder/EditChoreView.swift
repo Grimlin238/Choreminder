@@ -338,6 +338,7 @@ Spacer()
         }
         
     
+        enjectedChore = ""
         isChoreExisting = hasChore
         
         showEditAlert = true
