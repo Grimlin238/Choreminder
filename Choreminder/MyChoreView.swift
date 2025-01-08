@@ -1,3 +1,9 @@
+/*
+ MyChoreView.swift
+ Part of Chore
+ Tyian R. Lashley
+ */
+
 import SwiftUI
 
 struct MyChoreView: View {
