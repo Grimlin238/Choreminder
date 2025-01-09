@@ -35,6 +35,7 @@ struct MyChoreView: View {
                                 .foregroundColor(.white)
                         }
                         .listRowBackground(Color.indigo)
+                        .accessibilityHint("Double tap to edit, or use the roter to delete this chore.")
                     }
                     .onDelete { indexSet in
                         indexSet.forEach { index in
@@ -80,6 +81,7 @@ struct MyChoreView: View {
                                 .foregroundColor(.white)
                         }
                         .listRowBackground(Color.indigo)
+                        .accessibilityHint("Double tap to edit, or use the roter to delete this chore.")
                     }
                     .onDelete { indexSet in
                         indexSet.forEach { index in
@@ -128,6 +130,7 @@ struct MyChoreView: View {
                                 .padding()
                         }
                         .listRowBackground(Color.indigo)
+                        .accessibilityHint("Double tap to edit, or use the roter to delete this chore.")
                     }
                     .onDelete { indexSet in
                         indexSet.forEach { index in
@@ -171,6 +174,7 @@ struct MyChoreView: View {
                                 .padding()
                         }
                         .listRowBackground(Color.indigo)
+                        .accessibilityHint("Double tap to edit, or use the roter to delete this chore.")
                     }
                     .onDelete { indexSet in
                         indexSet.forEach { index in
@@ -214,6 +218,7 @@ struct MyChoreView: View {
                                 .padding()
                         }
                         .listRowBackground(Color.indigo)
+                        .accessibilityHint("Double tap to edit, or use the roter to delete this chore.")
                     }
                     .onDelete { indexSet in
                         indexSet.forEach { index in

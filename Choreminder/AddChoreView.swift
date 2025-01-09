@@ -43,6 +43,7 @@ struct AddChoreView: View {
                             isFocused = false
                             
                         }
+                        .accessibilityHint("Double tap to dismiss the keyboard")
                     }
                 }
             
@@ -95,6 +96,7 @@ struct AddChoreView: View {
                 ForEach(Repeating.allCases, id: \.self) { recurrance in
                     
                     Text(recurrance.rawValue)
+                        .accessibilityHint("Double tap to select")
                     
                 }
             }
@@ -102,6 +104,7 @@ struct AddChoreView: View {
             .pickerStyle(.menu)
             .background(Color.white)
             .foregroundColor(.black)
+            .accessibilityHint("Double tap to open menu.")
             Spacer()
         }
         .cornerRadius(10)
@@ -123,6 +126,7 @@ struct AddChoreView: View {
             .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
+            .accessibilityHint("Double tap to add to my chores.")
             
             .alert(isPresented: $showSuccessConformation) {
                 

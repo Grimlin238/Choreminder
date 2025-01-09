@@ -28,6 +28,7 @@ struct MoreOptionsView: View {
                             
                             Text(option)
                                 .foregroundColor(.white)
+                                .accessibilityHint("Double tap to activate")
                             
                         }
                         .buttonStyle(PlainButtonStyle())

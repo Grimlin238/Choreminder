@@ -28,6 +28,8 @@ struct GetSupportView: View {
             .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
+            .accessibilityHint("Double tap to open mail composer")
+            
         }
         .padding(.horizontal)
     }

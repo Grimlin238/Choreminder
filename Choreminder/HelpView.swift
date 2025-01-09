@@ -44,6 +44,7 @@ struct HelpView: View {
             .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
+            .accessibilityHint("Double tap to go to previous tutorial item.")
             
             Button("Next") {
                 
@@ -56,6 +57,7 @@ struct HelpView: View {
             .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
+            .accessibilityHint("Double tap to go to next tutorial item.")
             
         }
         .padding(.horizontal)

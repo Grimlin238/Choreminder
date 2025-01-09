@@ -65,6 +65,7 @@ struct EditChoreView: View {
                             isFocused = false
                             
                         }
+                        .accessibilityHint("Double tap to dismiss the keyboard")
                     }
                 }
             
@@ -114,13 +115,14 @@ struct EditChoreView: View {
                 ForEach(Repeating.allCases, id: \.self) { recurrance in
                     
                     Text(recurrance.rawValue)
-                    
+                        .accessibilityHint("Double tap to select.")
                 }
             }
             
             .pickerStyle(.menu)
             .background(Color.white)
             .foregroundColor(.black)
+            .accessibilityHint("Double tap to open menu")
             Spacer()
         }
         .cornerRadius(10)
@@ -142,6 +144,7 @@ struct EditChoreView: View {
             .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
+            .accessibilityHint("Double tap to save edit.")
             
             .alert(isPresented: $showEditAlert) {
                 
@@ -185,6 +188,7 @@ struct EditChoreView: View {
             .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
+            .accessibilityHint("Double tap to delete this chore.")
             
             .alert("Are you sure?", isPresented: $showDeleteAlert) {
                 
