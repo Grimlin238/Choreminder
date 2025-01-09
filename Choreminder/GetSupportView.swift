@@ -23,16 +23,13 @@ struct GetSupportView: View {
                     
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+            .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)
-            .frame(maxWidth: .infinity, maxHeight: 44)
             .cornerRadius(10)
             .padding()
-            
         }
         .padding(.horizontal)
-        .frame(maxWidth: .infinity, maxHeight: 44)
     }
     
     var body: some View {

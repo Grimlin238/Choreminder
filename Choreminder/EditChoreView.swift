@@ -137,11 +137,10 @@ struct EditChoreView: View {
                 
             }
             .disabled(enjectedChore.isEmpty || enjectedChore == " " || choreStore.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: enjectedRecursiveValue))
-            .buttonStyle(PlainButtonStyle())
+            .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)
             .cornerRadius(10)
-            .frame(maxWidth: .infinity, maxHeight: 44)
             .padding()
             
             .alert(isPresented: $showEditAlert) {
@@ -181,11 +180,10 @@ struct EditChoreView: View {
                 showDeleteAlert = true
                 
             }
-            .buttonStyle(PlainButtonStyle())
+            .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)
             .cornerRadius(10)
-            .frame(maxWidth: .infinity, maxHeight: 44)
             .padding()
             
             .alert("Are you sure?", isPresented: $showDeleteAlert) {
@@ -210,8 +208,6 @@ struct EditChoreView: View {
             
         }
         .padding(.horizontal)
-        
-        .frame(maxWidth: .infinity, maxHeight: 44)
     }
  
     var body: some View {
