@@ -24,7 +24,7 @@ struct HelpView: View {
             
             Text(choreStore.helpItems[index].body)
                 .font(.body)
-                
+                .multilineTextAlignment(.center)
         }
         .padding()
     }
@@ -38,6 +38,7 @@ struct HelpView: View {
                 index = index - 1
                 
             }
+            .disabled(index == 0)
             .buttonStyle(PlainButtonStyle())
             .background(Color.white)
             .foregroundColor(.black)
@@ -51,6 +52,7 @@ struct HelpView: View {
                 index = index + 1
                 
             }
+            .disabled(index == choreStore.helpItems.count - 1)
             .buttonStyle(PlainButtonStyle())
             .background(Color.white)
             .foregroundColor(.black)

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BC876E532D269B5500698457 /* Repeating.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC876E522D269B5500698457 /* Repeating.swift */; };
+		BCA3744B2D30039700C699A8 /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA3744A2D30039700C699A8 /* Welcome.swift */; };
+		BCA3744D2D30100A00C699A8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA3744C2D30100A00C699A8 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		BC876E522D269B5500698457 /* Repeating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repeating.swift; sourceTree = "<group>"; };
+		BCA3744A2D30039700C699A8 /* Welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
+		BCA3744C2D30100A00C699A8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		BCFBF1672D26934100179D4A /* Choreminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Choreminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCFBF1782D26934300179D4A /* ChoreminderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChoreminderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCFBF1822D26934300179D4A /* ChoreminderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChoreminderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +97,8 @@
 		BCFBF15E2D26934100179D4A = {
 			isa = PBXGroup;
 			children = (
+				BCA3744C2D30100A00C699A8 /* MainView.swift */,
+				BCA3744A2D30039700C699A8 /* Welcome.swift */,
 				BC876E522D269B5500698457 /* Repeating.swift */,
 				BCFBF1692D26934100179D4A /* Choreminder */,
 				BCFBF17B2D26934300179D4A /* ChoreminderTests */,
@@ -256,6 +262,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC876E532D269B5500698457 /* Repeating.swift in Sources */,
+				BCA3744B2D30039700C699A8 /* Welcome.swift in Sources */,
+				BCA3744D2D30100A00C699A8 /* MainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

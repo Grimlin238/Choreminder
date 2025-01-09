@@ -16,10 +16,11 @@ struct ChoreminderApp: App {
     @StateObject var notificationManager = NotificationManager()
     @AppStorage("userReminderHour") var reminderHour: Int = 9
     @AppStorage("userSendMonthly") var sendMonthly: Bool = false
+    @AppStorage("hasSeenWelcomeView") var toggleView: Bool = false
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
                 .environmentObject(choreStore)
                 .environmentObject(notificationManager)
                 .onAppear {

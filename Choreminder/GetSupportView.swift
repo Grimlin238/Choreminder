@@ -46,6 +46,7 @@ struct GetSupportView: View {
             
             Text("Sometimes, apps don't work the way we'd like them too. Or maybe you have a suggestion or feedback.\nNo worries. Tap Get Support to send an email.")
                 .font(.body)
+                .multilineTextAlignment(.center)
             
             Spacer()
             getSupportButtonView

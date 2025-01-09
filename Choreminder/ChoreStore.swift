@@ -28,10 +28,27 @@ class ChoreStore: ObservableObject {
     @Published var choreList: [Chore] = []
     
     @Published var helpItems: [Help] = [
-        Help(header: "Help", body: "Press next to move to the next help item. Press previous to go back. Tap done to leave healp."),
-        Help(header: "Deleting a chore", body: "On the My Chores tab, swipe left on a chore, then tap delete."),
-        Help(header: "Adding a chore", body: "Tap the create a chore tab, then type something you want to be reminded about, select when you want to be reminded and if it's recurring. When you're finished, tap save to chores."),
-        Help(header: "Need Support? Gott a question or suggestion?", body: "Need a little help, or have questions/suggestions, tap done, then tap Get Support. You'll then be able to write an email to me.")
+        Help(header: "Welcome to the Tutorial", body: "I get it. Apps can be complicated sometimes, no matter how easy developers try to make them. Tap next to move through the tutorial, and tap previous to go back. Tap back to get out of here."),
+        Help(header: "My Chores", body: "Every time the app opens, you'll be brought to the My Chores tab. The Due Today section is automatically expanded every time the view appears. You can collapse it, and tap to expand the other sections, upcoming, daily, weekly,and monthly as well."),
+        Help(header: "Deleting a Chore.", body: "Chore will automatically remove past due Chores for you, so you don't need to worry about them. Don't need the chore, and want to remove it anyway? Just swipe left and tap delete."),
+        Help(header: "Editing a Chore", body: "Need to change the due date, time, or recurrance? Just tap the chore, make your changes and tap Save Edit. You can also tap Delete Chore to get rid of it as well."),
+        Help(header: "Create", body: "So you want to create a chore? Just tap the Create a chore tab. Next, type what you want to be reminded about set a due date, time, and leave recurring as none if you don't want the chore to repeatedly remind you. When finished, tap Add To Chores."),
+        Help(header: "Scheduling a Daily Chore", body: "Got medication you need to be reminded about? Or maybe you need to be told to take the dog out in the morning. On the Create a Chore Tab, type in the thing you want to be reminded about, select a time, and tap recurring. When the pop-up appears, tap daily, then tap Add to Chores. Chore will then remind you every day at the selected time."),
+        Help(header: "Scheduling a Weekly Chores", body: "One of the cool things about Chore is that you can have the app remind you on specific weekdays to do things. When creating a chore, in the date selection, just select any day that has the day you're looking for, a time, and weekly from recurring, and let Chore do the rest."),
+        Help(header: "Scheduling a Monthly Chore", body: "Want to be reminded to pay your credit card bill, rent, or go to the doctor every month? Chore has got you covered. Similar to weekly scheduling, select any date that has the day you're looking for, monthly from recurring, and let Chore do the rest."),
+        Help(header: "Reminding you to Open the App Everyday", body: "If you've chores due today, Chore will remind you to open the app and view them. Want to set a time of day you'd like that to happen, tap more, settings, and use the stepper to choose between 5:00 A.M. and 11:00 A.M.. Note: do to iOS system limitations this might occur later than the time you selected."),
+        Help(header: "Being Reminded of Chores for the Current Month", body: "In settings, set remind me of chores I have upcoming for the current month to on if you want chore to perform this action. It'll happen at the same time you asked chore to remind you of upcoming chores for the day, but once a month. Note: Do to iOS system limitations, Chore might remind you later than expected."),
+        Help(header: "Don't Know how to Use the App", body: "Tap More and Tutorial to learn how to use Chore. Oh, wait! You're already here."),
+        Help(header: "Need support? Have Feedback?", body: "Tap More, then Get Support to get help.")
+    ]
+    
+    @Published var welcomeScreens: [Welcome] = [
+        
+        Welcome(title: "Welcome to Chore", body: "This is chore, an app reminding you to get things done."),
+        Welcome(title: "All Your Chores at a Glance", body: "See all of your chores due today at a glance, and expand the other sections to view thoughs as well."),
+        Welcome(title: "Schedule Any Kind of Chore.", body: "Whether you want to be reminded once, everyday, every week or month, Chore has got you covered."),
+        Welcome(title: "An Easy to Use Interface", body: "Want to delete a Chore? Just swipe left and tap delete. Want to edit the Chore? Just tap on it. It's as simple as that."),
+        Welcome(title: "Quick Question. What are You Waiting For?", body: "Tap next and get started with Chore. Have questions or feedback? No worries. Support is only a few taps away. Now go!")
     ]
     
     let notificationManager = NotificationManager()
