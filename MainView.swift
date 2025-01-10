@@ -10,6 +10,7 @@ struct MainView: View {
     @AppStorage("hasSeenWelcomeView") private var toggleView = false
     @State private var index = 0
     @EnvironmentObject var choreStore: ChoreStore
+    @AccessibilityFocusState private var focus: Bool
 
     private var welcomeScreen: some View {
         VStack {
@@ -20,6 +21,8 @@ struct MainView: View {
                 .foregroundColor(.white)
                 .padding()
                 .accessibilityAddTraits(.isHeader)
+                .accessibilityFocused($focus)
+            
             Text(choreStore.welcomeScreens[index].body)
                 .font(.subheadline)
                 .foregroundColor(.white)
@@ -63,6 +66,7 @@ struct MainView: View {
     }
     
     private func handleButtonAction() {
+        focus = true
         withAnimation {
             if index == choreStore.welcomeScreens.count - 1 {
                 toggleView = true

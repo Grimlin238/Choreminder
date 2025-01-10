@@ -35,6 +35,8 @@ struct EditChoreView: View {
     
     @FocusState private var isFocused: Bool
     
+    @AccessibilityFocusState private var focus: Bool
+    
     init(enjectedChore: String = "Default", enjectedDate: Date = Date(), enjectedTime: Date = Date(), enjectedRecursiveValue: Repeating = .none) {
         
         _enjectedChore = State(initialValue: enjectedChore)
@@ -50,6 +52,8 @@ struct EditChoreView: View {
             Spacer()
             
             TextField("Enter Updated Chore", text: $enjectedChore)
+            
+                .accessibilityFocused($focus)
             
                 .focused($isFocused)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -82,8 +86,8 @@ struct EditChoreView: View {
                        in: Date()...,
                        displayedComponents: .date)
             .datePickerStyle(.compact)
-            .background(Color.white)
-            .foregroundColor(.black)
+            .background(Color.indigo)
+            .foregroundColor(.white)
             Spacer()
         }
         .cornerRadius(10)
@@ -98,7 +102,8 @@ struct EditChoreView: View {
                        selection: $selectedTime,
                        displayedComponents: .hourAndMinute)
             .datePickerStyle(.compact)
-            .background(Color.white)
+            .background(Color.indigo)
+            .foregroundColor(.white)
             Spacer()
         }
         .cornerRadius(10)
@@ -120,8 +125,8 @@ struct EditChoreView: View {
             }
             
             .pickerStyle(.menu)
-            .background(Color.white)
-            .foregroundColor(.black)
+            .background(Color.indigo)
+            .foregroundColor(.white)
             .accessibilityHint("Double tap to open menu")
             Spacer()
         }
@@ -241,6 +246,8 @@ Spacer()
         .navigationTitle("Edit Chore")
         
         .onAppear {
+            
+            focus = true
             
             oldChore = enjectedChore
             

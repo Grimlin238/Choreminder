@@ -15,6 +15,8 @@ struct MyChoreView: View {
     @State private var isDailyViewExpanded = false
     @State private var isWeeklyViewExpanded = false
     @State private var isMonthlyViewExpanded = false
+    
+    @AccessibilityFocusState private var focus: Bool
 
     private var todayView: some View {
         DisclosureGroup(
@@ -264,12 +266,15 @@ struct MyChoreView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
+                    .accessibilityFocused($focus)
+                
                 Spacer()
                 choreListView
             }
             .background(Color.indigo)
             .foregroundColor(.white)
             .onAppear {
+                focus = true
                 choreStore.removePastChores()
                 choreStore.sortChoreList()
                 notificationManager.updateBadgeCount(count: 0)

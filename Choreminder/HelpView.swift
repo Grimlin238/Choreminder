@@ -13,6 +13,9 @@ struct HelpView: View {
     
     @State private var index = 0
     
+    @AccessibilityFocusState private var focus: Bool
+    
+    
     private var helpTextView: some View {
         
         VStack {
@@ -21,6 +24,7 @@ struct HelpView: View {
                 .font(.title2)
                 .padding()
                 .accessibilityAddTraits(.isHeader)
+                .accessibilityFocused($focus)
             
             Text(choreStore.helpItems[index].body)
                 .font(.body)
@@ -36,7 +40,7 @@ struct HelpView: View {
             Button("Previous") {
                 
                 index = index - 1
-                
+                focus = true
             }
             .disabled(index == 0)
             .frame(maxWidth: .infinity, minHeight: 44)
@@ -49,6 +53,7 @@ struct HelpView: View {
             Button("Next") {
                 
                 index = index + 1
+                focus = true
                 
             }
             .disabled(index == choreStore.helpItems.count - 1)
@@ -81,6 +86,12 @@ struct HelpView: View {
          
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Tutorial")
+        
+        .onAppear {
+            
+            focus = true
+            
+        }
         
     }
 }

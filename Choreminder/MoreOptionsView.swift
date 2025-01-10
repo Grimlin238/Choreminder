@@ -12,12 +12,16 @@ struct MoreOptionsView: View {
         
     let optionList = ["Settings", "Tutorial", "Get Support"]
     
+    @AccessibilityFocusState private var focus: Bool
+    
     private var moreOptionsViewList: some View {
             VStack(spacing: 16) {
                 Text("More")
                     .font(.title)
                     .fontWeight(.bold)
                     .accessibilityAddTraits(.isHeader)
+                    .accessibilityFocused($focus)
+                
                 Spacer()
                 
                 List {
@@ -51,6 +55,11 @@ struct MoreOptionsView: View {
             }
             .background(Color.indigo)
             .foregroundColor(.white)
+            
+            .onAppear {
+                
+                focus = true
+            }
         }
     }
     

@@ -22,6 +22,8 @@ struct AddChoreView: View {
     
     @FocusState private var isFocused: Bool
     
+    @AccessibilityFocusState private var focus: Bool
+    
     private var textFieldView: some View {
         
         VStack {
@@ -29,6 +31,8 @@ struct AddChoreView: View {
             Spacer()
             
             TextField("Enter Chore", text: $userInput)
+            
+                .accessibilityFocused($focus)
             
                 .focused($isFocused)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -60,8 +64,8 @@ struct AddChoreView: View {
                        in: Date()...,
                        displayedComponents: .date)
             .datePickerStyle(.compact)
-            .background(Color.white)
-            .foregroundColor(.black)
+            .background(Color.indigo)
+            .foregroundColor(.white)
             Spacer()
             
         }
@@ -77,8 +81,8 @@ struct AddChoreView: View {
                        selection: $selectedTime,
                        displayedComponents: .hourAndMinute)
             .datePickerStyle(.compact)
-            .background(Color.white)
-            .foregroundColor(.black)
+            .background(Color.indigo)
+            .foregroundColor(.white)
             Spacer()
             
         }
@@ -102,8 +106,8 @@ struct AddChoreView: View {
             }
             
             .pickerStyle(.menu)
-            .background(Color.white)
-            .foregroundColor(.black)
+            .background(Color.indigo)
+            .foregroundColor(.white)
             .accessibilityHint("Double tap to open menu.")
             Spacer()
         }
@@ -187,6 +191,12 @@ struct AddChoreView: View {
             }
             .background(Color.indigo)
             .foregroundColor(.white)
+        
+            .onAppear {
+                
+                focus = true
+                
+            }
         
     }
     

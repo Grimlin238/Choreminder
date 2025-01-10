@@ -13,6 +13,7 @@ struct SettingsView: View {
     @EnvironmentObject var choreStore: ChoreStore
     @AppStorage("userReminderHour") private var reminderHour: Int = 9
     @AppStorage("userSendMonthly") private var monthlyUpcoming: Bool = false
+    @AccessibilityFocusState private var focus: Bool
     
     private var reminderHourView: some View {
         
@@ -53,6 +54,7 @@ struct SettingsView: View {
             
             reminderHourView
                 .padding(.horizontal, 16)
+                .accessibilityFocused($focus)
             
             sendMonthlyView
                 .padding(.horizontal, 16)
@@ -66,6 +68,12 @@ struct SettingsView: View {
         .frame(maxHeight: .infinity)
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Settings")
+        
+        .onAppear {
+            
+            focus = true
+            
+        }
         
     }
 }

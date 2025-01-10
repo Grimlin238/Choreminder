@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct GetSupportView: View {
+
+    @AccessibilityFocusState private var focus: Bool
     
     private var getSupportButtonView: some View {
         
@@ -42,6 +44,7 @@ struct GetSupportView: View {
                 .font(.title2)
                 .padding()
                 .accessibilityAddTraits(.isHeader)
+                .accessibilityFocused($focus)
             
             Text("Sometimes, apps don't work the way we'd like them too. Or maybe you have a suggestion or feedback.\nNo worries. Tap Get Support to send an email.")
                 .font(.body)
@@ -55,6 +58,12 @@ struct GetSupportView: View {
          
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Get Support")
+        
+        .onAppear {
+            
+            focus = true
+            
+        }
         
     }
 }
