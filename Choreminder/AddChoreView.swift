@@ -100,14 +100,15 @@ struct AddChoreView: View {
                 ForEach(Repeating.allCases, id: \.self) { recurrance in
                     
                     Text(recurrance.rawValue)
+                        .foregroundColor(.white)
                         .accessibilityHint("Double tap to select")
                     
                 }
             }
             
             .pickerStyle(.menu)
-            .background(Color.indigo)
-            .foregroundColor(.white)
+            .background(Color.white)
+            .foregroundColor(.black)
             .accessibilityHint("Double tap to open menu.")
             Spacer()
         }
