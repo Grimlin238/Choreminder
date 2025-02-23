@@ -1,7 +1,8 @@
 /*
  MyChoreView.swift
  Part of Chore
- Tyian R. Lashley
+ Copyright 2024 Tyian R. Lashley
+ All rights reserved.
  */
 
 import SwiftUI
@@ -17,6 +18,8 @@ struct MyChoreView: View {
     @State private var isMonthlyViewExpanded = false
     
     @AccessibilityFocusState private var focus: Bool
+    
+    @State private var numDueToday: Int = 0
 
     private var todayView: some View {
         DisclosureGroup(
@@ -43,6 +46,7 @@ struct MyChoreView: View {
                         indexSet.forEach { index in
                             let chore = choreStore.choreList[index]
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            numDueToday -= 1
                         }
                     }
                 } else {
@@ -53,7 +57,7 @@ struct MyChoreView: View {
                 }
             },
             label: {
-                Text("Due Today")
+                Text("Due Today: \(numDueToday)")
                     .foregroundColor(.white)
                     .background(Color.indigo)
                     .padding()
@@ -277,7 +281,9 @@ struct MyChoreView: View {
                 focus = true
                 choreStore.removePastChores()
                 choreStore.sortChoreList()
-                notificationManager.updateBadgeCount(count: 0)
+                
+                numDueToday = choreStore.numDueToday()
+                
             }
         }
     }

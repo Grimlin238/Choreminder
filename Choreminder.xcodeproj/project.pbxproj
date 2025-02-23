@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC0B48072D6B1846003AC2BC /* ChoreLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC0B48062D6B1846003AC2BC /* ChoreLaunchScreen.storyboard */; };
+		BC0B48082D6B1846003AC2BC /* ChoreLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC0B48062D6B1846003AC2BC /* ChoreLaunchScreen.storyboard */; };
 		BC876E532D269B5500698457 /* Repeating.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC876E522D269B5500698457 /* Repeating.swift */; };
 		BCA3744B2D30039700C699A8 /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA3744A2D30039700C699A8 /* Welcome.swift */; };
 		BCA3744D2D30100A00C699A8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA3744C2D30100A00C699A8 /* MainView.swift */; };
-		BCDCE73C2D31574700443A12 /* ChoreLaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDCE73B2D31574700443A12 /* ChoreLaunchScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,10 +32,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC0B48062D6B1846003AC2BC /* ChoreLaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChoreLaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC876E522D269B5500698457 /* Repeating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repeating.swift; sourceTree = "<group>"; };
 		BCA3744A2D30039700C699A8 /* Welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 		BCA3744C2D30100A00C699A8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		BCDCE73B2D31574700443A12 /* ChoreLaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreLaunchScreen.swift; sourceTree = "<group>"; };
 		BCFBF1672D26934100179D4A /* Choreminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Choreminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCFBF1782D26934300179D4A /* ChoreminderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChoreminderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCFBF1822D26934300179D4A /* ChoreminderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChoreminderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,8 +101,8 @@
 			isa = PBXGroup;
 			children = (
 				BCA3744C2D30100A00C699A8 /* MainView.swift */,
-				BCDCE73B2D31574700443A12 /* ChoreLaunchScreen.swift */,
 				BCA3744A2D30039700C699A8 /* Welcome.swift */,
+				BC0B48062D6B1846003AC2BC /* ChoreLaunchScreen.storyboard */,
 				BC876E522D269B5500698457 /* Repeating.swift */,
 				BCFBF1692D26934100179D4A /* Choreminder */,
 				BCFBF17B2D26934300179D4A /* ChoreminderTests */,
@@ -240,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC0B48072D6B1846003AC2BC /* ChoreLaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC0B48082D6B1846003AC2BC /* ChoreLaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +268,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC876E532D269B5500698457 /* Repeating.swift in Sources */,
-				BCDCE73C2D31574700443A12 /* ChoreLaunchScreen.swift in Sources */,
 				BCA3744B2D30039700C699A8 /* Welcome.swift in Sources */,
 				BCA3744D2D30100A00C699A8 /* MainView.swift in Sources */,
 			);

@@ -470,6 +470,23 @@ class ChoreStore: ObservableObject {
         return counter
         
     }
+    
+    func numDueToday() -> Int {
+        
+        var dueToday = 0
+        
+        for each in choreList {
+            
+            if isToday(day: each.due) {
+                
+                dueToday += 1
+                
+            }
+        }
+        
+        return dueToday
+        
+    }
        
 }
 

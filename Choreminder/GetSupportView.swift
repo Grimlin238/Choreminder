@@ -38,7 +38,7 @@ struct GetSupportView: View {
     
     var body: some View {
         
-        VStack {
+        VStack(spacing: 16) {
             Spacer()
             Text("Need Help? Have a suggestion, or feedback?")
                 .font(.title2)
@@ -52,6 +52,7 @@ struct GetSupportView: View {
             
             Spacer()
             getSupportButtonView
+                .padding(.horizontal, 16)
         }
         .background(Color.indigo)
         .foregroundColor(.white)

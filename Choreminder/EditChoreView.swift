@@ -238,6 +238,7 @@ struct EditChoreView: View {
             
 Spacer()
             deleteAndEditButtonView
+                .padding(.horizontal, 16)
             
         }
         .background(Color.indigo)
@@ -350,7 +351,7 @@ Spacer()
         isChoreExisting = hasChore
         
         showEditAlert = true
-        
+        isFocused = false
         }
     
     
