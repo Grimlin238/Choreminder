@@ -203,14 +203,12 @@ struct AddChoreView: View {
                 .padding(.horizontal, 16)
             
             Spacer()
+            addButtonView
+                .padding(.bottom, 16)
         }
         .background(Color.indigo)
         .foregroundColor(.white)
-        .safeAreaInset(edge: .bottom) {
-            addButtonView
-                .padding(.bottom, 16)
-                .background(Color.indigo)
-        }
+        
         .onAppear {
             focus = true
         }
