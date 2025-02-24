@@ -52,7 +52,7 @@ struct GetSupportView: View {
             
             Spacer()
             getSupportButtonView
-                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
         }
         .background(Color.indigo)
         .foregroundColor(.white)

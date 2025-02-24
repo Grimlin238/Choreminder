@@ -61,6 +61,7 @@ struct SettingsView: View {
             
             Spacer()
             Text("App Version: 1.0")
+                .padding(.bottom, 16)
         }
         .background(Color.indigo)
         .foregroundColor(.white)

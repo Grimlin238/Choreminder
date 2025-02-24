@@ -27,21 +27,19 @@ struct AddChoreView: View {
     private var textFieldView: some View {
         
         VStack {
-Spacer()
+            
+            Spacer()
             
             TextField("Enter Chore", text: $userInput)
+                
+                .background(Color.indigo.opacity(0.5))
+            
+                .foregroundColor(.white)
+                .border(Color.white, width: 2)
             
                 .accessibilityFocused($focus)
-                .focused($isFocused)
             
-                    .padding()
-                    .background(Color.indigo.opacity(0.3))
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white.opacity(0.6), lineWidth: 1)
-                    )
+                .focused($isFocused)
                 .toolbar {
                     
                     ToolbarItemGroup(placement: .keyboard) {
@@ -57,10 +55,12 @@ Spacer()
                     }
                 }
             
+            Spacer()
+            
         }
         
         .padding()
-  
+        .cornerRadius(10)
     }
     
     private var dateSelectionView: some View {
@@ -105,8 +105,6 @@ Spacer()
         
         VStack {
 
-            Spacer()
-            
             Text("Chore Frequency?")
                 .accessibilityAddTraits(.isHeader)
                 .padding()
@@ -182,43 +180,42 @@ Spacer()
         .padding(.horizontal)
         
     }
-    
+
     var body: some View {
-         
         VStack(spacing: 16) {
-                Text("Create a Chore")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .accessibilityAddTraits(.isHeader)
-                    Spacer()
-                
-                textFieldView
+            Text("Create a Chore")
+                .font(.title)
+                .fontWeight(.bold)
+                .accessibilityAddTraits(.isHeader)
+            
+            Spacer()
+            
+            textFieldView
                 .padding(.horizontal, 16)
             
             recurssionView
                 .padding(.horizontal, 16)
-                
-                dateSelectionView
+            
+            dateSelectionView
                 .padding(.horizontal, 16)
-                
-                timeSelectionView
+            
+            timeSelectionView
                 .padding(.horizontal, 16)
-                
-                Spacer()
-                addButtonView
-                    
-            }
-            .background(Color.indigo)
-            .foregroundColor(.white)
-                    
-            .onAppear {
-                
-                focus = true
-                
-            }
-        
+            
+            Spacer()
+        }
+        .background(Color.indigo)
+        .foregroundColor(.white)
+        .safeAreaInset(edge: .bottom) {
+            addButtonView
+                .padding(.bottom, 16)
+                .background(Color.indigo)
+        }
+        .onAppear {
+            focus = true
+        }
     }
-    
+
     private func saveChore() {
         
         

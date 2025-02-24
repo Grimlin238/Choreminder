@@ -77,7 +77,7 @@ struct HelpView: View {
                 
             Spacer()
             helpNavButtonsView
-                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
             
         }
         .frame(maxHeight: .infinity)

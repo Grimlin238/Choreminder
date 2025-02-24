@@ -53,18 +53,12 @@ struct EditChoreView: View {
             
             TextField("Enter Updated Chore", text: $enjectedChore)
             
+                .background(Color.indigo.opacity(0.5))
+                .foregroundColor(.white)
+                .border(Color.white, width: 0.2)
+            
                 .accessibilityFocused($focus)
     
-                    .padding()
-                    .background(Color.indigo.opacity(0.3))
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white.opacity(0.6), lineWidth: 1)
-                    )
-            Spacer()
-            
                 .focused($isFocused)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
@@ -83,10 +77,11 @@ struct EditChoreView: View {
                     }
                 }
                 
+            Spacer()
         }
  
         .padding()
-    
+        .cornerRadius(10)
     }
     
     private var dateSelectionView: some View {
@@ -261,7 +256,7 @@ struct EditChoreView: View {
             
 Spacer()
             deleteAndEditButtonView
-                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
             
         }
         .background(Color.indigo)
