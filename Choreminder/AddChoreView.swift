@@ -12,7 +12,7 @@ struct AddChoreView: View {
     @EnvironmentObject var notificationManager: NotificationManager
     
     @State private var selectedDate = Date()
-    @State private var selectedTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
+    @State private var selectedTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date()
     @State private var userInput: String = ""
     @State private var showSuccessConformation = false
     
@@ -27,15 +27,21 @@ struct AddChoreView: View {
     private var textFieldView: some View {
         
         VStack {
-            
-            Spacer()
+Spacer()
             
             TextField("Enter Chore", text: $userInput)
             
                 .accessibilityFocused($focus)
-            
                 .focused($isFocused)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+                    .padding()
+                    .background(Color.indigo.opacity(0.3))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.white.opacity(0.6), lineWidth: 1)
+                    )
                 .toolbar {
                     
                     ToolbarItemGroup(placement: .keyboard) {
@@ -52,7 +58,9 @@ struct AddChoreView: View {
                 }
             
         }
+        
         .padding()
+  
     }
     
     private var dateSelectionView: some View {
@@ -66,6 +74,7 @@ struct AddChoreView: View {
             .datePickerStyle(.compact)
             .background(Color.indigo)
             .foregroundColor(.white)
+            .fontWeight(.bold)
             Spacer()
             
         }
@@ -83,6 +92,7 @@ struct AddChoreView: View {
             .datePickerStyle(.compact)
             .background(Color.indigo)
             .foregroundColor(.white)
+            .fontWeight(.bold)
             Spacer()
             
         }
@@ -94,6 +104,14 @@ struct AddChoreView: View {
     private var recurssionView: some View {
         
         VStack {
+
+            Spacer()
+            
+            Text("Chore Frequency?")
+                .accessibilityAddTraits(.isHeader)
+                .padding()
+                .font(.title)
+                .fontWeight(.bold)
             
             Picker("Repeating?", selection:  $recurrsive) {
                 
@@ -176,6 +194,9 @@ struct AddChoreView: View {
                 
                 textFieldView
                 .padding(.horizontal, 16)
+            
+            recurssionView
+                .padding(.horizontal, 16)
                 
                 dateSelectionView
                 .padding(.horizontal, 16)
@@ -183,16 +204,13 @@ struct AddChoreView: View {
                 timeSelectionView
                 .padding(.horizontal, 16)
                 
-                recurssionView
-                .padding(.horizontal, 16)
-        
                 Spacer()
                 addButtonView
                     
             }
             .background(Color.indigo)
             .foregroundColor(.white)
-        
+                    
             .onAppear {
                 
                 focus = true
@@ -286,7 +304,9 @@ struct AddChoreView: View {
         isChoreExisting = hasChore
         showSuccessConformation = true
         isFocused = false
-        
+        selectedDate = Date()
+        selectedTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date()
+        recurrsive = .none
     }
 }
 

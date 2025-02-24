@@ -307,7 +307,7 @@ class ChoreStore: ObservableObject {
             
             let storedMonth = dateFormatter.string(from: each.due)
             
-            if storedMonth == getCurrentMonth() && !isToday(day: each.due) {
+            if storedMonth == getCurrentMonth() && !isToday(day: each.due) && each.recurring != .daily && each.recurring != .weekly && each.recurring != .monthly {
                 
                 return true
                 
@@ -460,7 +460,7 @@ class ChoreStore: ObservableObject {
         
         for each in choreList {
             
-            if isToday(day: each.due) {
+            if isToday(day: each.due) && each.recurring == .none {
                 
                 counter += 1
                 
@@ -471,22 +471,80 @@ class ChoreStore: ObservableObject {
         
     }
     
-    func numDueToday() -> Int {
+    func numUpComing() -> Int {
         
-        var dueToday = 0
+        var counter = 0
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "MMM"
         
         for each in choreList {
             
-            if isToday(day: each.due) {
+            let storedMonth = dateFormatter.string(from: each.due)
+            
+            if storedMonth == getCurrentMonth() && !isToday(day: each.due) && each.recurring != .daily && each.recurring != .weekly && each.recurring != .monthly {
                 
-                dueToday += 1
-                
+                counter += 1
             }
         }
         
-        return dueToday
+        return counter
         
     }
-       
+    
+    func numDaily() -> Int {
+        
+        var counter = 0
+        
+        for each in choreList {
+            
+            if each.recurring == .daily {
+                
+                counter += 1
+                
+            }
+            
+        }
+            
+            return counter
+            
+        }
+        
+        func numWeekly() -> Int {
+            
+            var counter = 0
+            
+            for each in choreList {
+                
+                if each.recurring == .weekly {
+                    
+                    counter += 1
+                    
+                }
+                
+            }
+                
+                return counter
+                
+            }
+            
+            func numMonthly() -> Int {
+                
+                var counter = 0
+                
+                for each in choreList {
+                    
+                    if each.recurring == .monthly {
+                        
+                        counter += 1
+                        
+                    }
+                    
+                }
+                    
+                    return counter
+                    
+                }
+            
 }
-

@@ -31,8 +31,9 @@ struct ChoreminderApp: App {
         }
     
         .onChange(of: scenePhase) {
-            if scenePhase == .background {
-                ()
+            if
+                scenePhase == .background {
+                 
                 scheduleAppRefreshTask(time: reminderHour)
             }
         }

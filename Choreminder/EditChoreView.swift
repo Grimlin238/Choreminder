@@ -54,6 +54,16 @@ struct EditChoreView: View {
             TextField("Enter Updated Chore", text: $enjectedChore)
             
                 .accessibilityFocused($focus)
+    
+                    .padding()
+                    .background(Color.indigo.opacity(0.3))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.white.opacity(0.6), lineWidth: 1)
+                    )
+            Spacer()
             
                 .focused($isFocused)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -72,9 +82,11 @@ struct EditChoreView: View {
                         .accessibilityHint("Double tap to dismiss the keyboard")
                     }
                 }
-            
+                
         }
+ 
         .padding()
+    
     }
     
     private var dateSelectionView: some View {
@@ -88,6 +100,7 @@ struct EditChoreView: View {
             .datePickerStyle(.compact)
             .background(Color.indigo)
             .foregroundColor(.white)
+            .fontWeight(.bold)
             Spacer()
         }
         .cornerRadius(10)
@@ -98,12 +111,15 @@ struct EditChoreView: View {
         
         VStack {
             
+            Spacer()
+            
             DatePicker("Choose a time",
                        selection: $selectedTime,
                        displayedComponents: .hourAndMinute)
             .datePickerStyle(.compact)
             .background(Color.indigo)
             .foregroundColor(.white)
+            .fontWeight(.bold)
             Spacer()
         }
         .cornerRadius(10)
@@ -114,6 +130,13 @@ struct EditChoreView: View {
     private var recurssionView: some View {
         
         VStack {
+        Spacer()
+            
+            Text("Updated Chore Recurrance?")
+                .accessibilityAddTraits(.isHeader)
+                .padding()
+                .font(.title)
+                .fontWeight(.bold)
             
             Picker("Repeating?", selection:  $enjectedRecursiveValue) {
                 
@@ -129,7 +152,7 @@ struct EditChoreView: View {
             .background(Color.white)
             .foregroundColor(.black)
             .accessibilityHint("Double tap to open menu")
-            Spacer()
+        Spacer()
         }
         .cornerRadius(10)
         .padding()
@@ -227,13 +250,13 @@ struct EditChoreView: View {
             textFieldView
                 .padding(.horizontal, 16)
             
+            recurssionView
+                .padding(.horizontal, 16)
+            
             dateSelectionView
                 .padding(.horizontal, 16)
             
             timeSelectionView
-                .padding(.horizontal, 16)
-            
-            recurssionView
                 .padding(.horizontal, 16)
             
 Spacer()

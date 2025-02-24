@@ -9,8 +9,7 @@ import SwiftUI
 
 struct MyChoreView: View {
     @EnvironmentObject var choreStore: ChoreStore
-    @EnvironmentObject var notificationManager: NotificationManager
-
+    @EnvironmentObject private var notificationManager: NotificationManager
     @State private var isTodayViewExpanded = true
     @State private var isUpcomingViewExpanded = false
     @State private var isDailyViewExpanded = false
@@ -19,7 +18,15 @@ struct MyChoreView: View {
     
     @AccessibilityFocusState private var focus: Bool
     
-    @State private var numDueToday: Int = 0
+    @State private var numDueToday = 0
+    
+    @State private var numUpcoming = 0
+    
+    @State private var numDaily = 0
+    
+    @State private var numWeekly = 0
+    
+    @State private var numMonthly = 0
 
     private var todayView: some View {
         DisclosureGroup(
@@ -38,6 +45,7 @@ struct MyChoreView: View {
                             Text("\(chore.chore) - Due today at \(choreStore.toString_Time(date: chore.at))")
                                 .padding()
                                 .foregroundColor(.white)
+                                .fontWeight(.bold)
                         }
                         .listRowBackground(Color.indigo)
                         .accessibilityHint("Double tap to edit, or use the roter to delete this chore.")
@@ -46,13 +54,17 @@ struct MyChoreView: View {
                         indexSet.forEach { index in
                             let chore = choreStore.choreList[index]
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            
                             numDueToday -= 1
+                            
                         }
                     }
                 } else {
                     Text("Nothing due today")
                         .foregroundColor(.white)
                         .background(Color.indigo)
+                        .font(.title)
+                        .fontWeight(.bold)
                         .italic()
                 }
             },
@@ -72,7 +84,7 @@ struct MyChoreView: View {
                 if choreStore.isOccupiedMonth() {
                     ForEach(choreStore.choreList.filter {
                         !choreStore.isToday(day: $0.due) &&
-                        choreStore.getMonthForStoredChore(date: $0.due) == choreStore.getCurrentMonth()
+                        choreStore.getMonthForStoredChore(date: $0.due) == choreStore.getCurrentMonth() && $0.recurring != .daily && $0.recurring != .weekly && $0.recurring != .monthly
                     }) { chore in
                         NavigationLink(
                             destination: EditChoreView(
@@ -83,8 +95,10 @@ struct MyChoreView: View {
                             )
                         ) {
                             Text("\(chore.chore) - Due \(choreStore.toString_Date(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
-                                .padding()
                                 .foregroundColor(.white)
+                                .fontWeight(.bold)
+                                .padding()
+                                
                         }
                         .listRowBackground(Color.indigo)
                         .accessibilityHint("Double tap to edit, or use the roter to delete this chore.")
@@ -93,6 +107,9 @@ struct MyChoreView: View {
                         indexSet.forEach { index in
                             let chore = choreStore.choreList[index]
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            
+                            numUpcoming -= 1
+                            
                         }
                     }
                 } else {
@@ -103,9 +120,11 @@ struct MyChoreView: View {
                 }
             },
             label: {
-                Text("Upcoming This Month")
+                Text("Upcoming This Month: \(numUpcoming)")
                     .foregroundColor(.white)
                     .background(Color.indigo)
+                    .font(.title)
+                    .fontWeight(.bold)
                     .padding()
             }
         )
@@ -133,6 +152,7 @@ struct MyChoreView: View {
                         ) {
                             Text("\(chore.chore) - Repeats daily at \(choreStore.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
+                                .fontWeight(.bold)
                                 .padding()
                         }
                         .listRowBackground(Color.indigo)
@@ -142,14 +162,19 @@ struct MyChoreView: View {
                         indexSet.forEach { index in
                             let chore = dailyChores[index]
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            
+                            numDaily -= 1
+                            
                         }
                     }
                 }
             },
             label: {
-                Text("Daily Chores")
+                Text("Daily Chores: \(numDaily)")
                     .foregroundColor(.white)
                     .background(Color.indigo)
+                    .font(.title)
+                    .fontWeight(.bold)
                     .padding()
             }
         )
@@ -177,6 +202,7 @@ struct MyChoreView: View {
                         ) {
                             Text("\(chore.chore) - Repeats weekly on \(choreStore.getWeekDayFor(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
+                                .fontWeight(.bold)
                                 .padding()
                         }
                         .listRowBackground(Color.indigo)
@@ -186,14 +212,19 @@ struct MyChoreView: View {
                         indexSet.forEach { index in
                             let chore = weeklyChores[index]
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            
+                            numWeekly -= 1
+                            
                         }
                     }
                 }
             },
             label: {
-                Text("Weekly Chores")
+                Text("Weekly Chores: \(numWeekly)")
                     .foregroundColor(.white)
                     .background(Color.indigo)
+                    .font(.title)
+                    .fontWeight(.bold)
                     .padding()
             }
         )
@@ -221,6 +252,7 @@ struct MyChoreView: View {
                         ) {
                             Text("\(chore.chore) - Repeats monthly on the \(choreStore.getMonthSuffix(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
+                                .fontWeight(.bold)
                                 .padding()
                         }
                         .listRowBackground(Color.indigo)
@@ -230,14 +262,19 @@ struct MyChoreView: View {
                         indexSet.forEach { index in
                             let chore = monthlyChores[index]
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            
+                            numMonthly -= 1
+                            
                         }
                     }
                 }
             },
             label: {
-                Text("Monthly Chores")
+                Text("Monthly Chores: \(numMonthly)")
                     .foregroundColor(.white)
                     .background(Color.indigo)
+                    .font(.title)
+                    .fontWeight(.bold)
                     .padding()
             }
         )
@@ -281,8 +318,17 @@ struct MyChoreView: View {
                 focus = true
                 choreStore.removePastChores()
                 choreStore.sortChoreList()
+             
+                notificationManager.updateBadgeCount(count: 0)
+                numDueToday = choreStore.numChoresDueToday()
                 
-                numDueToday = choreStore.numDueToday()
+                numUpcoming = choreStore.numUpComing()
+                
+                numDaily = choreStore.numDaily()
+                
+                numWeekly = choreStore.numWeekly()
+                
+                numMonthly = choreStore.numMonthly()
                 
             }
         }
