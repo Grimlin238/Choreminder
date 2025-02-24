@@ -31,6 +31,7 @@ struct MoreOptionsView: View {
                         NavigationLink(destination: destinationView(destination: option)) {
                             
                             Text(option)
+                                .fontWeight(.bold)
                                 .foregroundColor(.white)
                                 .accessibilityHint("Double tap to activate")
                             

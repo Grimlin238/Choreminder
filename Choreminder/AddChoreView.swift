@@ -140,12 +140,13 @@ struct AddChoreView: View {
             }
             
             .disabled(userInput.isEmpty || userInput == " " || choreStore.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: recurrsive))
+            .fontWeight(.bold)
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)
             .cornerRadius(10)
             .padding()
-            .accessibilityHint("Double tap to add to my chores.")
+            .accessibilityHint("Double tap to add to chore list.")
             
             .alert(isPresented: $showSuccessConformation) {
                 

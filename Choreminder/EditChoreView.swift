@@ -158,6 +158,7 @@ struct EditChoreView: View {
                 
             }
             .disabled(enjectedChore.isEmpty || enjectedChore == " " || choreStore.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: enjectedRecursiveValue))
+            .fontWeight(.bold)
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)
@@ -202,6 +203,7 @@ struct EditChoreView: View {
                 showDeleteAlert = true
                 
             }
+            .fontWeight(.bold)
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)

@@ -25,6 +25,7 @@ struct GetSupportView: View {
                     
                 }
             }
+            .fontWeight(.bold)
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)

@@ -43,6 +43,7 @@ struct HelpView: View {
                 focus = true
             }
             .disabled(index == 0)
+            .fontWeight(.bold)
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)
@@ -57,6 +58,7 @@ struct HelpView: View {
                 
             }
             .disabled(index == choreStore.helpItems.count - 1)
+            .fontWeight(.bold)
             .frame(maxWidth:  .infinity, minHeight: 44)
             .background(Color.white)
             .foregroundColor(.black)
