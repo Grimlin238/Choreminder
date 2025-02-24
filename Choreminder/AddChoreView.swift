@@ -27,7 +27,7 @@ struct AddChoreView: View {
     private var textFieldView: some View {
         
         VStack {
-            
+
             Spacer()
             
             TextField("Enter Chore", text: $userInput)
@@ -59,8 +59,8 @@ struct AddChoreView: View {
             
         }
         
-        .padding()
         .cornerRadius(10)
+        
     }
     
     private var dateSelectionView: some View {
@@ -78,8 +78,9 @@ struct AddChoreView: View {
             Spacer()
             
         }
+        
         .cornerRadius(10)
-        .padding()
+    
     }
     
     private var timeSelectionView: some View {
@@ -97,8 +98,6 @@ struct AddChoreView: View {
             
         }
         .cornerRadius(10)
-        .padding()
-        
     }
     
     private var recurssionView: some View {
@@ -129,13 +128,12 @@ struct AddChoreView: View {
             Spacer()
         }
         .cornerRadius(10)
-        .padding()
     }
     
     private var addButtonView: some View {
         HStack {
             
-            Button("Add to Chores") {
+            Button("Add to Chore List") {
                 
                 saveChore()
                     

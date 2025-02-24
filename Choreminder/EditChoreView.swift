@@ -79,8 +79,7 @@ struct EditChoreView: View {
                 
             Spacer()
         }
- 
-        .padding()
+
         .cornerRadius(10)
     }
     
@@ -99,7 +98,6 @@ struct EditChoreView: View {
             Spacer()
         }
         .cornerRadius(10)
-        .padding()
     }
     
     private var timeSelectionView: some View {
@@ -118,8 +116,6 @@ struct EditChoreView: View {
             Spacer()
         }
         .cornerRadius(10)
-        .padding()
-        
     }
     
     private var recurssionView: some View {
@@ -150,7 +146,6 @@ struct EditChoreView: View {
         Spacer()
         }
         .cornerRadius(10)
-        .padding()
     }
     
     private var deleteAndEditButtonView: some View {
