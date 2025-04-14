@@ -110,7 +110,7 @@ struct AddChoreView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Picker("Repeating?", selection:  $recurrsive) {
+            Picker("Frequency?", selection:  $recurrsive) {
                 
                 ForEach(Repeating.allCases, id: \.self) { recurrance in
                     

@@ -129,7 +129,7 @@ struct EditChoreView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Picker("Repeating?", selection:  $enjectedRecursiveValue) {
+            Picker("Updated Frequency?", selection:  $enjectedRecursiveValue) {
                 
                 ForEach(Repeating.allCases, id: \.self) { recurrance in
                     
