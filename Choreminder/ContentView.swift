@@ -23,7 +23,7 @@ struct ContentView: View {
             AddChoreView()
                 .tabItem {
                     
-                    Text("Create a Chore")
+                    Text("New Chore")
                     
                 }
             
