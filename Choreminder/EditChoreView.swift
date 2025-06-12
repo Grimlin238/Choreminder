@@ -120,9 +120,8 @@ struct EditChoreView: View {
     
     private var recurssionView: some View {
         
-        VStack {
-        Spacer()
-            
+        HStack {
+        
             Text("Updated Chore Recurrance?")
                 .accessibilityAddTraits(.isHeader)
                 .padding()

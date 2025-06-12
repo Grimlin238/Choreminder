@@ -102,7 +102,7 @@ struct AddChoreView: View {
     
     private var recurssionView: some View {
         
-        VStack {
+        HStack {
 
             Text("Chore Frequency?")
                 .accessibilityAddTraits(.isHeader)
