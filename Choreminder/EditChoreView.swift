@@ -103,9 +103,7 @@ struct EditChoreView: View {
     private var timeSelectionView: some View {
         
         VStack {
-            
-            Spacer()
-            
+                
             DatePicker("Choose a time",
                        selection: $selectedTime,
                        displayedComponents: .hourAndMinute)
@@ -122,12 +120,6 @@ struct EditChoreView: View {
         
         HStack {
         
-            Text("Updated Chore Recurrance?")
-                .accessibilityAddTraits(.isHeader)
-                .padding()
-                .font(.title)
-                .fontWeight(.bold)
-            
             Picker("Updated Frequency?", selection:  $enjectedRecursiveValue) {
                 
                 ForEach(Repeating.allCases, id: \.self) { recurrance in
@@ -240,6 +232,13 @@ struct EditChoreView: View {
             
             textFieldView
                 .padding(.horizontal, 16)
+            
+            Text("Updated Frequency?")
+                .accessibilityAddTraits(.isHeader)
+                .font(.title)
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
             
             recurssionView
                 .padding(.horizontal, 16)

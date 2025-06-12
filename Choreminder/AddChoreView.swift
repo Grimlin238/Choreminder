@@ -104,27 +104,21 @@ struct AddChoreView: View {
         
         HStack {
 
-            Text("Chore Frequency?")
-                .accessibilityAddTraits(.isHeader)
-                .padding()
-                .font(.title)
-                .fontWeight(.bold)
-            
             Picker("Frequency?", selection:  $recurrsive) {
-                
-                ForEach(Repeating.allCases, id: \.self) { recurrance in
                     
-                    Text(recurrance.rawValue)
-                        .foregroundColor(.white)
-                        .accessibilityHint("Double tap to select")
-                    
+                    ForEach(Repeating.allCases, id: \.self) { recurrance in
+                        
+                        Text(recurrance.rawValue)
+                            .foregroundColor(.white)
+                            .accessibilityHint("Double tap to select")
+                        
+                    }
                 }
-            }
-            
-            .pickerStyle(.menu)
-            .background(Color.white)
-            .foregroundColor(.black)
-            .accessibilityHint("Double tap to open menu.")
+                
+                .pickerStyle(.menu)
+                .background(Color.white)
+                .foregroundColor(.black)
+                .accessibilityHint("Double tap to open menu.")
             Spacer()
         }
         .cornerRadius(10)
@@ -191,6 +185,13 @@ struct AddChoreView: View {
             
             textFieldView
                 .padding(.horizontal, 16)
+            
+            Text("Frequency?")
+                .accessibilityAddTraits(.isHeader)
+                .font(.title)
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
             
             recurssionView
                 .padding(.horizontal, 16)
