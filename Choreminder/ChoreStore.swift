@@ -49,7 +49,11 @@ class ChoreStore: ObservableObject {
         Welcome(title: "All Your Chores at a Glance", body: "See all of your chores due today at a glance, and expand the other sections to view thoughs as well."),
         Welcome(title: "Schedule Any Kind of Chore.", body: "Whether you want to be reminded once, everyday, every week or month, Chore has got you covered."),
         Welcome(title: "An Easy to Use Interface", body: "Want to delete a Chore? Just swipe left and tap delete. Want to edit the Chore? Just tap on it. It's as simple as that."),
-        Welcome(title: "Quick Question. What are You Waiting For?", body: "Tap next and get started with Chore. Have questions or feedback? No worries. Support is only a few taps away. Now go!")
+        Welcome(title: "Adding a Chore?", body: "Tap New Chore, type a chore, select a date and time, and tap Add to Chores. See? Easy."),
+        Welcome(title: "Want Daily Chores?", body: "No Problem. Type the chore, select daily, a time, and let Chore do the rest."),
+        Welcome(title: "Want Weekly Chores?", body: "Like I said. No Problem. Type a chore, tap any date with the day you're looking to be reminded on weekly, and let CHore do the rest."),
+        Welcome(title: "Want Monthly Chores?", body: "I've got you man! Type a chore, select any date with the day you're looking to be reminded monthly on, and let Chore do the rest."),
+        Welcome(title: "Quick Question. What are You Waiting For?", body: "Tap next and get started with Chore. Have questions or feedback? No worries. Support is only a few taps away. Now go do your chores, like your parents tole you! :-)")
     ]
     
     let notificationManager = NotificationManager()
