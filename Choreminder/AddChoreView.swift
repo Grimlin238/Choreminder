@@ -124,6 +124,36 @@ struct AddChoreView: View {
         .cornerRadius(10)
     }
     
+    private var dynamicView: some View {
+        ZStack {
+            
+            Color.indigo
+                .ignoresSafeArea()
+            
+            if recurrsive == .none {
+                
+                VStack {
+                    
+                    dateSelectionView
+                        .padding(.horizontal, 16)
+                    
+                    timeSelectionView
+                        .padding(.horizontal, 16)
+                    
+                }
+            } else if recurrsive == .daily {
+                
+                VStack {
+                    
+                    timeSelectionView
+                        .padding(.horizontal, 16)
+                    
+                }
+            }
+            
+        }
+    }
+    
     private var addButtonView: some View {
         HStack {
             
@@ -196,10 +226,7 @@ struct AddChoreView: View {
             recurssionView
                 .padding(.horizontal, 16)
             
-            dateSelectionView
-                .padding(.horizontal, 16)
-            
-            timeSelectionView
+            dynamicView
                 .padding(.horizontal, 16)
             
             Spacer()
