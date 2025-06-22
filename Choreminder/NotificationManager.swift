@@ -18,7 +18,7 @@ class NotificationManager: ObservableObject {
         }
     }
     
-    func scheduleNotification(title: String, body: String, eventDate: Date, recurring: Repeating) -> [String] {
+    func scheduleNotification(title: String, body: String, eventDate: Date, weekday: Weekday, recurring: Repeating) -> [String] {
         
         var notificationIds = [String]()
         
@@ -29,11 +29,11 @@ class NotificationManager: ObservableObject {
                     notificationIds.append(id)
                     
         case .daily:
-            let id = scheduleRepeatingNotification(title: title, body: body, eventDate: eventDate, accurring: .day)
+            let id = scheduleDailyNotification(title: title, body: body, eventDate: eventDate, accurring: .day)
             notificationIds.append(id)
             
         case .weekly:
-            let id = scheduleRepeatingNotification(title: title, body: body, eventDate: eventDate, accurring: .weekOfYear)
+            let id = scheduleWeeklyNotification(title: title, body: body, eventDate: eventDate, weekday: weekday)
             notificationIds.append(id)
             
         case .monthly:
@@ -88,7 +88,50 @@ class NotificationManager: ObservableObject {
         return identifier
     }
     
-    private func scheduleRepeatingNotification(title: String, body: String, eventDate: Date, accurring: NSCalendar.Unit) -> String {
+    private func scheduleWeeklyNotification(title: String, body: String, eventDate: Date, weekday: Weekday) -> String {
+        
+        let content = UNMutableNotificationContent()
+        
+        content.title = title
+        content.body = body
+        content.sound = .default
+        
+        let identifier = UUID().uuidString
+       
+        let originalDate = eventDate
+        
+        let calendar = Calendar.current
+        
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: originalDate)
+        
+        var dateComponents = DateComponents()
+        
+        dateComponents.weekday = weekday.rawValue
+        dateComponents.hour = timeComponents.hour
+        dateComponents.minute = timeComponents.minute
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            
+            if let error = error {
+                
+                print("Error scheduleing notification. \(error)")
+                
+            } else {
+                
+                print("Successfully scheduled weekly notification")
+                
+            }
+        }
+        
+        return identifier
+        
+    }
+    
+    private func scheduleDailyNotification(title: String, body: String, eventDate: Date, accurring: NSCalendar.Unit) -> String {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
@@ -96,23 +139,8 @@ class NotificationManager: ObservableObject {
         
         let timeInterval = eventDate.timeIntervalSinceNow
                 
-        guard timeInterval > 0 else {
-            print("Cannot schedule notifications for a past event date.")
-            return ""
-        }
-        
         var triggerDateComponents = Calendar.current.dateComponents([.hour, .minute], from: eventDate)
-        
-        switch accurring {
-        case .day:
-            break
-        case .weekOfYear:
-            triggerDateComponents.weekday = Calendar.current.component(.weekday, from: eventDate)
-            
-        default:
-            break
-        }
-        
+               
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: true)
         let identifier = UUID().uuidString
         

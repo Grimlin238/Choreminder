@@ -29,6 +29,8 @@ struct EditChoreView: View {
     
     @State private var oldTime = Date()
     
+    @State private var oldWeekday: Weekday = .sunday
+    
     @State private var oldRecursiveValue: Repeating = .none
     
     @State private var isChoreExisting = false
@@ -118,7 +120,14 @@ struct EditChoreView: View {
     
     private var recurssionView: some View {
         
-        HStack {
+        VStack {
+            
+            Text("Updated Frequency?")
+                .font(.title)
+                .font(.body)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibility(addTraits: .isHeader)
         
             Picker("Updated Frequency?", selection:  $enjectedRecursiveValue) {
                 
@@ -133,6 +142,7 @@ struct EditChoreView: View {
             .pickerStyle(.menu)
             .background(Color.white)
             .foregroundColor(.black)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityHint("Double tap to open menu")
         Spacer()
         }
@@ -233,13 +243,6 @@ struct EditChoreView: View {
             textFieldView
                 .padding(.horizontal, 16)
             
-            Text("Updated Frequency?")
-                .accessibilityAddTraits(.isHeader)
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
             recurssionView
                 .padding(.horizontal, 16)
             
@@ -280,50 +283,9 @@ Spacer()
         
         let hasChore = choreStore.isChoreExist(chore: enjectedChore, due: selectedDate, at: selectedTime, recurring: enjectedRecursiveValue)
         
-        if !hasChore {
+        if hasChore {
             
-            var adjustedDate = selectedDate
-            
-            if enjectedRecursiveValue == .daily {
-                
-                adjustedDate = Calendar.current.startOfDay(for: Date())
-                
-                if let adjustedTime = Calendar.current.date(bySettingHour:Calendar.current.component(.hour, from: selectedTime),
-                                                            minute: Calendar.current.component(.minute, from: selectedTime),
-                                                            second: 0,
-                                                            of: adjustedDate) {
-                    
-                    adjustedDate = adjustedTime
-                    
-                }
-            }
-            
-            if enjectedRecursiveValue == .weekly {
-                
-                let todayWeekDay = Calendar.current.component(.weekday, from: Date())
-                
-                let selectedWeekDay = Calendar.current.component(.weekday, from: selectedDate)
-                
-                if selectedWeekDay != todayWeekDay {
-                    
-                    let daysToAdjust = (selectedWeekDay - todayWeekDay + 7) % 7
-                    
-                    adjustedDate = Calendar.current.date(byAdding: .day, value: daysToAdjust, to: Date()) ?? Date()
-                    
-                    
-                }
-                
-                if let adjustedTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: selectedTime),
-                   minute: Calendar.current.component(.minute, from: selectedTime),
-                   second: 0,
-                   of: adjustedDate) {
-                       
-                       adjustedDate = adjustedTime
-                       
-                   }
-            }
-            
-            if let combinedDate = choreStore.combine_Date(date: adjustedDate, time: selectedTime) {
+            if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
                 
                 
                 var title: String = ""
@@ -352,9 +314,9 @@ Spacer()
                 
                 choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, recurring: oldRecursiveValue)
                 
-                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, recurring: enjectedRecursiveValue)
+                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: oldWeekday, recurring: enjectedRecursiveValue)
                 
-                choreStore.addToChoreList(chore: enjectedChore, due: adjustedDate, at: selectedTime, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
+                choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
                 
             }
         }

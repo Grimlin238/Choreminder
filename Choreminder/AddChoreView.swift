@@ -24,6 +24,8 @@ struct AddChoreView: View {
     
     @AccessibilityFocusState private var focus: Bool
     
+    @State private var selectedWeekday: Weekday = Weekday.orderWeekDays.first ?? .sunday
+    
     private var textFieldView: some View {
         
         VStack {
@@ -102,8 +104,15 @@ struct AddChoreView: View {
     
     private var recurssionView: some View {
         
-        HStack {
-
+        VStack {
+            
+            Text("Frequency?")
+                .font(.title)
+                .font(.body)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibility(addTraits: .isHeader)
+            
             Picker("Frequency?", selection:  $recurrsive) {
                     
                     ForEach(Repeating.allCases, id: \.self) { recurrance in
@@ -119,6 +128,38 @@ struct AddChoreView: View {
                 .background(Color.white)
                 .foregroundColor(.black)
                 .accessibilityHint("Double tap to open menu.")
+            Spacer()
+        }
+        .cornerRadius(10)
+    }
+    
+    private var weekdaySelectionView: some View {
+        
+        VStack {
+            
+            Text("Select a Weekday")
+                .font(.title)
+                .font(.body)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibility(addTraits: .isHeader)
+            
+            Picker("Select a Weekday", selection: $selectedWeekday) {
+                
+                ForEach(Weekday.orderWeekDays, id: \.self) { day in
+                    
+                    Text(day.weekdayName)
+                        .foregroundColor(.white)
+                        .accessibilityHint("Double tap to select")
+                    
+                }
+            }
+            
+            .pickerStyle(.menu)
+            .foregroundColor(.black)
+            .background(Color.white)
+            .accessibilityHint("Double tap to open menu.")
+            .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
         }
         .cornerRadius(10)
@@ -148,6 +189,16 @@ struct AddChoreView: View {
                     timeSelectionView
                         .padding(.horizontal, 16)
                     
+                }
+            } else if recurrsive == .weekly {
+                
+                VStack {
+                    
+                    weekdaySelectionView
+                        .padding(.horizontal, 16)
+                    
+                    timeSelectionView
+                        .padding(.horizontal, 16)
                 }
             }
             
@@ -216,13 +267,6 @@ struct AddChoreView: View {
             textFieldView
                 .padding(.horizontal, 16)
             
-            Text("Frequency?")
-                .accessibilityAddTraits(.isHeader)
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
             recurssionView
                 .padding(.horizontal, 16)
             
@@ -248,48 +292,7 @@ struct AddChoreView: View {
         
         if !hasChore {
               
-            var adjustedDate = selectedDate
-            
-            if recurrsive == .daily {
-                
-                adjustedDate = Calendar.current.startOfDay(for: Date())
-                
-                if let adjustedTime = Calendar.current.date(bySettingHour:Calendar.current.component(.hour, from: selectedTime),
-                                                            minute: Calendar.current.component(.minute, from: selectedTime),
-                                                            second: 0,
-                                                            of: adjustedDate) {
-                    
-                    adjustedDate = adjustedTime
-                    
-                }
-            }
-            
-            if recurrsive == .weekly {
-                
-                let todayWeekDay = Calendar.current.component(.weekday, from: Date())
-                
-                let selectedWeekDay = Calendar.current.component(.weekday, from: selectedDate)
-                
-                if selectedWeekDay != todayWeekDay {
-                    
-                    let daysToAdjust = (selectedWeekDay - todayWeekDay + 7) % 7
-                    
-                    adjustedDate = Calendar.current.date(byAdding: .day, value: daysToAdjust, to: Date()) ?? Date()
-                    
-                    
-                }
-                
-                if let adjustedTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: selectedTime),
-                   minute: Calendar.current.component(.minute, from: selectedTime),
-                   second: 0,
-                   of: adjustedDate) {
-                       
-                       adjustedDate = adjustedTime
-                       
-                   }
-            }
-            
-            if let combinedDate = choreStore.combine_Date(date: adjustedDate, time: selectedTime) {
+            if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
                 
                 var title: String = ""
                 
@@ -315,9 +318,9 @@ struct AddChoreView: View {
                     
                 }
                 
-                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, recurring: recurrsive)
+                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: selectedWeekday, recurring: recurrsive)
                 
-                choreStore.addToChoreList(chore: userInput, due: adjustedDate, at: selectedTime, recurring: recurrsive, notificationIds: notificationIds)
+                choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, recurring: recurrsive, notificationIds: notificationIds)
                 
             }
         }
