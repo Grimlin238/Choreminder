@@ -18,16 +18,16 @@ class NotificationManager: ObservableObject {
         }
     }
     
-    func scheduleNotification(title: String, body: String, eventDate: Date, weekday: Weekday, recurring: Repeating) -> [String] {
+    func scheduleNotification(title: String, body: String, eventDate: Date, weekday: Weekday, day: Int, recurring: Repeating) -> [String] {
         
         var notificationIds = [String]()
         
         switch(recurring) {
             
         case .none:
-                    let id = scheduleNotificationAtDate(title: title, body: body, date: eventDate)
-                    notificationIds.append(id)
-                    
+            let id = scheduleNotificationAtDate(title: title, body: body, date: eventDate)
+            notificationIds.append(id)
+            
         case .daily:
             let id = scheduleDailyNotification(title: title, body: body, eventDate: eventDate, accurring: .day)
             notificationIds.append(id)
@@ -37,7 +37,7 @@ class NotificationManager: ObservableObject {
             notificationIds.append(id)
             
         case .monthly:
-            let id = scheduleMonthlyNotification(title: title, body: body, eventDate: eventDate)
+            let id = scheduleMonthlyNotification(title: title, body: body, eventDate: eventDate, date: day)
             notificationIds.append(id)
             
         }
@@ -46,46 +46,48 @@ class NotificationManager: ObservableObject {
         
     }
     
-    private func adjustDate(eventDate: Date) -> Date {
-    
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: eventDate)
+    private func scheduleMonthlyNotification(title: String, body: String, eventDate: Date, date: Int) -> String {
         
-        if let _ = dateComponents.month, let _ = dateComponents.year {
-            let lastDayOfMonth = Calendar.current.range(of: .day, in: .month, for: eventDate)?.last ?? 28
-            
-            if (dateComponents.day ?? 1) > lastDayOfMonth {
-                dateComponents.day = lastDayOfMonth
-            }
-        }
-        
-        return Calendar.current.date(from: dateComponents) ?? eventDate
-    }
-
-    private func scheduleMonthlyNotification(title: String, body: String, eventDate: Date) -> String {
         let content = UNMutableNotificationContent()
+        
         content.title = title
         content.body = body
         content.sound = .default
-
-        let adjustedDate = adjustDate(eventDate: eventDate)
-        let triggerDateComponents = Calendar.current.dateComponents([.day, .hour, .minute], from: adjustedDate)
-
-        print("Monthly notification set for day \(triggerDateComponents.day ?? -1) at \(triggerDateComponents.hour ?? -1):\(triggerDateComponents.minute ?? -1)")
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: true)
+        
         let identifier = UUID().uuidString
-
+        
+        let originalDate = eventDate
+        
+        let calendar = Calendar.current
+        
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: originalDate)
+        
+        var dateComponents = DateComponents()
+        
+        dateComponents.day = date
+        dateComponents.hour = timeComponents.hour
+        dateComponents.minute = timeComponents.minute
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-
+        
         UNUserNotificationCenter.current().add(request) { error in
+            
             if let error = error {
-                print("Error scheduling monthly notification: \(error.localizedDescription)")
+                
+                print("There was an error scheduling monthly notification.")
+                
+                
             } else {
-                print("Monthly notification scheduled successfully.")
+                
+                print("Successfully scheduled notification.")
+                
             }
         }
-
+        
         return identifier
+        
     }
     
     private func scheduleWeeklyNotification(title: String, body: String, eventDate: Date, weekday: Weekday) -> String {

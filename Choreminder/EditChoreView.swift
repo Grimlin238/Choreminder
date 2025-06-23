@@ -33,6 +33,9 @@ struct EditChoreView: View {
     
     @State private var oldRecursiveValue: Repeating = .none
     
+    @State private var oldDateOfMonth: Int = 1
+    
+    
     @State private var isChoreExisting = false
     
     @FocusState private var isFocused: Bool
@@ -124,7 +127,7 @@ struct EditChoreView: View {
             
             Text("Updated Frequency?")
                 .font(.title)
-                .font(.body)
+                .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .accessibility(addTraits: .isHeader)
@@ -314,7 +317,7 @@ Spacer()
                 
                 choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, recurring: oldRecursiveValue)
                 
-                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: oldWeekday, recurring: enjectedRecursiveValue)
+                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: oldWeekday, day: oldDateOfMonth, recurring: enjectedRecursiveValue)
                 
                 choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
                 

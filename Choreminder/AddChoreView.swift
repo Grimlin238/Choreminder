@@ -26,6 +26,8 @@ struct AddChoreView: View {
     
     @State private var selectedWeekday: Weekday = Weekday.orderWeekDays.first ?? .sunday
     
+    @State private var selectedDateOfMonth: Int = 1
+    
     private var textFieldView: some View {
         
         VStack {
@@ -108,7 +110,7 @@ struct AddChoreView: View {
             
             Text("Frequency?")
                 .font(.title)
-                .font(.body)
+                .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .accessibility(addTraits: .isHeader)
@@ -127,6 +129,7 @@ struct AddChoreView: View {
                 .pickerStyle(.menu)
                 .background(Color.white)
                 .foregroundColor(.black)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .accessibilityHint("Double tap to open menu.")
             Spacer()
         }
@@ -139,7 +142,7 @@ struct AddChoreView: View {
             
             Text("Select a Weekday")
                 .font(.title)
-                .font(.body)
+                .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .accessibility(addTraits: .isHeader)
@@ -163,6 +166,40 @@ struct AddChoreView: View {
             Spacer()
         }
         .cornerRadius(10)
+    }
+    
+    private var monthDateSelectionView: some View {
+        
+        VStack {
+            
+            Text("Select a DEate")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibility(addTraits: .isHeader)
+            
+            Picker("Select a Date", selection: $selectedDateOfMonth) {
+                
+                ForEach(1...31, id: \.self) { day in
+                    Text("\(day)")
+                        .foregroundColor(.white)
+                        .accessibilityHint("Double tap to select.")
+                    
+                }
+            }
+            
+            .pickerStyle(.menu)
+            .background(Color.white)
+            .foregroundColor(.black)
+            .accessibilityHint("Double tap to open menu.")
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer()
+        }
+        
+        .cornerRadius(10)
+        
     }
     
     private var dynamicView: some View {
@@ -195,6 +232,16 @@ struct AddChoreView: View {
                 VStack {
                     
                     weekdaySelectionView
+                        .padding(.horizontal, 16)
+                    
+                    timeSelectionView
+                        .padding(.horizontal, 16)
+                }
+            } else if recurrsive == .monthly {
+                
+                VStack {
+                    
+                    monthDateSelectionView
                         .padding(.horizontal, 16)
                     
                     timeSelectionView
@@ -318,7 +365,7 @@ struct AddChoreView: View {
                     
                 }
                 
-                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: selectedWeekday, recurring: recurrsive)
+                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: selectedWeekday, day: selectedDateOfMonth, recurring: recurrsive)
                 
                 choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, recurring: recurrsive, notificationIds: notificationIds)
                 
