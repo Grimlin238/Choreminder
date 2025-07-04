@@ -65,19 +65,46 @@ class ChoreStore: ObservableObject {
         
     }
     
-    func addToChoreList(chore: String, due: Date, at: Date, recurring: Repeating, notificationIds: [String]) {
+    func addToChoreList(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating, notificationIds: [String]) {
         
-        choreList.append(Chore(chore: chore, due: due, at: at, recurring: recurring, notificationIds: notificationIds))
+        var adjustedDate = due
+        
+        let calendar = Calendar.current
+        
+        var components = calendar.dateComponents([.year, .day, .month, .weekday], from: adjustedDate)
+        
+            if recurring == .weekly {
+                     
+                    var matchingComponents = DateComponents()
+                    
+                    if let nextWeeklyDueDate = calendar.nextDate(after: calendar.startOfDay(for: Date()), matching: matchingComponents, matchingPolicy: .nextTime, direction: .forward) {
+                        adjustedDate = nextWeeklyDueDate
+                        
+                    }
+                }
+                
+        if recurring == .monthly {
+            
+            components.day = date
+            
+        }
+        
+        if let newDue = calendar.date(from: components) {
+            
+            choreList.append(Chore(chore: chore, due: newDue, at: at, weekday: weekday, date: date, recurring: recurring, notificationIds: notificationIds))
+            print("Stored chore for date \(newDue)")
+            
+        }
         
         saveChores()
         
     }
     
-    func removeFromChoreList(chore: String, due: Date, at: Date, recurring: Repeating) {
+    func removeFromChoreList(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating) {
         
         if let index = choreList.firstIndex(where: {
             
-            $0.chore == chore && $0.due == due && $0.at == at && $0.recurring == recurring
+            $0.chore == chore && $0.due == due && $0.at == at && $0.weekday == weekday && $0.date == date && $0.recurring == recurring
             
         }) {
             
@@ -98,14 +125,13 @@ class ChoreStore: ObservableObject {
         
         let currentDate = Date()
         
-        
         for each in choreList {
             
             let oldDate = each.due
             
             if !isToday(day: each.due) && oldDate < currentDate && each.recurring != .daily && each.recurring != .monthly && each.recurring != .weekly {
                 
-                removeFromChoreList(chore: each.chore, due: each.due, at: each.at, recurring: each.recurring)
+                removeFromChoreList(chore: each.chore, due: each.due, at: each.at, weekday: each.weekday, date: each.date, recurring: each.recurring)
                 
                 let notificationIds = each.notificationIds
                 
@@ -242,11 +268,11 @@ class ChoreStore: ObservableObject {
         
     }
     
-    func isChoreExist(chore: String, due: Date, at: Date, recurring: Repeating) -> Bool {
+    func isChoreExist(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating) -> Bool {
         
         for each in choreList {
             
-            if chore == each.chore && due == each.due && at == each.at && recurring == each.recurring {
+            if chore == each.chore && due == each.due && at == each.at && weekday == each.weekday && date == each.date && recurring == each.recurring {
                 
                 return true
                 

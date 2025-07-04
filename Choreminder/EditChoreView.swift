@@ -18,6 +18,8 @@ struct EditChoreView: View {
     @State var enjectedChore: String
     @State private var selectedDate: Date
     @State private var selectedTime: Date
+    @State private var enjectedWeekday: Weekday = .sunday
+    @State private var enjectedMonthDate: Int = 1
     @State var enjectedRecursiveValue: Repeating = .none
     @State private var showDeleteAlert = false
     
@@ -42,11 +44,13 @@ struct EditChoreView: View {
     
     @AccessibilityFocusState private var focus: Bool
     
-    init(enjectedChore: String = "Default", enjectedDate: Date = Date(), enjectedTime: Date = Date(), enjectedRecursiveValue: Repeating = .none) {
+    init(enjectedChore: String = "Default", enjectedDate: Date = Date(), enjectedTime: Date = Date(), enjectedWeekday: Weekday = .sunday, enjectedMonthDate: Int = 1, enjectedRecursiveValue: Repeating = .none) {
         
         _enjectedChore = State(initialValue: enjectedChore)
         _selectedDate = State(initialValue: enjectedDate)
         _selectedTime = State(initialValue: enjectedTime)
+        _enjectedWeekday = State(initialValue: enjectedWeekday)
+        _enjectedMonthDate = State(initialValue: enjectedMonthDate)
         _enjectedRecursiveValue = State(initialValue: enjectedRecursiveValue)
     }
     
@@ -152,6 +156,123 @@ struct EditChoreView: View {
         .cornerRadius(10)
     }
     
+    
+    private var weekdaySelectionView: some View {
+        
+        VStack {
+            
+            Text("Select a Weekday")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibility(addTraits: .isHeader)
+            
+            Picker("Select a Weekday", selection: $enjectedWeekday) {
+                
+                ForEach(Weekday.orderWeekDays, id: \.self) { day in
+                    
+                    Text(day.weekdayName)
+                        .foregroundColor(.white)
+                        .accessibilityHint("Double tap to select")
+                    
+                }
+            }
+            
+            .pickerStyle(.menu)
+            .foregroundColor(.black)
+            .background(Color.white)
+            .accessibilityHint("Double tap to open menu.")
+            .frame(maxWidth: .infinity, alignment: .leading)
+            Spacer()
+        }
+        .cornerRadius(10)
+    }
+    
+    private var monthDateSelectionView: some View {
+        
+        VStack {
+            
+            Text("Select a DEate")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibility(addTraits: .isHeader)
+            
+            Picker("Select a Date", selection: $enjectedMonthDate) {
+                
+                ForEach(1...31, id: \.self) { day in
+                    Text("\(day)")
+                        .foregroundColor(.white)
+                        .accessibilityHint("Double tap to select.")
+                    
+                }
+            }
+            
+            .pickerStyle(.menu)
+            .background(Color.white)
+            .foregroundColor(.black)
+            .accessibilityHint("Double tap to open menu.")
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer()
+        }
+        
+        .cornerRadius(10)
+        
+    }
+    
+    private var dynamicView: some View {
+        ZStack {
+            
+            Color.indigo
+                .ignoresSafeArea()
+            
+            if enjectedRecursiveValue == .none {
+                
+                VStack {
+                    
+                    dateSelectionView
+                        .padding(.horizontal, 16)
+                    
+                    timeSelectionView
+                        .padding(.horizontal, 16)
+                    
+                }
+            } else if enjectedRecursiveValue == .daily {
+                
+                VStack {
+                    
+                    timeSelectionView
+                        .padding(.horizontal, 16)
+                    
+                }
+            } else if enjectedRecursiveValue == .weekly {
+                
+                VStack {
+                    
+                    weekdaySelectionView
+                        .padding(.horizontal, 16)
+                    
+                    timeSelectionView
+                        .padding(.horizontal, 16)
+                }
+            } else if enjectedRecursiveValue == .monthly {
+                
+                VStack {
+                    
+                    monthDateSelectionView
+                        .padding(.horizontal, 16)
+                    
+                    timeSelectionView
+                        .padding(.horizontal, 16)
+                }
+            }
+            
+        }
+    }
+    
     private var deleteAndEditButtonView: some View {
         
         HStack(spacing: 16) {
@@ -221,7 +342,7 @@ struct EditChoreView: View {
                 
                 Button("Yes, I'm Sure.", role: .destructive) {
                     
-                    choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, recurring: oldRecursiveValue)
+                    choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, weekday: oldWeekday, date: oldDateOfMonth, recurring: oldRecursiveValue)
                     
                     dismiss()
                     
@@ -249,10 +370,7 @@ struct EditChoreView: View {
             recurssionView
                 .padding(.horizontal, 16)
             
-            dateSelectionView
-                .padding(.horizontal, 16)
-            
-            timeSelectionView
+            dynamicView
                 .padding(.horizontal, 16)
             
 Spacer()
@@ -276,6 +394,10 @@ Spacer()
             
             oldTime = selectedTime
             
+            oldWeekday = enjectedWeekday
+            
+            oldDateOfMonth = enjectedMonthDate
+            
             oldRecursiveValue = enjectedRecursiveValue
             
         }
@@ -284,9 +406,9 @@ Spacer()
     
     private func updateChore() {
         
-        let hasChore = choreStore.isChoreExist(chore: enjectedChore, due: selectedDate, at: selectedTime, recurring: enjectedRecursiveValue)
+        let hasChore = choreStore.isChoreExist(chore: enjectedChore, due: selectedDate, at: selectedTime, weekday: oldWeekday, date: enjectedMonthDate, recurring: enjectedRecursiveValue)
         
-        if hasChore {
+        if !hasChore {
             
             if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
                 
@@ -315,11 +437,11 @@ Spacer()
                     
                 }
                 
-                choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, recurring: oldRecursiveValue)
+                choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, weekday: oldWeekday, date: oldDateOfMonth, recurring: oldRecursiveValue)
                 
-                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: oldWeekday, day: oldDateOfMonth, recurring: enjectedRecursiveValue)
+                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: enjectedWeekday, day: enjectedMonthDate, recurring: enjectedRecursiveValue)
                 
-                choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
+                choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, weekday: enjectedWeekday, date: enjectedMonthDate, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
                 
             }
         }

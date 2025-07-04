@@ -335,7 +335,7 @@ struct AddChoreView: View {
     private func saveChore() {
         
         
-        let hasChore = choreStore.isChoreExist(chore: userInput, due: selectedDate, at: selectedTime, recurring: recurrsive)
+        let hasChore = choreStore.isChoreExist(chore: userInput, due: selectedDate, at: selectedTime, weekday: selectedWeekday, date: selectedDateOfMonth, recurring: recurrsive)
         
         if !hasChore {
               
@@ -357,17 +357,18 @@ struct AddChoreView: View {
                     
                 case .weekly:
                     title = "Weekly Chore"
-                    body = "\(userInput). Reminding you like you asked, every \(choreStore.getWeekDayFor(date: selectedDate)) at \(choreStore.toString_Time(date: selectedTime))"
+                    body = "\(userInput). Reminding you like you asked, every \(selectedWeekday) at \(choreStore.toString_Time(date: selectedTime))"
                     
                 case .monthly:
                     title = "Monthly Chore"
-                    body = "\(userInput). Reminding you like you asked, every month on the \(choreStore.getMonthSuffix(date: selectedDate)) at \(choreStore.toString_Time(date: selectedTime))"
+                    body = "\(userInput). Reminding you like you asked, every month on the \(selectedDateOfMonth) at \(choreStore.toString_Time(date: selectedTime))"
                     
                 }
                 
+            
                 let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: selectedWeekday, day: selectedDateOfMonth, recurring: recurrsive)
                 
-                choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, recurring: recurrsive, notificationIds: notificationIds)
+                choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, weekday: selectedWeekday, date: selectedDateOfMonth, recurring: recurrsive, notificationIds: notificationIds)
                 
             }
         }

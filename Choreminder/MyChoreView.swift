@@ -39,6 +39,8 @@ struct MyChoreView: View {
                                 enjectedChore: chore.chore,
                                 enjectedDate: chore.due,
                                 enjectedTime: chore.at,
+                                enjectedWeekday: chore.weekday,
+                                enjectedMonthDate: chore.date,
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
@@ -53,7 +55,7 @@ struct MyChoreView: View {
                     .onDelete { indexSet in
                         indexSet.forEach { index in
                             let chore = choreStore.choreList[index]
-                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, weekday: chore.weekday, date: chore.date, recurring: chore.recurring)
                             
                             numDueToday -= 1
                             
@@ -91,6 +93,8 @@ struct MyChoreView: View {
                                 enjectedChore: chore.chore,
                                 enjectedDate: chore.due,
                                 enjectedTime: chore.at,
+                                enjectedWeekday: chore.weekday,
+                                enjectedMonthDate: chore.date,
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
@@ -106,7 +110,7 @@ struct MyChoreView: View {
                     .onDelete { indexSet in
                         indexSet.forEach { index in
                             let chore = choreStore.choreList[index]
-                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, weekday: chore.weekday, date: chore.date, recurring: chore.recurring)
                             
                             numUpcoming -= 1
                             
@@ -147,6 +151,8 @@ struct MyChoreView: View {
                                 enjectedChore: chore.chore,
                                 enjectedDate: chore.due,
                                 enjectedTime: chore.at,
+                                enjectedWeekday: chore.weekday,
+                                enjectedMonthDate: chore.date,
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
@@ -161,7 +167,7 @@ struct MyChoreView: View {
                     .onDelete { indexSet in
                         indexSet.forEach { index in
                             let chore = dailyChores[index]
-                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, weekday: chore.weekday, date: chore.date, recurring: chore.recurring)
                             
                             numDaily -= 1
                             
@@ -197,10 +203,12 @@ struct MyChoreView: View {
                                 enjectedChore: chore.chore,
                                 enjectedDate: chore.due,
                                 enjectedTime: chore.at,
+                                enjectedWeekday: chore.weekday,
+                                enjectedMonthDate: chore.date,
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
-                            Text("\(chore.chore) - Repeats weekly on \(choreStore.getWeekDayFor(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+                            Text("\(chore.chore) - Repeats weekly on \(choreStore.getWeekDayFor(date: chore.due))'s at \(choreStore.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
                                 .fontWeight(.bold)
                                 .padding()
@@ -211,7 +219,7 @@ struct MyChoreView: View {
                     .onDelete { indexSet in
                         indexSet.forEach { index in
                             let chore = weeklyChores[index]
-                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, weekday: chore.weekday, date: chore.date, recurring: chore.recurring)
                             
                             numWeekly -= 1
                             
@@ -247,6 +255,8 @@ struct MyChoreView: View {
                                 enjectedChore: chore.chore,
                                 enjectedDate: chore.due,
                                 enjectedTime: chore.at,
+                                enjectedWeekday: chore.weekday,
+                                enjectedMonthDate: chore.date,
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
@@ -261,7 +271,7 @@ struct MyChoreView: View {
                     .onDelete { indexSet in
                         indexSet.forEach { index in
                             let chore = monthlyChores[index]
-                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                            choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, weekday: chore.weekday, date: chore.date, recurring: chore.recurring)
                             
                             numMonthly -= 1
                             
