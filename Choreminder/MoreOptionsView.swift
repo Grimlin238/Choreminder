@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MoreOptionsView: View {
         
-    let optionList = ["Settings", "Tutorial", "Get Support"]
+    let optionList = ["Settings", "Help", "Get Support"]
     
     @AccessibilityFocusState private var focus: Bool
     
@@ -71,8 +71,8 @@ struct MoreOptionsView: View {
         case "Settings":
             return AnyView(SettingsView())
             
-        case "Tutorial":
-            return AnyView(HelpView())
+        case "Help":
+            return AnyView(HelpItemsView())
             
         case "Get Support":
             return AnyView(GetSupportView())

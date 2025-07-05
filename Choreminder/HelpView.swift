@@ -15,6 +15,11 @@ struct HelpView: View {
     
     @AccessibilityFocusState private var focus: Bool
     
+    init(index: Int = 0) {
+        
+        _index = State(initialValue: index)
+        
+    }
     
     private var helpTextView: some View {
         
@@ -33,42 +38,6 @@ struct HelpView: View {
         .padding()
     }
     
-    private var helpNavButtonsView: some View {
-        
-        HStack(spacing: 16) {
-            
-            Button("Previous") {
-                
-                index = index - 1
-                focus = true
-            }
-            .disabled(index == 0)
-            .fontWeight(.bold)
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .background(Color.white)
-            .foregroundColor(.black)
-            .cornerRadius(10)
-            .padding()
-            .accessibilityHint("Double tap to go to previous tutorial item.")
-            
-            Button("Next") {
-                
-                index = index + 1
-                focus = true
-                
-            }
-            .disabled(index == choreStore.helpItems.count - 1)
-            .fontWeight(.bold)
-            .frame(maxWidth:  .infinity, minHeight: 44)
-            .background(Color.white)
-            .foregroundColor(.black)
-            .cornerRadius(10)
-            .padding()
-            .accessibilityHint("Double tap to go to next tutorial item.")
-            
-        }
-        .padding(.horizontal)
-    }
     
     var body: some View {
         
@@ -76,10 +45,7 @@ struct HelpView: View {
             
             Spacer()
             helpTextView
-                
-            Spacer()
-            helpNavButtonsView
-                .padding(.bottom, 16)
+                Spacer()
             
         }
         .frame(maxHeight: .infinity)
@@ -88,7 +54,7 @@ struct HelpView: View {
         .foregroundColor(.white)
          
         .toolbar(.hidden, for: .tabBar)
-        .navigationTitle("Tutorial")
+        // .navigationTitle("Tutorial")
         
         .onAppear {
             

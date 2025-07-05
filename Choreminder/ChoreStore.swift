@@ -28,7 +28,6 @@ class ChoreStore: ObservableObject {
     @Published var choreList: [Chore] = []
     
     @Published var helpItems: [Help] = [
-        Help(header: "Welcome to the Tutorial", body: "I get it. Apps can be complicated sometimes, no matter how easy developers try to make them. Tap next to move through the tutorial, and tap previous to go back. Tap back to get out of here."),
         Help(header: "My Chores", body: "Every time the app opens, you'll be brought to the My Chores tab. The Due Today section is automatically expanded every time the view appears. You can collapse it, and tap to expand the other sections, upcoming, daily, weekly,and monthly as well."),
         Help(header: "Deleting a Chore.", body: "Chore will automatically remove past due Chores for you, so you don't need to worry about them. Don't need the chore, and want to remove it anyway? Just swipe left and tap delete."),
         Help(header: "Editing a Chore", body: "Need to change the due date, time, or recurrance? Just tap the chore, make your changes and tap Save Edit. You can also tap Delete Chore to get rid of it as well."),
