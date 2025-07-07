@@ -255,7 +255,7 @@ struct AddChoreView: View {
     private var addButtonView: some View {
         HStack {
             
-            Button("Add to Chore List") {
+            Button("Add to My Chores") {
                 
                 saveChore()
                     
@@ -286,9 +286,9 @@ struct AddChoreView: View {
                 } else {
                     return Alert(
                         
-                        title: Text("Success =>"),
+                        title: Text("Success :-)"),
                         
-                        message: Text("Your chore has been successfully saved."),
+                        message: Text("Chore added successfully to My Chores."),
                         
                         dismissButton: .default(Text("Ok! Got it!"))
                         )
