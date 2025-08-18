@@ -52,7 +52,7 @@ class NotificationManager: ObservableObject {
         
         content.title = title
         content.body = body
-        content.sound = .default
+        content.sound = UNNotificationSound(named: UNNotificationSoundName("ChoreAlert.wav"))
         
         let identifier = UUID().uuidString
         
@@ -76,7 +76,7 @@ class NotificationManager: ObservableObject {
             
             if let error = error {
                 
-                print("There was an error scheduling monthly notification.")
+                print("There was an error scheduling monthly notification. \(error.localizedDescription)")
                 
                 
             } else {
@@ -96,7 +96,7 @@ class NotificationManager: ObservableObject {
         
         content.title = title
         content.body = body
-        content.sound = .default
+        content.sound = UNNotificationSound(named: UNNotificationSoundName("ChoreAlert.wav"))
         
         let identifier = UUID().uuidString
        
@@ -137,11 +137,9 @@ class NotificationManager: ObservableObject {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
-        content.sound = .default
+        content.sound = UNNotificationSound(named: UNNotificationSoundName("ChoreAlert.wav"))
         
-        let timeInterval = eventDate.timeIntervalSinceNow
-                
-        var triggerDateComponents = Calendar.current.dateComponents([.hour, .minute], from: eventDate)
+        let triggerDateComponents = Calendar.current.dateComponents([.hour, .minute], from: eventDate)
                
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: true)
         let identifier = UUID().uuidString
@@ -170,7 +168,7 @@ class NotificationManager: ObservableObject {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
-        content.sound = .default
+        content.sound = UNNotificationSound(named: UNNotificationSoundName("ChoreAlert.wav"))
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
         
@@ -196,12 +194,11 @@ class NotificationManager: ObservableObject {
         
     }
     
-    
     func scheduleBackgroundNotification(title: String, body: String) {
             let content = UNMutableNotificationContent()
             content.title = title
-            content.body = body
-            content.sound = .default
+        content.body = body
+        content.sound = UNNotificationSound(named: UNNotificationSoundName("ChoreAlert.wav"))
 
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
