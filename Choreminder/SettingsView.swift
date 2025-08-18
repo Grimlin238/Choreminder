@@ -12,7 +12,7 @@ struct SettingsView: View {
     
     @EnvironmentObject var choreStore: ChoreStore
     @AppStorage("userReminderHour") private var reminderHour: Int = 9
-    @AppStorage("userSendMonthly") private var monthlyUpcoming: Bool = false
+    @AppStorage("userSendMonthly") private var sendEveryMonth: Bool = false
     @AccessibilityFocusState private var focus: Bool
     
     private var reminderHourView: some View {
@@ -25,13 +25,18 @@ struct SettingsView: View {
             
             Stepper("Hour", value: $reminderHour, in: 5...11)
                 .padding()
-                .padding()
-            
-            Text("Note: Do to iOS system limitations, Chore might remind you later than expected.")
+                
+            Text("Note: Do to iOS system limitations, Chore might remind you later then expected. If you aren't using Chore frequently, iOS will not prioritize Chore.")
                 .font(.subheadline)
             Spacer()
                 
         }
+        .onChange(of: reminderHour) { hour, _ in
+            
+            choreStore.scheduleAppRefreshTask(time: hour)
+            
+        }
+        
         .padding()
         
     }
@@ -40,10 +45,20 @@ struct SettingsView: View {
         
         VStack {
             
-            Toggle("Remind me at the beginning of every month of upcoming chores for that month.", isOn: $monthlyUpcoming)
+            Toggle("Remind me at the beginning of every month of upcoming chores for that month.", isOn: $sendEveryMonth)
+                .padding()
+            
+            Text("Note: Do to iOS system limitations, Chore might remind you later then expected. If you aren't using Chore frequently, iOS will not prioritize Chore.")
+                .font(.subheadline)
             Spacer()
             
         }
+                 
+                .onChange(of: sendEveryMonth) { yesOrNo, _ in
+                    
+                    choreStore.scheduleAppRefreshTask(time: reminderHour)
+                }
+                 
         .padding()
         
     }
