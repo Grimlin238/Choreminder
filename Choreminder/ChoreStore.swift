@@ -24,10 +24,6 @@ class ChoreStore: ObservableObject {
         
     }
     
-    private let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
-    
-    private let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
-    
     @Published var choreList: [Chore] = []
     
     @Published var helpItems: [Help] = [
@@ -588,7 +584,7 @@ class ChoreStore: ObservableObject {
     func scheduleAppRefreshTask(time: Int) {
         cancelBackgroundTask()
         let request = BGAppRefreshTaskRequest(identifier: "com.teelashley.chore.apprefresh")
-        
+    
         let calendar = Calendar.current
         var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: Date())
         components.hour = time
@@ -615,6 +611,10 @@ class ChoreStore: ObservableObject {
         
         let operation = Task {
             print("Starting background task")
+    
+            let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+            
+            let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
             
             let numBadges = numChoresDueToday()
             notificationManager.updateBadgeCount(count: numBadges)
