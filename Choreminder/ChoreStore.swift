@@ -427,6 +427,30 @@ class ChoreStore: ObservableObject {
         
     }
     
+    func getSuffixForNotifications(date: Int) -> String {
+        
+        var dateWithSuffix: String = ""
+        
+        switch(date) {
+            
+        case 1, 21, 31:
+            dateWithSuffix = "st"
+            
+        case 2, 22:
+            dateWithSuffix = "nd"
+            
+        case 3, 23:
+            dateWithSuffix = "rd"
+            
+        default:
+            dateWithSuffix = "th"
+            
+        }
+        
+        return "\(date)\(dateWithSuffix)"
+        
+    }
+    
     func hasMonthlyChores() -> Bool {
         
         for each in choreList {

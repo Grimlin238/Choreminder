@@ -361,11 +361,10 @@ struct AddChoreView: View {
                     
                 case .monthly:
                     title = "Monthly Chore"
-                    body = "\(userInput). Reminding you like you asked, every month on the \(selectedDateOfMonth) at \(choreStore.toString_Time(date: selectedTime))"
+                    body = "\(userInput). Reminding you like you asked, every month on the \(choreStore.getSuffixForNotifications(date: selectedDateOfMonth)) at \(choreStore.toString_Time(date: selectedTime))"
                     
                 }
                 
-            
                 let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: selectedWeekday, day: selectedDateOfMonth, recurring: recurrsive)
                 
                 choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, weekday: selectedWeekday, date: selectedDateOfMonth, recurring: recurrsive, notificationIds: notificationIds)

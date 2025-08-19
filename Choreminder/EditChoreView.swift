@@ -433,14 +433,13 @@ Spacer()
                     
                 case .monthly:
                     title = "Monthly Chore"
-                    body = "\(enjectedChore). Reminding you like you asked, every month on the \(choreStore.getMonthSuffix(date: selectedDate)) at \(choreStore.toString_Time(date: selectedTime))"
+                    body = "\(enjectedChore). Reminding you like you asked, every month on the \(choreStore.getSuffixForNotifications(date: enjectedMonthDate)) at \(choreStore.toString_Time(date: selectedTime))"
                     
                 }
                 
                 choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, weekday: oldWeekday, date: oldDateOfMonth, recurring: oldRecursiveValue)
                 
                 let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: enjectedWeekday, day: enjectedMonthDate, recurring: enjectedRecursiveValue)
-                
                 choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, weekday: enjectedWeekday, date: enjectedMonthDate, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
                 
             }
