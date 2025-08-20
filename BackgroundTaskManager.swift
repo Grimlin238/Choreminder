@@ -61,8 +61,7 @@ class BackgroundTaskManager {
                 
                 print("No operations needed. Exiting task")
                 scheduleAppRefreshTask(time: reminderHour)
-                task.setTaskCompleted(success: true)
-                
+                                
             } else {
                 
                 choreStore.removePastChores()
