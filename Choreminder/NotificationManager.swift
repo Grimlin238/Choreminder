@@ -10,7 +10,7 @@ import UserNotifications
 
 class NotificationManager: ObservableObject {
     
-    func requestPermission() {
+    static func requestPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             if let error = error {
                 print("Error requesting permission: \(error.localizedDescription)")
@@ -18,7 +18,7 @@ class NotificationManager: ObservableObject {
         }
     }
     
-    func scheduleNotification(title: String, body: String, eventDate: Date, weekday: Weekday, day: Int, recurring: Repeating) -> [String] {
+    static func scheduleNotification(title: String, body: String, eventDate: Date, weekday: Weekday, day: Int, recurring: Repeating) -> [String] {
         
         var notificationIds = [String]()
         
@@ -46,7 +46,7 @@ class NotificationManager: ObservableObject {
         
     }
     
-    private func scheduleMonthlyNotification(title: String, body: String, eventDate: Date, date: Int) -> String {
+    private static func scheduleMonthlyNotification(title: String, body: String, eventDate: Date, date: Int) -> String {
         
         let content = UNMutableNotificationContent()
         
@@ -77,8 +77,6 @@ class NotificationManager: ObservableObject {
             if let error = error {
                 
                 print("There was an error scheduling monthly notification. \(error.localizedDescription)")
-                
-                
             } else {
                 
                 print("Successfully scheduled notification.")
@@ -90,7 +88,7 @@ class NotificationManager: ObservableObject {
         
     }
     
-    private func scheduleWeeklyNotification(title: String, body: String, eventDate: Date, weekday: Weekday) -> String {
+    private static func scheduleWeeklyNotification(title: String, body: String, eventDate: Date, weekday: Weekday) -> String {
         
         let content = UNMutableNotificationContent()
         
@@ -133,7 +131,7 @@ class NotificationManager: ObservableObject {
         
     }
     
-    private func scheduleDailyNotification(title: String, body: String, eventDate: Date, accurring: NSCalendar.Unit) -> String {
+    private static func scheduleDailyNotification(title: String, body: String, eventDate: Date, accurring: NSCalendar.Unit) -> String {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
@@ -157,7 +155,7 @@ class NotificationManager: ObservableObject {
         return identifier
     }
     
-    private func scheduleNotificationAtDate(title: String, body: String, date: Date) -> String {
+    private static func scheduleNotificationAtDate(title: String, body: String, date: Date) -> String {
         let timeInterval = date.timeIntervalSinceNow
         guard timeInterval > 0 else {
             print("Notification not scheduled because the time interval is not greater than 0.")
@@ -188,13 +186,13 @@ class NotificationManager: ObservableObject {
         
     }
     
-    func cancelNotification(identifier: [String]) {
+    static func cancelNotification(identifier: [String]) {
         
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifier)
         
     }
     
-    func scheduleBackgroundNotification(title: String, body: String) {
+    static func scheduleBackgroundNotification(title: String, body: String) {
             let content = UNMutableNotificationContent()
             content.title = title
         content.body = body
@@ -212,7 +210,7 @@ class NotificationManager: ObservableObject {
             }
         }
 
-    func updateBadgeCount(count: Int) {
+    static func updateBadgeCount(count: Int) {
         
         UNUserNotificationCenter.current().setBadgeCount(count) { error in
             
@@ -228,4 +226,75 @@ class NotificationManager: ObservableObject {
         }
     }
     
+    static func getSuffixForNotifications(date: Int) -> String {
+        
+        var dateWithSuffix: String = ""
+        
+        switch(date) {
+            
+        case 1, 21, 31:
+            dateWithSuffix = "st"
+            
+        case 2, 22:
+            dateWithSuffix = "nd"
+            
+        case 3, 23:
+            dateWithSuffix = "rd"
+            
+        default:
+            dateWithSuffix = "th"
+            
+        }
+        
+        return "\(date)\(dateWithSuffix)"
+        
+    }
+    
+    static func getNotificationTitle(for recurrance: Repeating) -> String {
+        
+        var title: String = ""
+        
+        switch(recurrance) {
+            
+        case .none:
+            title = "Chore Reminder"
+            
+        case .daily:
+            title = "Daily Chore"
+            
+        case .weekly:
+            title = "Weekly Chore"
+            
+        case .monthly:
+            title = "Monthly Chore"
+            
+        }
+        
+        return title
+        
+    }
+    
+    static func getNotificationBody(for chore: String, at time: String, on date: Int, on weekday: Weekday, for recurrance: Repeating) -> String {
+        
+        var body: String = ""
+        
+        switch(recurrance) {
+            
+        case .none:
+            body = "\(chore)at \(time)."
+            
+        case .daily:
+            body = "\(chore). reminding you like you asked, every day at \(time)."
+            
+        case .weekly:
+            body = "\(chore). Reminding you like you asked, every \(weekday) at \(time)."
+            
+        case .monthly:
+            body = "\(chore). Reminding you like you asked, every month on the \(getSuffixForNotifications(date: date)) at \(time)"
+            
+        }
+        return body
+        
+    }
+
 }

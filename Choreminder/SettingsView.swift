@@ -33,7 +33,7 @@ struct SettingsView: View {
         }
         .onChange(of: reminderHour) { hour, _ in
             
-            choreStore.scheduleAppRefreshTask(time: hour)
+            BackgroundTaskManager.scheduleAppRefreshTask(time: hour)
             
         }
         
@@ -56,7 +56,7 @@ struct SettingsView: View {
                  
                 .onChange(of: sendEveryMonth) { yesOrNo, _ in
                     
-                    choreStore.scheduleAppRefreshTask(time: reminderHour)
+                    BackgroundTaskManager.scheduleAppRefreshTask(time: reminderHour)
                 }
                  
         .padding()

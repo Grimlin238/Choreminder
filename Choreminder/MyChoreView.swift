@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MyChoreView: View {
     @EnvironmentObject var choreStore: ChoreStore
-    @EnvironmentObject private var notificationManager: NotificationManager
     @State private var isTodayViewExpanded = true
     @State private var isUpcomingViewExpanded = false
     @State private var isDailyViewExpanded = false
@@ -33,7 +32,7 @@ struct MyChoreView: View {
             isExpanded: $isTodayViewExpanded,
             content: {
                 if choreStore.hasChoresDueToday() {
-                    ForEach(choreStore.choreList.filter { choreStore.isToday(day: $0.due) && $0.recurring == .none }) { chore in
+                    ForEach(choreStore.choreList.filter { DateManager.isToday(day: $0.due) && $0.recurring == .none }) { chore in
                         NavigationLink(
                             destination: EditChoreView(
                                 enjectedChore: chore.chore,
@@ -44,7 +43,7 @@ struct MyChoreView: View {
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
-                            Text("\(chore.chore) - Due today at \(choreStore.toString_Time(date: chore.at))")
+                            Text("\(chore.chore) - Due today at \(DateManager.toString_Time(date: chore.at))")
                                 .padding()
                                 .foregroundColor(.white)
                                 .fontWeight(.bold)
@@ -85,8 +84,8 @@ struct MyChoreView: View {
             content: {
                 if choreStore.isOccupiedMonth() {
                     ForEach(choreStore.choreList.filter {
-                        !choreStore.isToday(day: $0.due) &&
-                        choreStore.getMonthForStoredChore(date: $0.due) == choreStore.getCurrentMonth() && $0.recurring != .daily && $0.recurring != .weekly && $0.recurring != .monthly
+                        !DateManager.isToday(day: $0.due) &&
+                        DateManager.getMonthForStoredChore(date: $0.due) == DateManager.getCurrentMonth() && $0.recurring != .daily && $0.recurring != .weekly && $0.recurring != .monthly
                     }) { chore in
                         NavigationLink(
                             destination: EditChoreView(
@@ -98,7 +97,7 @@ struct MyChoreView: View {
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
-                            Text("\(chore.chore) - Due \(choreStore.toString_Date(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+                            Text("\(chore.chore) - Due \(DateManager.toString_Date(date: chore.due)) at \(DateManager.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
                                 .fontWeight(.bold)
                                 .padding()
@@ -156,7 +155,7 @@ struct MyChoreView: View {
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
-                            Text("\(chore.chore) - Repeats daily at \(choreStore.toString_Time(date: chore.at))")
+                            Text("\(chore.chore) - Repeats daily at \(DateManager.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
                                 .fontWeight(.bold)
                                 .padding()
@@ -208,7 +207,7 @@ struct MyChoreView: View {
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
-                            Text("\(chore.chore) - Repeats weekly on \(choreStore.getWeekDayFor(date: chore.due))'s at \(choreStore.toString_Time(date: chore.at))")
+                            Text("\(chore.chore) - Repeats weekly on \(DateManager.getWeekDayFor(date: chore.due))'s at \(DateManager.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
                                 .fontWeight(.bold)
                                 .padding()
@@ -260,7 +259,7 @@ struct MyChoreView: View {
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
-                            Text("\(chore.chore) - Repeats monthly on the \(choreStore.getMonthSuffix(date: chore.due)) at \(choreStore.toString_Time(date: chore.at))")
+                            Text("\(chore.chore) - Repeats monthly on the \(DateManager.getMonthSuffix(date: chore.due)) at \(DateManager.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
                                 .fontWeight(.bold)
                                 .padding()
@@ -329,7 +328,7 @@ struct MyChoreView: View {
                 choreStore.removePastChores()
                 choreStore.sortChoreList()
              
-                notificationManager.updateBadgeCount(count: 0)
+                NotificationManager.updateBadgeCount(count: 0)
                 numDueToday = choreStore.numChoresDueToday()
                 
                 numUpcoming = choreStore.numUpComing()
@@ -349,6 +348,5 @@ struct MyChoreView_Preview: PreviewProvider {
     static var previews: some View {
         MyChoreView()
             .environmentObject(ChoreStore())
-            .environmentObject(NotificationManager())
     }
 }

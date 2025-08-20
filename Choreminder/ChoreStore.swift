@@ -52,8 +52,6 @@ class ChoreStore: ObservableObject {
         Welcome(title: "Quick Question. What are You Waiting For?", body: "Tap next and get started with Chore. Have questions or feedback? No worries. Support is only a few taps away. Now go do your chores, like your parents tole you! :-)")
     ]
     
-    let notificationManager = NotificationManager()
-    
     init() {
         
         loadChores()
@@ -106,8 +104,7 @@ class ChoreStore: ObservableObject {
             
             let notificationIds = choreList[index].notificationIds
             
-            notificationManager.cancelNotification(identifier: notificationIds)
-            
+            NotificationManager.cancelNotification(identifier: notificationIds)
             
             choreList.remove(at: index)
             
@@ -125,14 +122,13 @@ class ChoreStore: ObservableObject {
             
             let oldDate = each.due
             
-            if !isToday(day: each.due) && oldDate < currentDate && each.recurring != .daily && each.recurring != .monthly && each.recurring != .weekly {
+            if !DateManager.isToday(day: each.due) && oldDate < currentDate && each.recurring != .daily && each.recurring != .monthly && each.recurring != .weekly {
                 
                 removeFromChoreList(chore: each.chore, due: each.due, at: each.at, weekday: each.weekday, date: each.date, recurring: each.recurring)
                 
                 let notificationIds = each.notificationIds
                 
-                notificationManager.cancelNotification(identifier: notificationIds)
-                
+                NotificationManager.cancelNotification(identifier: notificationIds)
                 
             }
             
@@ -178,532 +174,227 @@ class ChoreStore: ObservableObject {
         catch {
             
             print("Error loading tasks. issue: \(error)")
-        }
-        
-    }
-    
-    func combine_Date(date: Date, time: Date) -> Date? {
-        
-        let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
-        
-        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: time)
-        
-        var combinedComponents = DateComponents()
-        
-        combinedComponents.year = dateComponents.year
-        
-        combinedComponents.month = dateComponents.month
-        combinedComponents.day = dateComponents.day
-        
-        combinedComponents.hour = timeComponents.hour
-        
-        combinedComponents.minute = timeComponents.minute
-        
-        combinedComponents.second = timeComponents.second
-        
-        return calendar.date(from: combinedComponents)
-        
-    }
-    
-    func toString_Date(date: Date) -> String {
-        
-        let formattedDate = DateFormatter()
-        
-        formattedDate.dateStyle = .medium
-        
-        formattedDate.timeStyle = .none
-        
-        return formattedDate.string(from: date)
-        
-    }
-    
-    func toString_Time(date: Date) -> String {
-        
-        let formattedTime = DateFormatter()
-        
-        formattedTime.dateStyle = .none
-        
-        formattedTime.timeStyle = .short
-        
-        return formattedTime.string(from: date)
-        
-    }
-    
-    func isToday(day: Date) -> Bool {
-        
-        let calendar = Calendar.current
-        
-        return calendar.isDateInToday(day)
-        
-    }
-    
-    func isBeginningOfMonth() -> Bool {
-        
-        let date = Date()
-        
-        let calendar = Calendar.current
-        
-        let isDayOne = calendar.component(.day, from: date)
-        
-        return isDayOne == 1
-        
-    }
-    
-    func sortChoreList() {
-        
-        choreList.sort { item1, item2 in
-            
-            let dateOne = combine_Date(date: item1.due, time: item1.at)
-            
-            let dateTwo = combine_Date(date: item2.due, time: item2.at)
-            
-            return dateOne ?? Date() < dateTwo ?? Date()
             
         }
         
     }
-    
-    func isChoreExist(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating) -> Bool {
         
-        for each in choreList {
+        func sortChoreList() {
             
-            if chore == each.chore && due == each.due && at == each.at && weekday == each.weekday && date == each.date && recurring == each.recurring {
+            choreList.sort { item1, item2 in
                 
-                return true
+                let dateOne = DateManager.combine_Date(date: item1.due, time: item1.at)
+                
+                let dateTwo = DateManager.combine_Date(date: item2.due, time: item2.at)
+                
+                return dateOne ?? Date() < dateTwo ?? Date()
                 
             }
+            
         }
         
-        return false
-        
-    }
-    
-    func hasChoresDueToday() -> Bool {
-        
-        for each in choreList {
+        func isChoreExist(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating) -> Bool {
             
-            
-            if isToday(day: each.due) {
+            for each in choreList {
                 
-                return true
-                
+                if chore == each.chore && due == each.due && at == each.at && weekday == each.weekday && date == each.date && recurring == each.recurring {
+                    
+                    return true
+                    
+                }
             }
-        }
-        
-        
-        return false
-        
-    }
-    
-    func getCurrentMonth() -> String {
-        
-        let date = Date()
-        
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "MMM"
-        
-        let currentMonth = dateFormatter.string(from: date)
-        
-        return currentMonth
-        
-    }
-    
-    func getMonthForStoredChore(date: Date) -> String {
-        
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "MMM"
-        
-        let month = dateFormatter.string(from: date)
-        
-        return month
-        
-    }
-    
-    func isOccupiedMonth() -> Bool {
-        
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "MMM"
-        
-        for each in choreList {
             
-            
-            let storedMonth = dateFormatter.string(from: each.due)
-            
-            if storedMonth == getCurrentMonth() && !isToday(day: each.due) && each.recurring != .daily && each.recurring != .weekly && each.recurring != .monthly {
-                
-                return true
-                
-            }
-        }
-        
-        return false
-        
-    }
-    
-    func hasDailyChores() -> Bool {
-        
-        for each in choreList {
-            
-            if each.recurring == .daily {
-                
-                return true
-                
-            }
-        }
-        
-        return false
-        
-    }
-    
-    func getWeekDayFor(date: Date) -> String {
-        
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "MMM dd, yyyy"
-        
-        var weekDayName: String = ""
-        
-        let calendar = Calendar.current
-        let weekNumber = calendar.component(.weekday, from: date)
-        
-        weekDayName = dateFormatter.weekdaySymbols[weekNumber - 1]
-        
-        return weekDayName
-        
-    }
-    
-    func hasWeeklyChores() -> Bool {
-        
-        for each in choreList {
-            
-            if each.recurring == .weekly {
-                
-                return true
-                
-            }
-        }
-        
-        return false
-        
-    }
-    
-    func getMonthSuffix(date: Date) -> String {
-        
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "MMM dd, yyyy"
-        
-        var dateWithSuffix: String = ""
-        
-        let calendar = Calendar.current
-        
-        let dayOfMonth = calendar.component(.day, from: date)
-        
-        let suffix: String
-        
-        switch(dayOfMonth) {
-            
-        case 1, 21, 31:
-            suffix = "st"
-            
-        case 2, 22:
-            suffix = "nd"
-            
-        case 3, 23:
-            suffix = "rd"
-            
-        default:
-            suffix = "th"
-            
-        }
-        
-        dateWithSuffix = "\(dayOfMonth)\(suffix)"
-        
-        return dateWithSuffix
-        
-    }
-    
-    func getSuffixForNotifications(date: Int) -> String {
-        
-        var dateWithSuffix: String = ""
-        
-        switch(date) {
-            
-        case 1, 21, 31:
-            dateWithSuffix = "st"
-            
-        case 2, 22:
-            dateWithSuffix = "nd"
-            
-        case 3, 23:
-            dateWithSuffix = "rd"
-            
-        default:
-            dateWithSuffix = "th"
-            
-        }
-        
-        return "\(date)\(dateWithSuffix)"
-        
-    }
-    
-    func hasMonthlyChores() -> Bool {
-        
-        for each in choreList {
-            
-            if each.recurring == .monthly {
-                
-                return true
-                
-            }
-        }
-        
-        return false
-        
-    }
-    
-    func hasChoresWithNone() -> Bool {
-        
-        for each in choreList {
-            
-            if each.recurring == .none {
-                
-                return true
-                
-            }
-        }
-        
-        return false
-        
-    }
-    
-    func isTooCurrent(date: Date, time: Date, recurrance: Repeating) -> Bool {
-        let calendar = Calendar.current
-        
-        guard let combinedDate = combine_Date(date: date, time: time) else {
             return false
-        }
-        
-        let now = calendar.date(
-            from: calendar.dateComponents([.year, .month, .day, .hour, .minute], from: Date())
-        )!
-        
-        let truncatedCombinedDate = calendar.date(
-            from: calendar.dateComponents([.year, .month, .day, .hour, .minute], from: combinedDate)
-        )!
-        
-        if recurrance == .none {
-            
-            return truncatedCombinedDate <= now
-        }
-        
-        return false
-    }
-    
-    func numChoresDueToday() -> Int {
-        
-        var counter = 0
-        
-        for each in choreList {
-            
-            if isToday(day: each.due) && each.recurring == .none {
-                
-                counter += 1
-                
-            }
-        }
-        
-        return counter
-        
-    }
-    
-    func numUpComing() -> Int {
-        
-        var counter = 0
-        
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "MMM"
-        
-        for each in choreList {
-            
-            let storedMonth = dateFormatter.string(from: each.due)
-            
-            if storedMonth == getCurrentMonth() && !isToday(day: each.due) && each.recurring != .daily && each.recurring != .weekly && each.recurring != .monthly {
-                
-                counter += 1
-            }
-        }
-        
-        return counter
-        
-    }
-    
-    func numDaily() -> Int {
-        
-        var counter = 0
-        
-        for each in choreList {
-            
-            if each.recurring == .daily {
-                
-                counter += 1
-                
-            }
             
         }
         
-        return counter
-        
-    }
-    
-    func numWeekly() -> Int {
-        
-        var counter = 0
-        
-        for each in choreList {
+        func hasChoresDueToday() -> Bool {
             
-            if each.recurring == .weekly {
+            for each in choreList {
                 
-                counter += 1
                 
-            }
-            
-        }
-        
-        return counter
-        
-    }
-    
-    func numMonthly() -> Int {
-        
-        var counter = 0
-        
-        for each in choreList {
-            
-            if each.recurring == .monthly {
-                
-                counter += 1
-                
-            }
-            
-        }
-        
-        return counter
-        
-    }
-        
-    func registerBackgroundTask() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.teelashley.chore.apprefresh", using: nil) { task in
-            if let task = task as? BGAppRefreshTask {
-                self.handleAppRefresh(task: task)
-            }
-        }
-    }
-    
-    func scheduleAppRefreshTask(time: Int) {
-        cancelBackgroundTask()
-        let request = BGAppRefreshTaskRequest(identifier: "com.teelashley.chore.apprefresh")
-    
-        let calendar = Calendar.current
-        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: Date())
-        components.hour = time
-        components.minute = 0
-        components.second = 0
-        
-        var nextRunDate = calendar.date(from: components)!
-        
-        if nextRunDate <= Date() {
-            nextRunDate = calendar.date(byAdding: .day, value: 1, to: nextRunDate)!
-        }
-        
-        request.earliestBeginDate = nextRunDate
-        
-        do {
-            try BGTaskScheduler.shared.submit(request)
-            print("Scheduled app refresh task for \(nextRunDate).")
-        } catch {
-            print("Failed to schedule app refresh task: \(error)")
-        }
-    }
-    
-    private func handleAppRefresh(task: BGAppRefreshTask) {
-        
-        let operation = Task {
-            print("Starting background task")
-    
-            let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
-            
-            let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
-            
-            let numBadges = numChoresDueToday()
-            notificationManager.updateBadgeCount(count: numBadges)
-            
-            if numBadges == 0 && !sendMonthly {
-                
-                print("No operations needed. Exiting task")
-                scheduleAppRefreshTask(time: reminderHour)
-                task.setTaskCompleted(success: true)
-                
-            } else {
-                
-                removePastChores()
-                
-                if choreList.count == 1 || choreList.count > 1 {
+                if DateManager.isToday(day: each.due) {
                     
-                    var notificationBody: String = ""
-                    if numBadges == 1 {
-                        notificationBody = "You have 1 chore due today. Tap here to view it."
-                    } else if numBadges > 1 {
-                        notificationBody = "You have \(numBadges) chores due today. Tap here to view them."
-                    }
+                    return true
                     
-                    notificationManager.scheduleBackgroundNotification(
-                        title: "Chore Reminder",
-                        body: notificationBody
-                    )
+                }
+            }
+            
+            return false
+            
+        }
+        
+        func isOccupiedMonth() -> Bool {
+            
+            let dateFormatter = DateFormatter()
+            
+            dateFormatter.dateFormat = "MMM"
+            
+            for each in choreList {
+                
+                let storedMonth = dateFormatter.string(from: each.due)
+                
+                if storedMonth == DateManager.getCurrentMonth() && !DateManager.isToday(day: each.due) && each.recurring != .daily && each.recurring != .weekly && each.recurring != .monthly {
+                    
+                    return true
+                    
+                }
+            }
+            
+            return false
+            
+        }
+        
+        func hasDailyChores() -> Bool {
+            
+            for each in choreList {
+                
+                if each.recurring == .daily {
+                    
+                    return true
+                    
+                }
+            }
+            
+            return false
+            
+        }
+        
+        func hasWeeklyChores() -> Bool {
+            
+            for each in choreList {
+                
+                if each.recurring == .weekly {
+                    
+                    return true
+                    
+                }
+            }
+            
+            return false
+            
+        }
+        
+        func hasMonthlyChores() -> Bool {
+            
+            for each in choreList {
+                
+                if each.recurring == .monthly {
+                    
+                    return true
+                    
+                }
+            }
+            
+            return false
+            
+        }
+        
+        func hasChoresWithNone() -> Bool {
+            
+            for each in choreList {
+                
+                if each.recurring == .none {
+                    
+                    return true
+                    
+                }
+            }
+            
+            return false
+            
+        }
+        
+        func numChoresDueToday() -> Int {
+            
+            var counter = 0
+            
+            for each in choreList {
+                
+                if DateManager.isToday(day: each.due) && each.recurring == .none {
+                    
+                    counter += 1
+                    
+                }
+            }
+            
+            return counter
+            
+        }
+        
+        func numUpComing() -> Int {
+            
+            var counter = 0
+            
+            let dateFormatter = DateFormatter()
+            
+            dateFormatter.dateFormat = "MMM"
+            
+            for each in choreList {
+                
+                let storedMonth = dateFormatter.string(from: each.due)
+                
+                if storedMonth == DateManager.getCurrentMonth() && !DateManager.isToday(day: each.due) && each.recurring != .daily && each.recurring != .weekly && each.recurring != .monthly {
+                    
+                    counter += 1
+                }
+            }
+            
+            return counter
+            
+        }
+        
+        func numDaily() -> Int {
+            
+            var counter = 0
+            
+            for each in choreList {
+                
+                if each.recurring == .daily {
+                    
+                    counter += 1
+                    
                 }
                 
-                if sendMonthly == true {
-                    
-                    if isBeginningOfMonth() && isOccupiedMonth() {
-                        
-                        notificationManager.scheduleBackgroundNotification(title: "It's the beginning of the month", body: "You have chores due this month. Tap to view them.")
-                        
-                    }
-                }
-                scheduleAppRefreshTask(time: reminderHour)
-                
-                print("Background task finished")
             }
+            
+            return counter
+            
         }
         
-        task.expirationHandler = {
-            operation.cancel()
-            print("Operation has been canceled")
+        func numWeekly() -> Int {
+            
+            var counter = 0
+            
+            for each in choreList {
+                
+                if each.recurring == .weekly {
+                    
+                    counter += 1
+                    
+                }
+                
+            }
+            
+            return counter
+            
         }
         
-        Task {
-            await operation.value
-            task.setTaskCompleted(success: !operation.isCancelled)
-            print("Operation completed")
+        func numMonthly() -> Int {
+            
+            var counter = 0
+            
+            for each in choreList {
+                
+                if each.recurring == .monthly {
+                    
+                    counter += 1
+                    
+                }
+                
+            }
+            
+            return counter
+            
         }
     }
-    
-    func handleBackgroundTransition() {
-        print("App transitioned to background. Performing cleanup tasks.")
-        removePastChores()
-        let numBadges = numChoresDueToday()
-        notificationManager.updateBadgeCount(count: numBadges)
-    }
-    
-    func cancelBackgroundTask() {
-        
-        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: "com.teelashley.chore.apprefresh")
-        
-    }
-}

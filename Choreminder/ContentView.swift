@@ -8,8 +8,6 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject var notificationManager: NotificationManager
-    
     var body: some View {
      
         TabView {
@@ -43,7 +41,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         
         ContentView()
-            .environmentObject(NotificationManager())
-        
+            
     }
 }

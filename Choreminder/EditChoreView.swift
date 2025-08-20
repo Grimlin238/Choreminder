@@ -10,9 +10,6 @@ import SwiftUI
 struct EditChoreView: View {
     
     @EnvironmentObject var choreStore: ChoreStore
-    
-    @EnvironmentObject var notificationManager: NotificationManager
-    
     @Environment(\.dismiss) private var dismiss
     
     @State var enjectedChore: String
@@ -282,7 +279,7 @@ struct EditChoreView: View {
                 updateChore()
                 
             }
-            .disabled(enjectedChore.isEmpty || enjectedChore == " " || choreStore.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: enjectedRecursiveValue))
+            .disabled(enjectedChore.isEmpty || enjectedChore == " " || DateManager.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: enjectedRecursiveValue))
             .fontWeight(.bold)
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
@@ -410,36 +407,16 @@ Spacer()
         
         if !hasChore {
             
-            if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
+            if let combinedDate = DateManager.combine_Date(date: selectedDate, time: selectedTime) {
                 
                 
-                var title: String = ""
+                var title = NotificationManager.getNotificationTitle(for: enjectedRecursiveValue)
                 
-                var body: String = ""
-                
-                switch(enjectedRecursiveValue) {
-                    
-                case .none:
-                    title = "Chore Reminder"
-                    body = "\(enjectedChore) at \(choreStore.toString_Time(date: selectedTime))"
-                    
-                case .daily:
-                    title = "Daily Chore"
-                    body = "\(enjectedChore). Reminding you like you asked, every day at \(choreStore.toString_Time(date: selectedTime))"
-                    
-                case .weekly:
-                    title = "Weekly Chore"
-                    body = "\(enjectedChore). Reminding you like you asked, every \(choreStore.getWeekDayFor(date: selectedDate)) at \(choreStore.toString_Time(date: selectedTime))"
-                    
-                case .monthly:
-                    title = "Monthly Chore"
-                    body = "\(enjectedChore). Reminding you like you asked, every month on the \(choreStore.getSuffixForNotifications(date: enjectedMonthDate)) at \(choreStore.toString_Time(date: selectedTime))"
-                    
-                }
+                var body = NotificationManager.getNotificationBody(for: enjectedChore, at: DateManager.toString_Time(date: selectedTime), on: enjectedMonthDate, on: enjectedWeekday, for: enjectedRecursiveValue)
                 
                 choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, weekday: oldWeekday, date: oldDateOfMonth, recurring: oldRecursiveValue)
                 
-                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: enjectedWeekday, day: enjectedMonthDate, recurring: enjectedRecursiveValue)
+                let notificationIds = NotificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: enjectedWeekday, day: enjectedMonthDate, recurring: enjectedRecursiveValue)
                 choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, weekday: enjectedWeekday, date: enjectedMonthDate, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
                 
             }

@@ -9,8 +9,6 @@ import SwiftUI
 
 struct AddChoreView: View {
     @EnvironmentObject var choreStore: ChoreStore
-    @EnvironmentObject var notificationManager: NotificationManager
-    
     @State private var selectedDate = Date()
     @State private var selectedTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date()
     @State private var userInput: String = ""
@@ -261,7 +259,7 @@ struct AddChoreView: View {
                     
             }
             
-            .disabled(userInput.isEmpty || userInput == " " || choreStore.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: recurrsive))
+            .disabled(userInput.isEmpty || userInput == " " || DateManager.isTooCurrent(date: selectedDate, time: selectedTime, recurrance: recurrsive))
             .fontWeight(.bold)
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.white)
@@ -304,7 +302,7 @@ struct AddChoreView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Text("Create a Chore")
+            Text("New Chore")
                 .font(.title)
                 .fontWeight(.bold)
                 .accessibilityAddTraits(.isHeader)
@@ -339,33 +337,12 @@ struct AddChoreView: View {
         
         if !hasChore {
               
-            if let combinedDate = choreStore.combine_Date(date: selectedDate, time: selectedTime) {
+            if let combinedDate = DateManager.combine_Date(date: selectedDate, time: selectedTime) {
                 
-                var title: String = ""
+                var title = NotificationManager.getNotificationTitle(for: recurrsive)
                 
-                var body: String = ""
-                
-                switch(recurrsive) {
-                    
-                case .none:
-                    title = "Chore Reminder"
-                    body = "\(userInput) at \(choreStore.toString_Time(date: selectedTime))"
-                    
-                case .daily:
-                    title = "Daily Chore"
-                    body = "\(userInput). reminding you like you asked, every day at \(choreStore.toString_Time(date: selectedTime))"
-                    
-                case .weekly:
-                    title = "Weekly Chore"
-                    body = "\(userInput). Reminding you like you asked, every \(selectedWeekday) at \(choreStore.toString_Time(date: selectedTime))"
-                    
-                case .monthly:
-                    title = "Monthly Chore"
-                    body = "\(userInput). Reminding you like you asked, every month on the \(choreStore.getSuffixForNotifications(date: selectedDateOfMonth)) at \(choreStore.toString_Time(date: selectedTime))"
-                    
-                }
-                
-                let notificationIds = notificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: selectedWeekday, day: selectedDateOfMonth, recurring: recurrsive)
+                var body = NotificationManager.getNotificationBody(for: userInput, at: DateManager.toString_Time(date: selectedTime), on: selectedDateOfMonth, on: selectedWeekday, for: recurrsive)
+                let notificationIds = NotificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: selectedWeekday, day: selectedDateOfMonth, recurring: recurrsive)
                 
                 choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, weekday: selectedWeekday, date: selectedDateOfMonth, recurring: recurrsive, notificationIds: notificationIds)
                 
@@ -388,8 +365,5 @@ struct AddChoreView_preview: PreviewProvider {
         
     AddChoreView()
             .environmentObject(ChoreStore())
-            .environmentObject(NotificationManager())
-        
-        
     }
 }
