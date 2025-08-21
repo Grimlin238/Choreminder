@@ -346,6 +346,12 @@ struct AddChoreView: View {
                 
                 choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, weekday: selectedWeekday, date: selectedDateOfMonth, recurring: recurrsive, notificationIds: notificationIds)
                 
+                let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+                
+                let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+                
+                NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendMonthly)
+                
             }
         }
         

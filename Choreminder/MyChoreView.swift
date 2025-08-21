@@ -58,6 +58,12 @@ struct MyChoreView: View {
                             
                             numDueToday -= 1
                             
+                            let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+                            
+                            let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+                            
+                            NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendMonthly)
+                            
                         }
                     }
                 } else {
@@ -112,6 +118,12 @@ struct MyChoreView: View {
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, weekday: chore.weekday, date: chore.date, recurring: chore.recurring)
                             
                             numUpcoming -= 1
+                            
+                            let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+                            
+                            let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+                            
+                            NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendMonthly)
                             
                         }
                     }
@@ -170,6 +182,12 @@ struct MyChoreView: View {
                             
                             numDaily -= 1
                             
+                            let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+                            
+                            let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+                            
+                            NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendMonthly)
+                            
                         }
                     }
                 }
@@ -221,6 +239,12 @@ struct MyChoreView: View {
                             choreStore.removeFromChoreList(chore: chore.chore, due: chore.due, at: chore.at, weekday: chore.weekday, date: chore.date, recurring: chore.recurring)
                             
                             numWeekly -= 1
+                            
+                            let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+                            
+                            let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+                            
+                            NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendMonthly)
                             
                         }
                     }
@@ -274,6 +298,11 @@ struct MyChoreView: View {
                             
                             numMonthly -= 1
                             
+                            let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+                            
+                            let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+                            
+                            NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendMonthly)
                         }
                     }
                 }

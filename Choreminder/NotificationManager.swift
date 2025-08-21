@@ -192,24 +192,153 @@ class NotificationManager: ObservableObject {
         
     }
     
-    static func scheduleBackgroundNotification(title: String, body: String) {
+    static func scheduleCheckin(time: Int, sendMonthly: Bool) {
+        
+        scheduleDailyCheckin(reminderHour: time)
+        
+        if sendMonthly {
+            
+            scheduleMonthlyCheckin(reminderHour: time)
+            
+        }
+    }
+    
+    private static func scheduleDailyCheckin(reminderHour: Int) {
+        
+        cancelCheckins(checkin: "Daily Check-in")
+        let choreStore = ChoreStore()
+        
+        for each in choreStore.choreList {
+            
+            guard each.recurring == .none else {
+                
+                continue
+                
+            }
+            
             let content = UNMutableNotificationContent()
-            content.title = title
-        content.body = body
-        content.sound = UNNotificationSound(named: UNNotificationSoundName("ChoreAlert.wav"))
-
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
+            
+            content.title = "Heads Up!"
+            
+            content.body = "You've got chores due today. Tap to view them"
+            
+            content.sound = UNNotificationSound(named: UNNotificationSoundName("ChoreAlert.wav"))
+            
+            var components = Calendar.current.dateComponents([.year, .month], from: each.due)
+            
+            components.hour = reminderHour
+            
+            components.minute = 0
+     
+            let id = UUID()
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: "Daily Check-in\(id)", content: content, trigger: trigger)
+            
             UNUserNotificationCenter.current().add(request) { error in
+                
                 if let error = error {
-                    print("Failed to schedule notification: \(error)")
+                    
+                    print("Error scheduling check-in - \(error.localizedDescription)")
+                    
                 } else {
-                    print("Notification scheduled successfully.")
+                    
+                    print("Check-in scheduled successfully")
+                    
                 }
             }
         }
-
+    }
+    
+    private static func scheduleMonthlyCheckin(reminderHour: Int) {
+        
+        cancelCheckins(checkin: "Monthly Check-in")
+        
+        let calendar = Calendar.current
+        
+        var monthsWithChores: Set<DateComponents> = []
+        
+        let choreStore = ChoreStore()
+        
+        for each in choreStore.choreList {
+            
+            guard each.recurring == .none else {
+                
+                continue
+                
+            }
+            
+            let components = calendar.dateComponents([.year, .month], from: each.due)
+            
+            monthsWithChores.insert(components)
+            
+        }
+        
+        for eachComponent in monthsWithChores {
+            
+            var components = DateComponents()
+            
+            components.year = eachComponent.year
+            components.month = eachComponent.month
+            
+            components.day = 1
+            
+            components.hour = reminderHour
+            
+            components.minute = 0
+            
+            let id = UUID()
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            
+            let content = UNMutableNotificationContent()
+            
+            content.title = "Heads Up!"
+            
+            content.body = "You've got chores upcoming this month. Don't forget to check your list."
+            
+            content.sound = UNNotificationSound(named: UNNotificationSoundName("ChoreAlert.wav"))
+            
+            let request = UNNotificationRequest(identifier: "Monthly Check-in\(id)", content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request) { error in
+                
+                if let error = error {
+                    
+                    print("Could not schedule notification. \(error.localizedDescription)")
+                    
+                } else {
+                    
+                    print("Check in scheduled")
+                    
+                }
+            }
+        }
+    }
+    
+    private static func cancelCheckins(checkin: String) {
+        
+        let center = UNUserNotificationCenter.current()
+        
+        center.getPendingNotificationRequests { requests in
+            
+            let matchingIds = requests.map { $0.identifier }.filter { $0.contains(checkin) }
+            
+            if !matchingIds.isEmpty {
+                
+                center.removePendingNotificationRequests(withIdentifiers: matchingIds)
+                
+                print("Successfully canceled checkins")
+                
+            } else {
+                
+                print("Nothing to cancel here")
+                
+            }
+        }
+    }
+    
     static func updateBadgeCount(count: Int) {
         
         UNUserNotificationCenter.current().setBadgeCount(count) { error in

@@ -315,8 +315,7 @@ struct EditChoreView: View {
                     },
                     
                                  secondaryButton: .cancel()
-                                 
-                    )
+                                     )
                 }
             }
             
@@ -340,6 +339,12 @@ struct EditChoreView: View {
                 Button("Yes, I'm Sure.", role: .destructive) {
                     
                     choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, weekday: oldWeekday, date: oldDateOfMonth, recurring: oldRecursiveValue)
+                
+                    let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+                    
+                    let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+                    
+                    NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendMonthly)
                     
                     dismiss()
                     
@@ -418,6 +423,12 @@ Spacer()
                 
                 let notificationIds = NotificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: enjectedWeekday, day: enjectedMonthDate, recurring: enjectedRecursiveValue)
                 choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, weekday: enjectedWeekday, date: enjectedMonthDate, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
+                
+                let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
+                
+                let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+                
+                NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendMonthly)
                 
             }
         }

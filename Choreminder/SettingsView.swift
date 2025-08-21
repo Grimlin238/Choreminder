@@ -5,7 +5,6 @@
  All rights reserved.
  */
  
-
 import SwiftUI
 
 struct SettingsView: View {
@@ -25,15 +24,13 @@ struct SettingsView: View {
             
             Stepper("Hour", value: $reminderHour, in: 5...11)
                 .padding()
-                
-            Text("Note: Do to iOS system limitations, Chore might remind you later then expected. If you aren't using Chore frequently, iOS will not prioritize Chore.")
                 .font(.subheadline)
             Spacer()
                 
         }
         .onChange(of: reminderHour) { hour, _ in
             
-            BackgroundTaskManager.scheduleAppRefreshTask(time: hour)
+            NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendEveryMonth)
             
         }
         
@@ -47,16 +44,15 @@ struct SettingsView: View {
             
             Toggle("Remind me at the beginning of every month of upcoming chores for that month.", isOn: $sendEveryMonth)
                 .padding()
-            
-            Text("Note: Do to iOS system limitations, Chore might remind you later then expected. If you aren't using Chore frequently, iOS will not prioritize Chore.")
-                .font(.subheadline)
+                .font(.title2)
             Spacer()
             
         }
                  
-                .onChange(of: sendEveryMonth) { yesOrNo, _ in
+                .onChange(of: sendEveryMonth) { isOn, _ in
                     
-                    BackgroundTaskManager.scheduleAppRefreshTask(time: reminderHour)
+                    NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: isOn)
+                    
                 }
                  
         .padding()
