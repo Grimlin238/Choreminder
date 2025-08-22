@@ -225,7 +225,7 @@ struct MyChoreView: View {
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
-                            Text("\(chore.chore) - Repeats weekly on \(DateManager.getWeekDayFor(date: chore.due))'s at \(DateManager.toString_Time(date: chore.at))")
+                            Text("\(chore.chore) - Repeats weekly on \(chore.weekday.weekdayName)'s at \(DateManager.toString_Time(date: chore.at))")
                                 .foregroundColor(.white)
                                 .fontWeight(.bold)
                                 .padding()

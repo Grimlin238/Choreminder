@@ -433,10 +433,11 @@ Spacer()
             }
         }
         
-    
         enjectedChore = ""
         isChoreExisting = hasChore
-        
+        enjectedWeekday = .sunday
+        enjectedMonthDate = 1
+        enjectedRecursiveValue = .none
         showEditAlert = true
         isFocused = false
         }

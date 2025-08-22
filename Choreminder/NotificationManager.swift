@@ -416,7 +416,7 @@ class NotificationManager: ObservableObject {
             body = "\(chore). reminding you like you asked, every day at \(time)."
             
         case .weekly:
-            body = "\(chore). Reminding you like you asked, every \(weekday) at \(time)."
+            body = "\(chore). Reminding you like you asked, every \(weekday.weekdayName) at \(time)."
             
         case .monthly:
             body = "\(chore). Reminding you like you asked, every month on the \(getSuffixForNotifications(date: date)) at \(time)"

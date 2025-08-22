@@ -362,6 +362,8 @@ struct AddChoreView: View {
         selectedDate = Date()
         selectedTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date()
         recurrsive = .none
+        selectedDateOfMonth = 1
+        selectedWeekday = .sunday
     }
 }
 
@@ -373,3 +375,4 @@ struct AddChoreView_preview: PreviewProvider {
             .environmentObject(ChoreStore())
     }
 }
+
