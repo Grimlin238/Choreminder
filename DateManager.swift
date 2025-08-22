@@ -103,23 +103,6 @@ class DateManager {
        
    }
    
-   static func getWeekDayFor(date: Date) -> String {
-       
-       let dateFormatter = DateFormatter()
-       
-       dateFormatter.dateFormat = "MMM dd, yyyy"
-       
-       var weekDayName: String = ""
-       
-       let calendar = Calendar.current
-       let weekNumber = calendar.component(.weekday, from: date)
-       
-       weekDayName = dateFormatter.weekdaySymbols[weekNumber - 1]
-       
-       return weekDayName
-       
-   }
-   
     static func getMonthSuffix(date: Date) -> String {
         
         let dateFormatter = DateFormatter()

@@ -410,7 +410,7 @@ class NotificationManager: ObservableObject {
         switch(recurrance) {
             
         case .none:
-            body = "\(chore)at \(time)."
+            body = "\(chore) at \(time)."
             
         case .daily:
             body = "\(chore). reminding you like you asked, every day at \(time)."
