@@ -52,6 +52,7 @@ struct MainView: View {
             
             if toggleView {
                 ContentView()
+                
                     .transition(.move(edge: .trailing))
             } else {
                 VStack {

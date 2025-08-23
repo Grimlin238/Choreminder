@@ -44,12 +44,10 @@ class ChoreStore: ObservableObject {
         Welcome(title: "Welcome to Chore", body: "This is chore, an app reminding you to get things done."),
         Welcome(title: "All Your Chores at a Glance", body: "See all of your chores due today at a glance, and expand the other sections to view thoughs as well."),
         Welcome(title: "Schedule Any Kind of Chore.", body: "Whether you want to be reminded once, everyday, every week or month, Chore has got you covered."),
-        Welcome(title: "An Easy to Use Interface", body: "Want to delete a Chore? Just swipe left and tap delete. Want to edit the Chore? Just tap on it. It's as simple as that."),
-        Welcome(title: "Adding a Chore?", body: "Tap New Chore, type a chore, select a date and time, and tap Add to Chores. See? Easy."),
-        Welcome(title: "Want Daily Chores?", body: "No Problem. Type the chore, select daily, a time, and let Chore do the rest."),
-        Welcome(title: "Want Weekly Chores?", body: "Like I said. No Problem. Type a chore, tap any date with the day you're looking to be reminded on weekly, and let CHore do the rest."),
-        Welcome(title: "Want Monthly Chores?", body: "I've got you man! Type a chore, select any date with the day you're looking to be reminded monthly on, and let Chore do the rest."),
-        Welcome(title: "Quick Question. What are You Waiting For?", body: "Tap next and get started with Chore. Have questions or feedback? No worries. Support is only a few taps away. Now go do your chores, like your parents tole you! :-)")
+        Welcome(title: "A Nudge Every Morning", body: "If you've got stuff to do today, Chore will remind you in the morning to open the app. YOu can also change the time CHore nudges you as well in settings."),
+        Welcome(title: "An Easy to Use Interface", body: "Chore was made to be as simple as possible. Tap a Chore to edit or delete it, swipe left to delete, and diferent screens like My Chores, and Create a CHore are on different tabs, allowing you to switch back and forth with ease."),
+        Welcome(title: "Quick Question! What are you Waiting For?", body: "Tap Get Started and begin making your chore list. :-)")
+        
     ]
     
     init() {
