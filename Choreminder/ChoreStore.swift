@@ -27,9 +27,10 @@ class ChoreStore: ObservableObject {
     @Published var choreList: [Chore] = []
     
     @Published var helpItems: [Help] = [
-        Help(header: "The My Chores Screen", body: "The My Chores screen is where you'll see all of your upcoming chores. Everything is broken into categories, Due Today, Upcoming This Month, Daily Chores, Weekly Chores, and Monthly Chores. \n The Due Today category is always opened for you, and you can tap to expand the others as well."),
+        Help(header: "The My Chores Screen", body: "The My Chores screen is where you'll see all of your Chores. Everything is broken into categories, Due Today, Upcoming This Month, Daily Chores, Weekly Chores, and Monthly Chores. \n The Due Today category is always opened for you, and you can tap to expand the others as well.\nNote: Repeating chores will not show up in the due today category."),
         Help(header: "Deleting a Chore", body: "To delete a Chore, tap on a Chore category to expand it. Then, simply swipe left on the Chore you'd like to delete and tap the Delete button that appears to the right of it.\nAlternatively, you can tap on the Chore and tap Delete from the edit screen that appears and confirm deletion."),
-        Help(header: "Editing a Chore", body: "To edit a Chore, expand one of the Chore categories. Then tap on the Chore you'd like to edit. An edit screen will appear allowing you to perform your changes.\nWhen you're done, tap Save Edit aned confirm your changes. YOu'll then be brought back to the My Chores screen, and you'll imediately see the change."),
+        Help(header: "Editing a Chore", body: "To edit a Chore, expand one of the Chore categories. Then tap on the Chore you'd like to edit. An edit screen will appear allowing you to perform your changes.\nWhen you're done, tap Save Edit and confirm your changes. YOu'll then be brought back to the My Chores screen, and you'll imediately see the change."),
+        Help(header: "Marking Chores as Complete / Incomplete", body: "The due today category will show you everything that's due today. To mark a Chore as complete, swipe right on the CHore and tap Mark as Complete. To undo, swipe right and tap Mark as incomplete\nChores switch from red to yellow when marked as complete.\nNote: Since daily, weekly, and monthly chores are recurring, and upcoming only show incoming chores, you can't mark them as complete."),
         Help(header: "Creating a Chore", body: "At the bottom of the screen, tap New CHore. A Chore creation screen will appear allowing you to enter a chore, after which you can select a date you'd like to be reminded on, and a time. When done, tap Add to My Chores"),
         Help(header: "Scheduling a Daily Chore", body: "One of the amazing features of Chore is its granularity. This means you can schedule daily, weekly, and monthly Chores.\nTo schedule a daily chore, tap New Chore at the bottom of the screen. Then, enter a Chore in the text box. Next, tap to open the frequency picker to select daily. Afterwords, select a time from the time picker and tap Add to My Chores. Chore will then remind you everyday at the time you selected."),
         Help(header: "Scheduling a Weekly Chore", body: "You can use Chore to remind you to do things weekly, like taking out the trash, or of a due date for an assignment.\nTap New CHore at the bottom of the screen, enter a chore, then open the frequency picker and select weekly.\nNext, open the weekday picker and select a day of the week. Afterwords, select a time from the time picker, and tap Add to My Chores. Chore will then remind you on the selected weekday at the selected time."),
@@ -45,7 +46,7 @@ class ChoreStore: ObservableObject {
         Welcome(title: "All Your Chores at a Glance", body: "See all of your chores due today at a glance, and expand the other sections to view thoughs as well."),
         Welcome(title: "Schedule Any Kind of Chore.", body: "Whether you want to be reminded once, everyday, every week or month, Chore has got you covered."),
         Welcome(title: "A Nudge Every Morning", body: "If you've got stuff to do today, Chore will remind you in the morning to open the app. YOu can also change the time CHore nudges you as well in settings."),
-        Welcome(title: "An Easy to Use Interface", body: "Chore was made to be as simple as possible. Tap a Chore to edit or delete it, swipe left to delete, and diferent screens like My Chores, and Create a CHore are on different tabs, allowing you to switch back and forth with ease."),
+        Welcome(title: "An Easy to Use Interface", body: "Chore was made to be as simple as possible. Tap a Chore to edit or delete it, swipe left to delete, swipe right on things due today to mark/unmark as complete, and diferent screens like My Chores, and Create a CHore are on different tabs, allowing you to switch back and forth with ease."),
         Welcome(title: "Quick Question! What are you Waiting For?", body: "Tap Get Started and begin making your chore list. :-)")
         
     ]
@@ -57,7 +58,7 @@ class ChoreStore: ObservableObject {
         
     }
     
-    func addToChoreList(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating, notificationIds: [String]) {
+    func addToChoreList(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating, didComplete: Bool, notificationIds: [String]) {
         
         var adjustedDate = due
         
@@ -83,7 +84,7 @@ class ChoreStore: ObservableObject {
         
         if let newDue = calendar.date(from: components) {
             
-            choreList.append(Chore(chore: chore, due: newDue, at: at, weekday: weekday, date: date, recurring: recurring, notificationIds: notificationIds))
+            choreList.append(Chore(chore: chore, due: newDue, at: at, weekday: weekday, date: date, recurring: recurring, didComplete: false, notificationIds: notificationIds))
             print("Stored chore for date \(newDue)")
             
         }
@@ -395,4 +396,30 @@ class ChoreStore: ObservableObject {
             return counter
             
         }
+    
+    func markAsComplete(chore: String, due: Date, at: Date, recurring: Repeating) {
+        
+        if let id = choreList.firstIndex(where: {
+            
+            $0.chore == chore && $0.due == due && $0.at == at && $0.recurring == recurring
+            
+        }) {
+            
+            choreList[id].didComplete = true
+            
+        }
+    }
+    
+    func markAsIncomplete(chore: String, due: Date, at: Date, recurring: Repeating) {
+        
+        if let id = choreList.firstIndex(where: {
+            
+            $0.chore == chore && $0.due == due && $0.at == at && $0.recurring == recurring
+            
+        }) {
+            
+            choreList[id].didComplete = false
+            
+        }
+    }
     }

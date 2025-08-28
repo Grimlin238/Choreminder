@@ -344,7 +344,7 @@ struct AddChoreView: View {
                 var body = NotificationManager.getNotificationBody(for: userInput, at: DateManager.toString_Time(date: selectedTime), on: selectedDateOfMonth, on: selectedWeekday, for: recurrsive)
                 let notificationIds = NotificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: selectedWeekday, day: selectedDateOfMonth, recurring: recurrsive)
                 
-                choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, weekday: selectedWeekday, date: selectedDateOfMonth, recurring: recurrsive, notificationIds: notificationIds)
+                choreStore.addToChoreList(chore: userInput, due: selectedDate, at: selectedTime, weekday: selectedWeekday, date: selectedDateOfMonth, recurring: recurrsive, didComplete: false, notificationIds: notificationIds)
                 
                 let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
                 

@@ -43,13 +43,45 @@ struct MyChoreView: View {
                                 enjectedRecursiveValue: chore.recurring
                             )
                         ) {
-                            Text("\(chore.chore) - Due today at \(DateManager.toString_Time(date: chore.at))")
+                            Text("\(chore.didComplete ? "\u{2611}" : "\u{2610}") \(chore.chore) - Due today at \(DateManager.toString_Time(date: chore.at))")
                                 .padding()
-                                .foregroundColor(.white)
+                                .foregroundColor(chore.didComplete ? .black : .white)
                                 .fontWeight(.bold)
                         }
-                        .listRowBackground(Color.indigo)
-                        .accessibilityHint("Double tap to edit, or use the roter to delete this chore.")
+                        
+                        .accessibilityLabel("\(chore.didComplete ? "completed" : "incomplete"), \(chore.chore), due today at \(DateManager.toString_Time(date: chore.at))")
+                        
+                        .listRowBackground(chore.didComplete ? Color.yellow : Color.red)
+                        
+                        .accessibilityHint("Double tap to edit, or use the roter to delete this chore or mark it as complete or incomplete.")
+                        
+                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                            
+                            if chore.didComplete {
+                                
+                                Button("Mark as Incomplete") {
+                                    
+                                    choreStore.markAsIncomplete(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                                    
+                                    UIAccessibility.post(notification: .announcement, argument: "Chore marked as incomplete")
+                                    
+                                }
+                                .tint(.orange)
+                            } else {
+                                
+                                Button("Mark as Complete") {
+                                    
+                                    choreStore.markAsComplete(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+                                    
+                                    UIAccessibility.post(notification: .announcement, argument: "Chore marked as complete")
+                                    
+                                }
+                                .tint(.green)
+                                
+                            }
+                        }
+                        
+                                             
                     }
                     .onDelete { indexSet in
                         indexSet.forEach { index in

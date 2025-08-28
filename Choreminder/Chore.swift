@@ -15,9 +15,10 @@ struct Chore: Identifiable, Equatable, Codable {
     let weekday: Weekday
     let date: Int
     let recurring: Repeating
+    var didComplete = false
     var notificationIds: [String]
     
-    init(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating, notificationIds: [String]) {
+    init(chore: String, due: Date, at: Date, weekday: Weekday, date: Int, recurring: Repeating, didComplete: Bool, notificationIds: [String]) {
         id = UUID()
         self.chore = chore
         self.due = due
@@ -25,6 +26,7 @@ struct Chore: Identifiable, Equatable, Codable {
         self.weekday = weekday
         self.date = date
         self.recurring = recurring
+        self.didComplete = didComplete
         self.notificationIds = notificationIds
     }
     

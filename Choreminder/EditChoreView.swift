@@ -422,7 +422,7 @@ Spacer()
                 choreStore.removeFromChoreList(chore: oldChore, due: oldDate, at: oldTime, weekday: oldWeekday, date: oldDateOfMonth, recurring: oldRecursiveValue)
                 
                 let notificationIds = NotificationManager.scheduleNotification(title: title, body: body, eventDate: combinedDate, weekday: enjectedWeekday, day: enjectedMonthDate, recurring: enjectedRecursiveValue)
-                choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, weekday: enjectedWeekday, date: enjectedMonthDate, recurring: enjectedRecursiveValue, notificationIds: notificationIds)
+                choreStore.addToChoreList(chore: enjectedChore, due: selectedDate, at: selectedTime, weekday: enjectedWeekday, date: enjectedMonthDate, recurring: enjectedRecursiveValue, didComplete: false, notificationIds: notificationIds)
                 
                 let reminderHour = UserDefaults.standard.integer(forKey: "userReminderHour")
                 
