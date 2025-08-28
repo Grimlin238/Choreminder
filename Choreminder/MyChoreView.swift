@@ -61,19 +61,15 @@ struct MyChoreView: View {
                                 
                                 Button("Mark as Incomplete") {
                                     
-                                    choreStore.markAsIncomplete(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
-                                    
-                                    UIAccessibility.post(notification: .announcement, argument: "Chore marked as incomplete")
+                                    markChoreIncomplete(chore)
                                     
                                 }
                                 .tint(.orange)
                             } else {
                                 
                                 Button("Mark as Complete") {
-                                    
-                                    choreStore.markAsComplete(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
-                                    
-                                    UIAccessibility.post(notification: .announcement, argument: "Chore marked as complete")
+                                
+                                    markChoreComplete(chore)
                                     
                                 }
                                 .tint(.green)
@@ -403,6 +399,49 @@ struct MyChoreView: View {
             }
         }
     }
+    
+    private func markChoreIncomplete(_ chore: Chore) {
+        NotificationManager.cancelNotification(identifier: chore.notificationIds)
+        choreStore.markAsIncomplete(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+        UIAccessibility.post(notification: .announcement, argument: "Chore marked as incomplete")
+    }
+    
+    private func markChoreComplete(_ chore: Chore) {
+        let title = NotificationManager.getNotificationTitle(for: chore.recurring)
+        let body = NotificationManager.getNotificationBody(
+            for: chore.chore,
+            at: DateManager.toString_Time(date: chore.at),
+            on: chore.date,
+            on: chore.weekday,
+            for: chore.recurring
+        )
+        
+        if let combinedDate = DateManager.combine_Date(date: chore.due, time: chore.at) {
+            
+            let notificationIds = NotificationManager.scheduleNotification(
+                title: title,
+                body: body,
+                eventDate: combinedDate,
+                weekday: chore.weekday,
+                day: chore.date,
+                recurring: chore.recurring
+            )
+            
+            if let id = choreStore.choreList.firstIndex(where: {
+                $0.chore == chore.chore &&
+                $0.due == chore.due &&
+                $0.at == chore.at &&
+                $0.recurring == chore.recurring
+            }) {
+                choreStore.choreList[id].notificationIds = notificationIds
+            }
+            
+            choreStore.markAsComplete(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
+            UIAccessibility.post(notification: .announcement, argument: "Chore marked as complete")
+            
+        }
+    }
+
 }
 
 struct MyChoreView_Preview: PreviewProvider {
