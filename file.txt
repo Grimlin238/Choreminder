@@ -1,0 +1,3 @@
+NAME                                    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+template-machine-image-20250625-125620  us-central1-a  e2-micro                   10.128.0.3   34.171.82.140  RUNNING
+pa1                                     us-central1-b  e2-micro                   10.128.0.4   34.66.127.251  RUNNING
