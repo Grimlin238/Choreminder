@@ -401,6 +401,9 @@ struct MyChoreView: View {
     }
     
     private func markChoreIncomplete(_ chore: Chore) {
+        
+        NotificationManager.cancelCheckins(checkin: "Daily Check-in")
+        
         NotificationManager.cancelNotification(identifier: chore.notificationIds)
         choreStore.markAsIncomplete(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
         UIAccessibility.post(notification: .announcement, argument: "Chore marked as incomplete")
@@ -435,6 +438,12 @@ struct MyChoreView: View {
             }) {
                 choreStore.choreList[id].notificationIds = notificationIds
             }
+            
+            let hour = UserDefaults.standard.integer(forKey: "reminderHour")
+            
+            let sendMonthly = UserDefaults.standard.bool(forKey: "userSendMonthly")
+            
+            NotificationManager.scheduleCheckin(time: hour, sendMonthly: sendMonthly)
             
             choreStore.markAsComplete(chore: chore.chore, due: chore.due, at: chore.at, recurring: chore.recurring)
             UIAccessibility.post(notification: .announcement, argument: "Chore marked as complete")

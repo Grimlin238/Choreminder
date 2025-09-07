@@ -317,7 +317,7 @@ class NotificationManager: ObservableObject {
         }
     }
     
-    private static func cancelCheckins(checkin: String) {
+    static func cancelCheckins(checkin: String) {
         
         let center = UNUserNotificationCenter.current()
         
