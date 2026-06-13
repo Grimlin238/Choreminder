@@ -1,7 +1,7 @@
 /*
  Help.swift
  Part of Chore
- Copyright 2024 Tyian R. Lashley.
+ Copyright 2024
  All rights reserved.
  */
 

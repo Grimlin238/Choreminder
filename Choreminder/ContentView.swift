@@ -1,6 +1,6 @@
 /*
  ContentView.swift
- Copyright 2024 Tyin R. Lashley
+ Copyright 2024 Majestee M Daniels
  All rights reserved.
  */
  

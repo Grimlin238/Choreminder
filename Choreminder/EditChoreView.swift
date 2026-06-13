@@ -1,7 +1,7 @@
 /*
  EditChoreView.swift
  Part of Chore
- Copyright 2024 Tyian R. Lashley.
+ Copyright 2024 Majestee M Daniels
  All rights reserved.
  */
  

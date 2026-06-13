@@ -1,7 +1,7 @@
 /*
  GetSupportView.swift
  Part of Chore
- Copyright 2024 Tyian R. Lashley.
+ Copyright 2024 Majestee M Daniels
  All rights reserved.
  */
  
@@ -19,7 +19,7 @@ struct GetSupportView: View {
             Button("Get Support") {
                 
                 
-                if let emailUrl = URL(string:"mailto:ty.lashley14@icloud.com?subject=Support%20With%20Chore.%20Version%201.0") {
+                if let emailUrl = URL(string:"mailto:m.daniels719@icloud.com?subject=Support%20With%20Chore.%20Version%201.0") {
                     
                     UIApplication.shared.open(emailUrl)
                     

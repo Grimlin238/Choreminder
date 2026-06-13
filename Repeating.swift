@@ -1,10 +1,8 @@
-//
-//  Repeating.swift
-//  Choreminder
-//
-//  Created by Tee Lashley on 1/2/25.
-//
-
+/*
+ Repeating.swift
+ part of Chore
+ copyright 2024 Majestee M Daniels
+ */
 
 
 import Foundation

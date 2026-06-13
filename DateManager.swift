@@ -1,7 +1,7 @@
 /*
  DateManager.swift
  Part of Chore
- copyright 2024 Tyian R. Lashley
+ copyright 2024 Majestee M Daniels
  All rights reserved
  */
 
