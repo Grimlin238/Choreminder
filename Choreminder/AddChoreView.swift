@@ -26,37 +26,40 @@ struct AddChoreView: View {
     
     @State private var selectedDateOfMonth: Int = 1
     
+    
     private var textFieldView: some View {
-        
         VStack {
-
             Spacer()
+
+            TextField(
+                "",
+                text: $userInput,
+                prompt: Text("Enter Chore")
+                    .foregroundColor(.white.opacity(0.85))
+            )
+            .foregroundStyle(.white)
+            .padding(12)
+            .background(Color.indigo.opacity(0.5))
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white, lineWidth: 2)
+            }
             
-            TextField("Enter Chore", text: $userInput)
-                
-                .background(Color.indigo.opacity(0.5))
-            
-                .foregroundColor(.white)
-                .border(Color.white, width: 2)
-            
-                .accessibilityFocused($focus)
-            
-                .focused($isFocused)
-                .toolbar {
-                    
-                    ToolbarItemGroup(placement: .keyboard) {
-                        
-                        Spacer()
-                        
-                        Button("Done") {
-                            
-                            isFocused = false
-                            
-                        }
-                        .accessibilityHint("Double tap to dismiss the keyboard")
+            .accessibilityFocused($focus)
+            .focused($isFocused)
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+
+                    Button("Done") {
+                        isFocused = false
                     }
+                    .accessibilityHint(
+                        "Double tap to dismiss the keyboard"
+                    )
                 }
-            
+            }
+
             Spacer()
             
         }
@@ -64,7 +67,7 @@ struct AddChoreView: View {
         .cornerRadius(10)
         
     }
-    
+
     private var dateSelectionView: some View {
         
         VStack {
