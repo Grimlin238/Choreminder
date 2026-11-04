@@ -27,7 +27,7 @@ struct SettingsView: View {
                 
             if toggleCheckIn {
                 
-                Text("Remind me everyday at \(reminderHour):00A.M. of chores I have upcoming foer the day.")
+                Text("Remind me at )\(reminderHour):00A.M. when I have chores do today")
                     .font(.subheadline)
                     .padding()
                 
@@ -56,7 +56,7 @@ struct SettingsView: View {
         
         VStack {
             
-            Toggle("Remind me at the beginning of every month of upcoming chores for that month.", isOn: $sendEveryMonth)
+            Toggle("Remind me to check for upcoming Chores at the beginning of every month", isOn: $sendEveryMonth)
                 .padding()
                 .font(.title2)
             Spacer()
