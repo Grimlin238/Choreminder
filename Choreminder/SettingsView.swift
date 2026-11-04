@@ -12,28 +12,42 @@ struct SettingsView: View {
     @EnvironmentObject var choreStore: ChoreStore
     @AppStorage("userReminderHour") private var reminderHour: Int = 9
     @AppStorage("userSendMonthly") private var sendEveryMonth: Bool = false
+    @AppStorage("checkIn") private var toggleCheckIn: Bool = false
+    
     @AccessibilityFocusState private var focus: Bool
     
     private var reminderHourView: some View {
         
         VStack {
             
-            Text("Remind me everyday at \(reminderHour):00A.M. of chores I have upcoming foer the day.")
+            Toggle("Schedule daily check-in?", isOn: $toggleCheckIn)
                 .font(.title2)
                 .padding()
-            
-            Stepper("Hour", value: $reminderHour, in: 5...11)
-                .padding()
-                .font(.subheadline)
             Spacer()
                 
-        }
-        .onChange(of: reminderHour) { hour, _ in
-            
-            NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendEveryMonth)
-            
-        }
+            if toggleCheckIn {
+                
+                Text("Remind me everyday at \(reminderHour):00A.M. of chores I have upcoming foer the day.")
+                    .font(.subheadline)
+                    .padding()
+                
+                Stepper("Hour", value: $reminderHour, in: 5...11)
+                    .padding()
+                    .font(.subheadline)
+                Spacer()
+            }
+            }
+                .onChange(of: reminderHour) { hour, _ in
+                    
+                    NotificationManager.scheduleCheckin(time: reminderHour, sendMonthly: sendEveryMonth)
+                    
+                }
         
+                .onChange(of: toggleCheckIn) { value, _ in
+                    
+                    NotificationManager.cancelCheckins(checkin: "Daily Check-in")
+                    
+                    }
         .padding()
         
     }
