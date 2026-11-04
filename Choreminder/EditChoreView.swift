@@ -93,7 +93,7 @@ struct EditChoreView: View {
         
         VStack {
             
-            DatePicker("Select a date",
+            DatePicker("Select a Date",
                        selection: $selectedDate,
                        in: Date()...,
                        displayedComponents: .date)
@@ -110,7 +110,7 @@ struct EditChoreView: View {
         
         VStack {
                 
-            DatePicker("Choose a time",
+            DatePicker("Choose a Time",
                        selection: $selectedTime,
                        displayedComponents: .hourAndMinute)
             .datePickerStyle(.compact)
@@ -190,7 +190,7 @@ struct EditChoreView: View {
         
         VStack {
             
-            Text("Select a DEate")
+            Text("Select a Date")
                 .font(.title)
                 .fontWeight(.bold)
                 .padding()
