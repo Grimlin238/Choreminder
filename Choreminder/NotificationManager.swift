@@ -278,6 +278,7 @@ class NotificationManager: ObservableObject {
         }
         return body
     }
+    
     static func toggleCheckinSetting(value: Bool) {
         
         if value == false {
