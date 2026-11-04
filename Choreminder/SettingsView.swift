@@ -56,7 +56,7 @@ struct SettingsView: View {
         
         VStack {
             
-            Toggle("Remind me to check for upcoming Chores at the beginning of every month", isOn: $sendEveryMonth)
+            Toggle("Remind me to check for upcoming chores for the month at the beginning of the month", isOn: $sendEveryMonth)
                 .padding()
                 .font(.title2)
             Spacer()
