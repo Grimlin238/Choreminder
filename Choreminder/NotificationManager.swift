@@ -270,7 +270,7 @@ class NotificationManager: ObservableObject {
         case .none:
             body = "\(chore) at \(time)."
         case .daily:
-            body = "\(chore). reminding you like you asked, every day at \(time)."
+            body = "\(chore). Reminding you like you asked, every day at \(time)."
         case .weekly:
             body = "\(chore). Reminding you like you asked, every \(weekday.weekdayName) at \(time)."
         case .monthly:
